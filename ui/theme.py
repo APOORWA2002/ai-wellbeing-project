@@ -52,6 +52,8 @@ _LUCIDE: Dict[str, str] = {
     "flame": '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
     "moon": '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
     "sliders": '<path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>',
+    "message-circle": '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    "shield-check": '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
     "search": '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
 }
 
@@ -293,9 +295,10 @@ div[data-testid="stVerticalBlockBorderWrapper"][class*="st-"] > div { border-rad
 [role="tab"]:hover { color: var(--text); background: rgba(255,255,255,0.03); }
 [role="tab"][aria-selected="true"] { color: var(--blue) !important; }
 [role="tab"]:nth-of-type(1)::before, [role="tablist"] > [role="tab"]:nth-child(1)::before { -webkit-mask-image: __I_ACT__; mask-image: __I_ACT__; }
-[role="tab"]:nth-of-type(2)::before, [role="tablist"] > [role="tab"]:nth-child(2)::before { -webkit-mask-image: __I_CHART__; mask-image: __I_CHART__; }
-[role="tab"]:nth-of-type(3)::before, [role="tablist"] > [role="tab"]:nth-child(3)::before { -webkit-mask-image: __I_LAYERS__; mask-image: __I_LAYERS__; }
-[role="tab"]:nth-of-type(4)::before, [role="tablist"] > [role="tab"]:nth-child(4)::before { -webkit-mask-image: __I_DB__; mask-image: __I_DB__; }
+[role="tab"]:nth-of-type(2)::before, [role="tablist"] > [role="tab"]:nth-child(2)::before { -webkit-mask-image: __I_CHAT__; mask-image: __I_CHAT__; }
+[role="tab"]:nth-of-type(3)::before, [role="tablist"] > [role="tab"]:nth-child(3)::before { -webkit-mask-image: __I_CHART__; mask-image: __I_CHART__; }
+[role="tab"]:nth-of-type(4)::before, [role="tablist"] > [role="tab"]:nth-child(4)::before { -webkit-mask-image: __I_LAYERS__; mask-image: __I_LAYERS__; }
+[role="tab"]:nth-of-type(5)::before, [role="tablist"] > [role="tab"]:nth-child(5)::before { -webkit-mask-image: __I_DB__; mask-image: __I_DB__; }
 [data-baseweb="tab-panel"], [role="tabpanel"] { padding-top: 1rem; }
 
 /* ---------- Sidebar ---------- */
@@ -409,6 +412,25 @@ button:focus-visible { outline: 2px solid var(--blue) !important; outline-offset
 [data-testid="stBaseButton-segmented_controlActive"] { background: var(--blue-tint); color: var(--blue-soft); border-color: var(--blue); }
 [data-testid="stDownloadButton"] button { width: auto; }
 
+/* ---------- Chat ---------- */
+[data-testid="stChatMessage"] { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.15rem; gap: .9rem; }
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) { background: rgba(59,130,246,0.07); border-color: rgba(59,130,246,0.22); }
+[data-testid="stChatMessageAvatarAssistant"] { background: var(--blue-strong) !important; color: #fff; }
+[data-testid="stChatMessageAvatarUser"] { background: #23262B !important; color: var(--text-2); }
+[data-testid="stChatMessage"] p, [data-testid="stChatMessage"] li { font-size: .92rem; line-height: 1.7; color: var(--text); }
+[data-testid="stChatInput"] { background: var(--card); border: 1px solid var(--border-strong); border-radius: 12px; transition: border-color .18s var(--ease), box-shadow .18s var(--ease); }
+[data-testid="stChatInput"]:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.18); }
+[data-testid="stChatInput"] textarea { font-family: var(--font-ui) !important; color: var(--text); }
+[data-testid="stChatInput"] button { background: var(--blue-strong); color: #fff; border-radius: 8px; }
+.tw-status-pill { display: inline-flex; align-items: center; gap: .5rem; font-size: .74rem; color: var(--text-2); background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 999px; padding: .28rem .8rem; }
+.tw-status-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.tw-status-pill.on::before { background: var(--blue); box-shadow: 0 0 10px var(--blue); }
+.tw-hint { display: flex; align-items: center; gap: .8rem; padding: .9rem 1.1rem; border: 1px solid rgba(59,130,246,.3); background: var(--blue-tint); border-radius: var(--radius); font-size: .86rem; color: var(--text-2); }
+.tw-hint svg { color: var(--blue); flex: none; }
+.tw-hint b { color: var(--text); font-weight: 600; }
+.tw-help { font-size: .76rem; color: var(--muted); line-height: 1.6; }
+.tw-help b { color: var(--text-2); font-weight: 500; }
+
 /* ---------- Responsive ---------- */
 html, body, .stApp, [data-testid="stAppViewContainer"], .block-container { max-width: 100%; overflow-x: hidden; }
 @media (max-width: 960px) {
@@ -432,6 +454,7 @@ def _build_css() -> str:
     repl = {
         "__I_ACT__": _mask("activity"),
         "__I_CHART__": _mask("chart-line"),
+        "__I_CHAT__": _mask("message-circle"),
         "__I_LAYERS__": _mask("layers"),
         "__I_DB__": _mask("database"),
         "__I_FLAME__": _mask("flame"),
@@ -581,3 +604,20 @@ def empty_state(title: str, text: str) -> None:
         </div>"""),
         unsafe_allow_html=True,
     )
+
+
+def status_pill(text: str, active: bool = False) -> None:
+    cls = "tw-status-pill on" if active else "tw-status-pill"
+    st.markdown(f'<span class="{cls}">{html.escape(text)}</span>', unsafe_allow_html=True)
+
+
+def hint_card(strong: str, text: str) -> None:
+    st.markdown(
+        _h(f"""<div class="tw-hint">{icon('message-circle', 18)}<div><b>{html.escape(strong)}</b> {html.escape(text)}</div></div>"""),
+        unsafe_allow_html=True,
+    )
+
+
+def small_note(markup: str) -> None:
+    """Small muted helper text. ``markup`` must already be safe HTML."""
+    st.markdown(f'<div class="tw-help">{markup}</div>', unsafe_allow_html=True)

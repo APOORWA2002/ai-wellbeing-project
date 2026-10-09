@@ -33,6 +33,7 @@ from ui.theme import (
     recommendation_card,
     empty_state,
     steps_strip,
+    hint_card,
 )
 
 
@@ -233,6 +234,9 @@ def render_assessment_dashboard() -> None:
         recommendation["description"],
         recommendation.get("selection_rationale", recommendation.get("reason")),
     )
+    if stress_category in ("Medium", "High"):
+        st.write("")
+        hint_card("Want to talk it through?", "Open the Wellbeing Chat tab for a calm, guided check-in.")
     st.write("")
     st.download_button(
         "Download this assessment (.txt)",

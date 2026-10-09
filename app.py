@@ -13,6 +13,7 @@ import os
 
 from config.fuzzy_config import APP_METADATA, UNIVERSE_CONFIG
 from ui.dashboard import render_assessment_dashboard, apply_preset
+from ui.chat_view import render_chat_tab
 from ui.theme import (
     empty_state,
     inject_theme,
@@ -93,8 +94,9 @@ def main() -> None:
     # --------------------------------------------------------------------------
     # NAVIGATION TABS
     # --------------------------------------------------------------------------
-    tab_dashboard, tab_visuals, tab_arch, tab_dataset = st.tabs([
+    tab_dashboard, tab_chat, tab_visuals, tab_arch, tab_dataset = st.tabs([
         "Real-Time Assessment",
+        "Wellbeing Chat",
         "Membership Functions",
         "Architecture",
         "Dataset & Batch",
@@ -109,6 +111,9 @@ def main() -> None:
     # --------------------------------------------------------------------------
     # TAB 2: Membership Visualizations
     # --------------------------------------------------------------------------
+    with tab_chat:
+        render_chat_tab()
+
     with tab_visuals:
         section_header(
             "Membership functions",

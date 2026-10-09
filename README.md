@@ -1,4 +1,8 @@
 # AI-Based Intelligent Solution for Healthcare & Well-being
+## Wellbeing chat (offline mode)
+
+The Wellbeing Chat tab runs in offline demo mode by default and does not require an API key or network access. It includes built-in stress-relief prompts, optional sharing of the latest assessment for contextual suggestions, a new-chat control, and crisis-language detection with Sri Lanka support contacts. Crisis detection is a keyword-based safety net, not a clinical assessment.
+
 ## A Fuzzy Logic Approach to Real-Time Stress Classification and Adaptive Coping Recommendation
 
 **Course:** Essentials of Artificial Intelligence – IT3182  
@@ -284,3 +288,37 @@ Stored in `config/fuzzy_config.py` as initial engineering assumptions:
 1. **Prototype Status:** Developed for university AI coursework (*IT3182*). Not certified by FDA/CE as a medical diagnostic device.
 2. **Synthetic Data:** The dataset is synthetic and intended for rule verification and system demonstration only.
 3. **Manual Parameter Input:** Real-world deployments would integrate background synchronization with photoplethysmography (PPG) wearable sensors and OS screen-time APIs.
+
+---
+
+## Wellbeing Chat (AI stress-relief companion)
+
+The **Wellbeing Chat** tab lets users talk through stress with a calm AI companion. It can guide breathing
+exercises, help break down a heavy workload, and use the latest stress assessment (optional) to tailor its advice.
+
+**Two modes**
+
+| Mode | When | What it does |
+|------|------|--------------|
+| **Demo mode** | No API key configured | Built-in, rule-based supportive replies. Works offline. |
+| **AI mode** | An Anthropic API key is present | Live streaming replies from Claude. |
+
+**Enable AI mode (pick one)**
+
+1. In the app: open *Wellbeing Chat -> Chat settings* and paste your key (kept only for that browser session).
+2. Permanently: copy `.streamlit/secrets.toml.example` to `.streamlit/secrets.toml` and put your key in it.
+   This file is git-ignored, so **it is never uploaded to GitHub**. Each teammate uses their own key.
+3. Or set the `ANTHROPIC_API_KEY` environment variable.
+
+Optional: set `ANTHROPIC_MODEL` to change the model (default `claude-haiku-5-5`).
+
+**Safety design**
+
+- Messages that suggest self-harm or suicide are **not** sent to the model. The app shows a fixed message with
+  Sri Lankan helplines (1926, 1333, Sumithrayo, 119). Edit them in `chat/safety.py`.
+- Keyword detection cannot catch every phrasing, so the helpline is also always visible under the chat box.
+- The assistant is instructed not to diagnose, give medication advice, or claim to be human.
+- Sharing the stress assessment with the assistant is opt-out via *Chat settings*; no names or IDs are sent.
+
+**Code layout:** `chat/safety.py` (crisis handling), `chat/assistant.py` (prompt, API, demo mode),
+`ui/chat_view.py` (Streamlit view), `tests/test_chat.py` (runs without a key or internet).
