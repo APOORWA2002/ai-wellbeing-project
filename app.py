@@ -14,6 +14,8 @@ import os
 from config.fuzzy_config import APP_METADATA, UNIVERSE_CONFIG
 from ui.dashboard import render_assessment_dashboard, apply_preset
 from ui.chat_view import render_chat_tab
+from database import store
+from ui.platform_features import (render_account, render_history, render_games, render_counsellor, render_floating_chat)
 from ui.theme import (
     empty_state,
     inject_theme,
@@ -46,6 +48,7 @@ def main() -> None:
     )
 
     inject_theme()
+    store.init_db()
 
     # --------------------------------------------------------------------------
     # SIDEBAR: Project Info & Quick Presets
@@ -94,9 +97,13 @@ def main() -> None:
     # --------------------------------------------------------------------------
     # NAVIGATION TABS
     # --------------------------------------------------------------------------
-    tab_dashboard, tab_chat, tab_visuals, tab_arch, tab_dataset = st.tabs([
+    tab_dashboard, tab_chat, tab_games, tab_history, tab_counsellor, tab_account, tab_visuals, tab_arch, tab_dataset = st.tabs([
         "Real-Time Assessment",
         "Wellbeing Chat",
+        "Relax & Play",
+        "My History",
+        "Talk to a Counsellor",
+        "Account & Settings",
         "Membership Functions",
         "Architecture",
         "Dataset & Batch",
@@ -113,6 +120,18 @@ def main() -> None:
     # --------------------------------------------------------------------------
     with tab_chat:
         render_chat_tab()
+
+    with tab_games:
+        render_games()
+
+    with tab_history:
+        render_history()
+
+    with tab_counsellor:
+        render_counsellor()
+
+    with tab_account:
+        render_account()
 
     with tab_visuals:
         section_header(
@@ -280,6 +299,7 @@ def main() -> None:
             st.warning("Synthetic dataset file not found at data/synthetic_stress_data.csv.")
 
     footer_note(APP_METADATA["disclaimer"])
+    render_floating_chat()
 
 
 if __name__ == "__main__":

@@ -81,7 +81,7 @@ def render_chat_tab() -> None:
     with st.expander("Chat settings"):
         st.checkbox(
             "Use my latest assessment to personalise replies",
-            value=True,
+            value=False,
             key="chat_share_context",
             help="Shares only your stress category, index, the three input values and the suggested action. Never your name.",
         )

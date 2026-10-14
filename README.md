@@ -17,7 +17,7 @@ The Wellbeing Chat tab runs in offline demo mode by default and does not require
 > pip install -r requirements.txt
 > streamlit run app.py
 > ```
-> To verify all 71 tests: `pytest -v`
+> To run the automated tests: `python -m pytest -v`
 
 ---
 
@@ -234,13 +234,15 @@ Features included in the application:
 
 ## 10. Automated Testing
 
-Run the full `pytest` test suite:
+Run the full test suite after installing the dependencies in `requirements.txt`:
 
 ```bash
-pytest -v tests/
+python -m pytest -v tests/
 ```
 
-### Test Coverage Highlights (71 Tests Total)
+The automated tests cover the fuzzy engine, recommendation logic, input validation, offline chat safety, and account-scoped local storage. Test results depend on the environment and installed dependencies.
+
+### Test Coverage Highlights
 - `test_core_rule_cartesian_coverage`: Uses `itertools.product` to mathematically verify all 27 core combinations are present without gaps or duplicates.
 - `test_supplementary_rules_isolated`: Confirms exactly 4 supplementary rules exist and do not count toward the 27-rule coverage assertion.
 - `test_required_canonical_test_cases`:
@@ -296,21 +298,9 @@ Stored in `config/fuzzy_config.py` as initial engineering assumptions:
 The **Wellbeing Chat** tab lets users talk through stress with a calm AI companion. It can guide breathing
 exercises, help break down a heavy workload, and use the latest stress assessment (optional) to tailor its advice.
 
-**Two modes**
+**Current mode**
 
-| Mode | When | What it does |
-|------|------|--------------|
-| **Demo mode** | No API key configured | Built-in, rule-based supportive replies. Works offline. |
-| **AI mode** | An Anthropic API key is present | Live streaming replies from Claude. |
-
-**Enable AI mode (pick one)**
-
-1. In the app: open *Wellbeing Chat -> Chat settings* and paste your key (kept only for that browser session).
-2. Permanently: copy `.streamlit/secrets.toml.example` to `.streamlit/secrets.toml` and put your key in it.
-   This file is git-ignored, so **it is never uploaded to GitHub**. Each teammate uses their own key.
-3. Or set the `ANTHROPIC_API_KEY` environment variable.
-
-Optional: set `ANTHROPIC_MODEL` to change the model (default `claude-haiku-5-5`).
+The current UI uses the built-in offline, rule-based response engine. It does not require an API key, and a live AI provider is not connected in this build. The assistant is not a therapist or medical service.
 
 **Safety design**
 
@@ -318,7 +308,25 @@ Optional: set `ANTHROPIC_MODEL` to change the model (default `claude-haiku-5-5`)
   Sri Lankan helplines (1926, 1333, Sumithrayo, 119). Edit them in `chat/safety.py`.
 - Keyword detection cannot catch every phrasing, so the helpline is also always visible under the chat box.
 - The assistant is instructed not to diagnose, give medication advice, or claim to be human.
-- Sharing the stress assessment with the assistant is opt-out via *Chat settings*; no names or IDs are sent.
+- Sharing the latest assessment with the assistant is **off by default** and must be enabled in *Chat settings*. No name or account ID is shared.
 
-**Code layout:** `chat/safety.py` (crisis handling), `chat/assistant.py` (prompt, API, demo mode),
-`ui/chat_view.py` (Streamlit view), `tests/test_chat.py` (runs without a key or internet).
+**Code layout:** `chat/safety.py` (crisis handling), `chat/assistant.py` (offline demo responses),
+`ui/chat_view.py` (chat view), `tests/test_chat.py` (offline tests).
+
+## Integrated platform features
+
+- **Floating chat popup:** quick prompts and offline wellbeing support.
+- **Accounts:** local demo registration/login with salted PBKDF2 password hashes. Use a unique demo password; this is not a production identity service.
+- **Privacy settings:** assessment, chat, and game history saving are off by default and can be enabled individually.
+- **History:** account-scoped assessments, trend chart, CSV export, saved chat review/deletion, and activity history.
+- **Relax & Play:** guided breathing, 5-4-3-2-1 grounding, a calm matching game, and a mindfulness check-in. Activities are optional and are not clinical measures.
+- **Counsellor contact:** a local demo request workflow only. It is not connected to a real counsellor, and submitting a request does not contact anyone.
+- **Personal data export/deletion:** export available account data as JSON or delete the account and its associated local records.
+
+### Local data and safety limitations
+
+The SQLite database is stored at `data/user_data.sqlite3` by default and is excluded from Git. Protect the machine and its backups. Do not use real clinical or highly sensitive personal information in this academic prototype. Before deployment, independently verify all crisis-resource details, conduct a security/privacy review, and connect a real counselling provider if needed. Crisis keyword detection is imperfect and is not a risk assessment. In immediate danger, contact local emergency services or go to the nearest emergency department.
+
+### Run tests
+
+Install the dependencies first, then run `python -m pytest -v`. The full suite includes tests that require Streamlit and scikit-fuzzy to be installed.

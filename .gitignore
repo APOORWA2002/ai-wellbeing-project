@@ -19,3 +19,14 @@ Thumbs.db
 
 # API keys (never commit)
 .streamlit/secrets.toml
+
+# Local user data and runtime files (never commit)
+data/*.sqlite
+data/*.sqlite3
+data/*.db
+*.log
+.streamlit/secrets.toml
+
+# Local wellbeing database files
+data/*.sqlite*
+data/*.db

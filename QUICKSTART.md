@@ -68,7 +68,7 @@ streamlit run app.py
 
 ## 🎮 Step 5: How to Use the Application (Demo Walkthrough)
 
-Once the web page opens, you have 4 interactive tabs:
+The application includes these main sections:
 
 ### 1. 🫀 Tab 1: Real-Time Assessment
 - **Sidebar Quick Presets:** Look at the left sidebar. You can click one of the preset buttons:
@@ -87,15 +87,35 @@ Once the web page opens, you have 4 interactive tabs:
   - The **Fuzzification Table** (exact degree of truth in each linguistic set)
   - The **Active Rules Transparency Panel** (click to expand and see exactly which rules fired and their firing strength $\alpha$).
 
-### 2. 📈 Tab 2: Fuzzy Membership Functions
+### 2. 💬 Wellbeing Chat
+- Use the offline Wellbeing Companion to request breathing guidance, grounding, sleep suggestions, or study-stress support.
+- Use the floating **Wellbeing chat** popover near the lower-right corner for quick support.
+- Assessment sharing is off by default and can be enabled in Chat settings.
+
+### 3. 🌿 Relax & Play
+- Try guided breathing, the 5-4-3-2-1 grounding exercise, the calm matching game, or a mindfulness check-in.
+- Activities are optional, are not clinical measures, and are saved only when you sign in and enable activity saving.
+
+### 4. 📚 My History
+- Register/sign in from **Account & Settings** to save assessments, review your history, inspect the score trend, and export saved assessment history.
+- Saving assessment, chat, and game history is off by default.
+
+### 5. 🤝 Talk to a Counsellor
+- The contact form is a local demonstration only. No real counsellor receives submitted requests.
+
+### 6. 👤 Account & Settings
+- Create a demo account, sign in/out, change your display name, set data-saving preferences, export available personal data, or delete the account.
+- Use a unique demo password; this local authentication is not a production identity service.
+
+### 7. 📈 Membership Functions
 - View the mathematical curves for all variables (trapezoidal and triangular).
 - Notice the **red vertical dashed lines** that dynamically mark your exact slider values on the graphs.
 - View the shaded area showing the aggregated output fuzzy set and the exact **centroid center of gravity**.
 
-### 3. 🏗️ Tab 3: System Architecture
+### 8. 🏗️ System Architecture
 - View the flow diagram showing the 8-stage pipeline from input collection to continuous re-evaluation, designed for academic presentations and reports.
 
-### 4. 📁 Tab 4: Synthetic Dataset & Batch Evaluation
+### 9. 📁 Synthetic Dataset & Batch Evaluation
 - View the built-in 122-row synthetic dataset (`data/synthetic_stress_data.csv`).
 - Click **Run Full Batch Inference on Dataset** to see the system process all 122 rows and display the category distribution chart!
 
@@ -108,7 +128,7 @@ Want to prove that the fuzzy logic math, rules, boundaries, and recommendations 
 pytest -v
 ```
 
-You will see **71 tests pass** in just 2 to 4 seconds!
+The test results will be printed in the terminal. Ensure dependencies from `requirements.txt` are installed first.
 
 ---
 
