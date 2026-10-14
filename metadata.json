@@ -1,0 +1,8 @@
+{
+  "name": "stressina.AI",
+  "description": "An intelligent healthcare and well-being decision-support system utilizing Mamdani fuzzy inference and adaptive coping recommendations.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ],
+  "permissions": []
+}
