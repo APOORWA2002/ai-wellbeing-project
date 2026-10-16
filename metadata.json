@@ -1,0 +1,8 @@
+{
+  "name": "Remix ai-wellbeing-project",
+  "description": "Imported from GitHub: h1rum4l/ai-wellbeing-project",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ],
+  "permissions": []
+}
