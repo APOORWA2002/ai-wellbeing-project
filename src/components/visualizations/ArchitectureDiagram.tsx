@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowDown, ArrowUp, CheckCircle, Info } from 'lucide-react';
+import { triggerHaptic } from '../../utils/haptics';
 
 interface StageDetail {
   number: number;
@@ -93,15 +94,15 @@ export const ArchitectureDiagram: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Visual Pipeline Container */}
-      <div className="glass-panel-glow rounded-3xl p-6 sm:p-8 overflow-x-auto border-cyan-500/25 shadow-[0_0_40px_rgba(6,182,212,0.15)]">
+      <div className="liquid-glass-card rounded-3xl p-6 sm:p-8 overflow-x-auto border border-white shadow-sm text-slate-800">
         <div className="mb-6">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800">
             System Architecture
           </span>
-          <h3 className="text-base sm:text-lg font-bold text-white mb-0.5 tracking-tight">
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-0.5 tracking-tight">
             Eight-Stage System Pipeline Architecture
           </h3>
-          <p className="text-xs text-slate-300">
+          <p className="text-xs text-slate-600">
             Mamdani Fuzzy Inference System & Decoupled Deterministic Recommendation Engine
           </p>
         </div>
@@ -114,28 +115,35 @@ export const ArchitectureDiagram: React.FC = () => {
               <React.Fragment key={stage.number}>
                 <button
                   type="button"
-                  onClick={() => setSelectedStage(stage.number)}
+                  onClick={() => {
+                    triggerHaptic('selection');
+                    setSelectedStage(stage.number);
+                  }}
                   className={`text-left p-3.5 rounded-2xl border transition-all cursor-pointer ${
                     selectedStage === stage.number
-                      ? 'bg-cyan-500/25 border-cyan-400/80 shadow-[0_0_20px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/50'
+                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm font-bold'
                       : stage.highlight
-                      ? 'glass-panel border-cyan-500/40 hover:border-cyan-400'
-                      : 'glass-panel-interactive border-cyan-500/15 hover:border-cyan-500/40'
+                      ? 'bg-emerald-50/80 border-emerald-300 hover:bg-emerald-100 text-slate-800'
+                      : 'bg-white/80 border-slate-200 hover:bg-white text-slate-700'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
                     <span
                       className={`text-xs font-bold ${
-                        stage.highlight || selectedStage === stage.number ? 'text-cyan-300' : 'text-white'
+                        selectedStage === stage.number ? 'text-white' : 'text-slate-900'
                       }`}
                     >
                       {stage.name}
                     </span>
                     {selectedStage === stage.number && (
-                      <CheckCircle className="w-3.5 h-3.5 text-cyan-400" />
+                      <CheckCircle className="w-3.5 h-3.5 text-white" />
                     )}
                   </div>
-                  <p className="text-[11px] text-slate-400 leading-tight line-clamp-2">
+                  <p
+                    className={`text-[11px] leading-tight line-clamp-2 ${
+                      selectedStage === stage.number ? 'text-emerald-100' : 'text-slate-500'
+                    }`}
+                  >
                     {stage.subtitle}
                   </p>
                 </button>
@@ -146,18 +154,18 @@ export const ArchitectureDiagram: React.FC = () => {
           {/* Connectors between rows */}
           <div className="grid grid-cols-4 gap-3">
             <div className="flex items-center justify-center">
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-400/30 text-[10px] text-cyan-300 font-mono shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                <ArrowUp className="w-3 h-3 text-cyan-400 animate-pulse" />
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-[10px] text-emerald-900 font-bold shadow-xs">
+                <ArrowUp className="w-3 h-3 text-emerald-700 animate-pulse" />
                 <span>Feedback Flow</span>
               </div>
             </div>
-            <div className="col-span-2 flex items-center justify-center text-xs text-slate-400">
+            <div className="col-span-2 flex items-center justify-center text-xs text-slate-500 font-medium">
               Decoupled Pipeline Hand-off
             </div>
             <div className="flex items-center justify-center">
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-cyan-500/20 text-[10px] text-cyan-300">
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-300 text-[10px] text-slate-700 font-bold">
                 <span>Category Output</span>
-                <ArrowDown className="w-3 h-3 text-cyan-400" />
+                <ArrowDown className="w-3 h-3 text-emerald-700" />
               </div>
             </div>
           </div>
@@ -168,26 +176,33 @@ export const ArchitectureDiagram: React.FC = () => {
               <button
                 key={stage.number}
                 type="button"
-                onClick={() => setSelectedStage(stage.number)}
+                onClick={() => {
+                  triggerHaptic('selection');
+                  setSelectedStage(stage.number);
+                }}
                 className={`text-left p-3.5 rounded-2xl border transition-all cursor-pointer ${
                   selectedStage === stage.number
-                    ? 'bg-cyan-500/25 border-cyan-400/80 shadow-[0_0_20px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/50'
-                    : 'glass-panel-interactive border-cyan-500/15 hover:border-cyan-500/40'
+                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm font-bold'
+                    : 'bg-white/80 border-slate-200 hover:bg-white text-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span
                     className={`text-xs font-bold ${
-                      selectedStage === stage.number ? 'text-cyan-300' : 'text-white'
+                      selectedStage === stage.number ? 'text-white' : 'text-slate-900'
                     }`}
                   >
                     {stage.name}
                   </span>
                   {selectedStage === stage.number && (
-                    <CheckCircle className="w-3.5 h-3.5 text-cyan-400" />
+                    <CheckCircle className="w-3.5 h-3.5 text-white" />
                   )}
                 </div>
-                <p className="text-[11px] text-slate-400 leading-tight line-clamp-2">
+                <p
+                  className={`text-[11px] leading-tight line-clamp-2 ${
+                    selectedStage === stage.number ? 'text-emerald-100' : 'text-slate-500'
+                  }`}
+                >
                   {stage.subtitle}
                 </p>
               </button>
@@ -196,26 +211,26 @@ export const ArchitectureDiagram: React.FC = () => {
         </div>
 
         <div className="mt-5 text-center">
-          <p className="text-[11px] text-slate-400">
+          <p className="text-[11px] text-slate-500 font-medium">
             Click any stage above to inspect its decoupled logic and academic specifications.
           </p>
         </div>
       </div>
 
       {/* Selected Stage Detail Panel */}
-      <div className="glass-panel rounded-2xl p-6 border-cyan-500/20">
+      <div className="liquid-glass rounded-2xl p-6 border border-white shadow-xs">
         <div className="flex items-center gap-2 mb-2">
-          <span className="w-6 h-6 rounded-lg bg-cyan-500/20 border border-cyan-400/30 text-cyan-300 font-bold flex items-center justify-center text-xs">
+          <span className="w-6 h-6 rounded-lg bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold flex items-center justify-center text-xs">
             {current.number}
           </span>
-          <h4 className="text-sm font-bold text-white tracking-wide">{current.name}</h4>
-          <span className="text-xs text-cyan-400">({current.subtitle})</span>
+          <h4 className="text-sm font-bold text-slate-900 tracking-wide">{current.name}</h4>
+          <span className="text-xs text-emerald-700 font-semibold">({current.subtitle})</span>
         </div>
 
-        <ul className="space-y-2 mt-4 text-xs text-slate-300">
+        <ul className="space-y-2 mt-4 text-xs text-slate-700">
           {current.bullets.map((b, idx) => (
             <li key={idx} className="flex items-start gap-2.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-1.5 shrink-0" />
               <span className="leading-relaxed">{b}</span>
             </li>
           ))}

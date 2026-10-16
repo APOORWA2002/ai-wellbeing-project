@@ -145,7 +145,6 @@ export interface SyntheticSample {
   reference_category: StressCategory;
 }
 
-
 export type HabitCategory = 'mind' | 'body' | 'activity' | 'lifestyle' | 'custom';
 
 export interface StressHabit {
@@ -176,3 +175,4 @@ export interface UserHabitProfile {
   customHabits: StressHabit[];
   completedDates: Record<string, DailyQuestLog>;
 }
+

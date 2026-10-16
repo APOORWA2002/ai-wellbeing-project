@@ -150,35 +150,35 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
   });
 
   return (
-    <div className="space-y-6 animate-fade-in relative">
+    <div className="space-y-6 animate-fade-in relative text-slate-800">
       {/* Floating Marks Celebration Burst */}
       {celebration && (
-        <div className="fixed top-20 right-6 z-50 ios-glass-card rounded-2xl p-4 border-cyan-400/60 shadow-[0_0_35px_rgba(6,182,212,0.6)] animate-haptic-tap flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-cyan-400 text-slate-950 font-black flex items-center justify-center text-sm shadow-[0_0_15px_rgba(34,211,238,0.8)]">
+        <div className="fixed top-20 right-6 z-50 liquid-glass-card rounded-2xl p-4 border border-white shadow-xl animate-haptic-tap flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white font-black flex items-center justify-center text-sm shadow-sm">
             +{celebration.marks}
           </div>
           <div>
-            <p className="text-xs font-bold text-white">{celebration.message}</p>
-            <p className="text-[10px] text-cyan-300">Marks added to your wellness score!</p>
+            <p className="text-xs font-bold text-slate-900">{celebration.message}</p>
+            <p className="text-[10px] text-emerald-800 font-semibold">Marks added to your wellness score!</p>
           </div>
         </div>
       )}
 
       {/* Guest Banner if not registered */}
       {!currentUser && (
-        <div className="ios-glass-card rounded-3xl p-4 sm:p-5 border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.25)] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="liquid-glass-card rounded-3xl p-4 sm:p-5 border border-white shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-slate-950 shrink-0 shadow-[0_0_15px_rgba(6,182,212,0.5)]">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shrink-0 shadow-xs">
               <Sparkles className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+              <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                 <span>Register to Claim +50 Bonus Marks</span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-400/40 text-cyan-300 font-mono">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-900 font-mono font-bold">
                   Welcome Gift
                 </span>
               </h4>
-              <p className="text-xs text-slate-300 mt-0.5">
+              <p className="text-xs text-slate-600 mt-0.5">
                 Save your daily habit streaks, book reading, gym, yoga, and cooking progress securely across sessions.
               </p>
             </div>
@@ -186,7 +186,7 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
           <button
             type="button"
             onClick={() => onOpenAuthModal('register')}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-teal-400 text-slate-950 font-bold text-xs uppercase tracking-wider ios-tactile-button shadow-[0_0_18px_rgba(6,182,212,0.4)] border border-cyan-200/50 cursor-pointer shrink-0"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-full liquid-button-sage text-white font-extrabold text-xs uppercase tracking-wider ios-tactile-button shadow-xs cursor-pointer shrink-0"
           >
             Register Profile
           </button>
@@ -196,33 +196,33 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
       {/* HUD Scoreboard: Total Marks, Current Level, Daily Goal */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Total Marks & Level */}
-        <div className="ios-glass-card rounded-3xl p-5 border-cyan-500/25 relative overflow-hidden flex flex-col justify-between">
+        <div className="liquid-glass-card rounded-3xl p-5 border border-white relative overflow-hidden flex flex-col justify-between shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-              <Trophy className="w-3.5 h-3.5 text-cyan-300" />
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+              <Trophy className="w-3.5 h-3.5 text-emerald-700" />
               <span>Total Wellness Marks</span>
             </span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-300">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-900 font-bold">
               Level {levelInfo.level}
             </span>
           </div>
 
           <div className="my-3 flex items-baseline gap-2">
-            <span className="text-4xl sm:text-5xl font-black text-white tracking-tight drop-shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+            <span className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">
               {profile.totalMarks}
             </span>
-            <span className="text-xs font-semibold text-cyan-300 uppercase tracking-wider">Marks (XP)</span>
+            <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Marks (XP)</span>
           </div>
 
           {/* Level Progress Bar */}
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-[11px] text-slate-300 font-medium">
-              <span className="text-white font-bold">{levelInfo.title}</span>
-              <span className="text-slate-400">{profile.totalMarks} / {levelInfo.nextLevelAt} pts</span>
+            <div className="flex items-center justify-between text-[11px] text-slate-600 font-semibold">
+              <span className="text-slate-900 font-bold">{levelInfo.title}</span>
+              <span className="text-slate-500 font-mono">{profile.totalMarks} / {levelInfo.nextLevelAt} pts</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-slate-950/80 border border-cyan-500/20 overflow-hidden">
+            <div className="w-full h-2 rounded-full bg-slate-200 border border-slate-300/50 overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-cyan-500 to-teal-300 transition-all duration-500 rounded-full"
+                className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 rounded-full"
                 style={{ width: `${levelInfo.progress}%` }}
               />
             </div>
@@ -230,24 +230,24 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
         </div>
 
         {/* Daily Progress Goal */}
-        <div className="ios-glass-card rounded-3xl p-5 border-cyan-500/25 flex flex-col justify-between">
+        <div className="liquid-glass-card rounded-3xl p-5 border border-white flex flex-col justify-between shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5 text-cyan-300" />
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5 text-emerald-700" />
               <span>Today's Daily Marks</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-400">Target: {dailyTargetMarks}</span>
+            <span className="text-[10px] font-mono text-slate-500 font-semibold">Target: {dailyTargetMarks}</span>
           </div>
 
           <div className="my-3 flex items-center justify-between">
             <div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl sm:text-4xl font-extrabold text-cyan-200">
+                <span className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                   {todayLog.dailyMarks}
                 </span>
-                <span className="text-xs text-slate-400">/ {dailyTargetMarks} pts</span>
+                <span className="text-xs text-slate-500 font-semibold">/ {dailyTargetMarks} pts</span>
               </div>
-              <p className="text-[11px] text-slate-300 mt-1">
+              <p className="text-[11px] text-slate-600 mt-1 font-medium">
                 {todayLog.completedHabitIds.length} tasks completed today
               </p>
             </div>
@@ -256,14 +256,14 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
             <div className="relative w-14 h-14 flex items-center justify-center">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <path
-                  className="text-slate-800"
+                  className="text-slate-200"
                   strokeWidth="3.5"
                   stroke="currentColor"
                   fill="none"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
                 <path
-                  className="text-cyan-400 transition-all duration-700 ease-out"
+                  className="text-emerald-600 transition-all duration-700 ease-out"
                   strokeDasharray={`${dailyProgressPercent}, 100`}
                   strokeWidth="3.5"
                   strokeLinecap="round"
@@ -272,13 +272,13 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
               </svg>
-              <span className="absolute text-[11px] font-bold text-white font-mono">
+              <span className="absolute text-[11px] font-bold text-slate-900 font-mono">
                 {dailyProgressPercent}%
               </span>
             </div>
           </div>
 
-          <p className="text-[10px] text-slate-400">
+          <p className="text-[10px] text-slate-500 font-medium">
             {dailyProgressPercent >= 100
               ? '🌟 Daily Target Achieved! Fantastic stress resilience work.'
               : `Complete ${Math.max(1, Math.ceil((dailyTargetMarks - todayLog.dailyMarks) / 25))} more quest(s) to hit today's target.`}
@@ -286,26 +286,26 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
         </div>
 
         {/* Day Streak & Consistency */}
-        <div className="ios-glass-card rounded-3xl p-5 border-cyan-500/25 flex flex-col justify-between">
+        <div className="liquid-glass-card rounded-3xl p-5 border border-white flex flex-col justify-between shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-              <Flame className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-800 flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
               <span>Wellness Streak</span>
             </span>
-            <span className="text-[10px] font-mono text-amber-300/90">Consistency Boost</span>
+            <span className="text-[10px] font-mono text-amber-800 font-bold">Consistency Boost</span>
           </div>
 
           <div className="my-3 flex items-baseline gap-2">
-            <span className="text-4xl sm:text-5xl font-black text-amber-300 drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]">
+            <span className="text-4xl sm:text-5xl font-black text-amber-600">
               {profile.currentStreak}
             </span>
-            <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+            <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">
               {profile.currentStreak === 1 ? 'Day Active' : 'Days Streak'}
             </span>
           </div>
 
-          <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-400/20 text-[11px] text-amber-200/90 flex items-center gap-2">
-            <Flame className="w-4 h-4 text-amber-400 shrink-0" />
+          <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-300 text-[11px] text-amber-900 flex items-center gap-2 font-medium">
+            <Flame className="w-4 h-4 text-amber-600 shrink-0" />
             <span>Check off at least 1 habit daily to keep your flame blazing!</span>
           </div>
         </div>
@@ -329,10 +329,10 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                 triggerHaptic('selection');
                 setActiveFilter(tab.id as 'all' | HabitCategory);
               }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ios-tactile-button cursor-pointer ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ios-tactile-button cursor-pointer border ${
                 activeFilter === tab.id
-                  ? 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
-                  : 'text-slate-400 hover:text-white bg-slate-900/40 border border-transparent'
+                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs font-bold'
+                  : 'text-slate-700 hover:text-slate-900 bg-white/80 hover:bg-white border-slate-200'
               }`}
             >
               {tab.label}
@@ -346,9 +346,9 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
             triggerHaptic('medium');
             setShowAddModal(true);
           }}
-          className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-200 text-xs font-bold hover:bg-cyan-500/30 transition-all flex items-center gap-1.5 ios-tactile-button cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+          className="px-3.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold transition-all flex items-center gap-1.5 ios-tactile-button cursor-pointer shadow-xs"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-3.5 h-3.5 text-emerald-700" />
           <span>Add Custom Quest</span>
         </button>
       </div>
@@ -363,20 +363,20 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
               onClick={() => handleToggleHabit(habit.id)}
               className={`p-4 rounded-3xl border transition-all duration-200 cursor-pointer ios-tactile-button relative overflow-hidden flex items-start justify-between gap-3 ${
                 isDone
-                  ? 'bg-cyan-950/40 border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.25)]'
-                  : 'bg-slate-900/50 border-cyan-500/15 hover:border-cyan-400/35 hover:bg-slate-900/70'
+                  ? 'bg-emerald-50/80 border-emerald-300 shadow-sm'
+                  : 'liquid-glass-card border-white hover:border-slate-300 shadow-xs'
               }`}
             >
               {/* Category Color Bar */}
               <div
                 className={`absolute top-0 left-0 bottom-0 w-1.5 ${
                   isDone
-                    ? 'bg-gradient-to-b from-cyan-400 to-teal-400'
+                    ? 'bg-gradient-to-b from-emerald-500 to-teal-600'
                     : habit.category === 'body'
-                    ? 'bg-blue-500/40'
+                    ? 'bg-blue-400'
                     : habit.category === 'mind'
-                    ? 'bg-purple-500/40'
-                    : 'bg-emerald-500/40'
+                    ? 'bg-purple-400'
+                    : 'bg-emerald-500'
                 }`}
               />
 
@@ -384,8 +384,8 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                 <div
                   className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 transition-colors ${
                     isDone
-                      ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(34,211,238,0.7)]'
-                      : 'bg-slate-800/80 text-cyan-300 border border-cyan-500/20'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'bg-white text-emerald-800 border border-slate-200 shadow-xs'
                   }`}
                 >
                   {renderIcon(habit.iconName, habit.category)}
@@ -395,25 +395,25 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                   <div className="flex items-center gap-2">
                     <h4
                       className={`text-sm font-bold transition-colors ${
-                        isDone ? 'text-white line-through opacity-85' : 'text-slate-100'
+                        isDone ? 'text-slate-500 line-through' : 'text-slate-900'
                       }`}
                     >
                       {habit.title}
                     </h4>
                     {habit.isCustom && (
-                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
+                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold border border-slate-200">
                         Custom
                       </span>
                     )}
                   </div>
 
-                  <p className="text-xs text-slate-300 leading-relaxed pr-2">
+                  <p className="text-xs text-slate-600 leading-relaxed pr-2">
                     {habit.description}
                   </p>
 
-                  <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-slate-400">
-                    <span className="flex items-center gap-1 font-mono text-cyan-300">
-                      <Calendar className="w-3 h-3" />
+                  <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-slate-500">
+                    <span className="flex items-center gap-1 font-mono text-emerald-800 font-bold">
+                      <Calendar className="w-3 h-3 text-emerald-700" />
                       <span>{habit.durationMinutes} mins</span>
                     </span>
                     <span>·</span>
@@ -426,9 +426,9 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                           e.stopPropagation();
                           onNavigateToTab('breathing');
                         }}
-                        className="ml-1 px-2 py-0.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-200 font-semibold text-[10px] flex items-center gap-1 cursor-pointer"
+                        className="ml-1 px-2.5 py-0.5 rounded-lg bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-emerald-900 font-bold text-[10px] flex items-center gap-1 cursor-pointer shadow-xs"
                       >
-                        <Wind className="w-3 h-3 text-cyan-400" />
+                        <Wind className="w-3 h-3 text-emerald-700" />
                         <span>Launch Breathing</span>
                       </button>
                     )}
@@ -440,9 +440,9 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                           e.stopPropagation();
                           onNavigateToTab('candy_crush');
                         }}
-                        className="ml-1 px-2 py-0.5 rounded-lg bg-pink-500/20 hover:bg-pink-500/30 border border-pink-400/40 text-pink-200 font-semibold text-[10px] flex items-center gap-1 cursor-pointer"
+                        className="ml-1 px-2.5 py-0.5 rounded-lg bg-pink-100 hover:bg-pink-200 border border-pink-300 text-pink-900 font-bold text-[10px] flex items-center gap-1 cursor-pointer shadow-xs"
                       >
-                        <Sparkles className="w-3 h-3 text-pink-400" />
+                        <Sparkles className="w-3 h-3 text-pink-700" />
                         <span>Play Stress Crush</span>
                       </button>
                     )}
@@ -455,8 +455,8 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                 <span
                   className={`text-xs font-mono font-bold px-2.5 py-1 rounded-xl border ${
                     isDone
-                      ? 'bg-cyan-400/20 text-cyan-200 border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
-                      : 'bg-slate-950/80 text-cyan-300 border-cyan-500/30'
+                      ? 'bg-emerald-100 text-emerald-900 border-emerald-300 shadow-xs'
+                      : 'bg-white text-emerald-800 border-slate-200 shadow-xs'
                   }`}
                 >
                   +{habit.marks} pts
@@ -470,7 +470,7 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                         e.stopPropagation();
                         handleDeleteCustom(habit.id);
                       }}
-                      className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                       title="Delete custom quest"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -480,8 +480,8 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
                       isDone
-                        ? 'bg-cyan-400 text-slate-950 shadow-[0_0_12px_rgba(34,211,238,0.8)] scale-110'
-                        : 'border-2 border-slate-600 text-transparent hover:border-cyan-400'
+                        ? 'bg-emerald-600 text-white shadow-xs scale-110'
+                        : 'border-2 border-slate-300 text-transparent hover:border-emerald-600'
                     }`}
                   >
                     <CheckCircle2 className="w-5 h-5" />
@@ -494,14 +494,14 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
       </div>
 
       {/* Guided Breathing Integration Banner */}
-      <div className="ios-glass-card rounded-3xl p-5 border-cyan-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-slate-900/80 via-cyan-950/20 to-slate-900/80">
+      <div className="liquid-glass-card rounded-3xl p-5 border border-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm bg-gradient-to-r from-white via-emerald-50/50 to-white">
         <div className="flex items-center gap-3.5">
-          <div className="w-11 h-11 rounded-2xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 shrink-0">
+          <div className="w-11 h-11 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-800 shrink-0 shadow-xs">
             <Wind className="w-6 h-6 animate-pulse" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white">Need an Instant Stress Reset?</h4>
-            <p className="text-xs text-slate-300 mt-0.5">
+            <h4 className="text-sm font-bold text-slate-900">Need an Instant Stress Reset?</h4>
+            <p className="text-xs text-slate-600 mt-0.5">
               Launch guided breathing exercises with visual countdown to instantly lower sympathetic arousal and claim +15 marks.
             </p>
           </div>
@@ -512,7 +512,7 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
             triggerHaptic('medium');
             if (onNavigateToTab) onNavigateToTab('breathing');
           }}
-          className="w-full sm:w-auto px-4 py-2.5 rounded-xl glass-button-primary text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 ios-tactile-button cursor-pointer shrink-0"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-full liquid-button-sage text-white text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 ios-tactile-button cursor-pointer shrink-0 shadow-xs"
         >
           <span>Open Breathing</span>
           <ArrowRight className="w-3.5 h-3.5" />
@@ -521,49 +521,49 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
 
       {/* Custom Quest Creation Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-md ios-glass-card rounded-[2rem] p-6 border-cyan-400/40 shadow-[0_0_50px_rgba(6,182,212,0.35)]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-md liquid-glass-hero bg-white/95 backdrop-blur-2xl rounded-[2rem] p-6 sm:p-8 border-2 border-white shadow-2xl text-slate-800">
             <button
               type="button"
               onClick={() => {
                 triggerHaptic('light');
                 setShowAddModal(false);
               }}
-              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="mb-4">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <Plus className="w-4 h-4 text-cyan-400" />
+              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <Plus className="w-4 h-4 text-emerald-700" />
                 <span>Create Personal Stress Quest</span>
               </h3>
-              <p className="text-xs text-slate-300 mt-1">
+              <p className="text-xs text-slate-600 mt-1">
                 Design an activity that brings you personal calmness, flow, and restoration.
               </p>
             </div>
 
             <form onSubmit={handleAddCustomHabit} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-300">Quest Title</label>
+                <label className="text-xs font-bold text-slate-700">Quest Title</label>
                 <input
                   type="text"
                   required
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. 20 min acoustic guitar, walk in park"
-                  className="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs"
+                  className="w-full liquid-input px-3.5 py-2.5 rounded-xl text-xs font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-300">Category</label>
+                  <label className="text-xs font-bold text-slate-700">Category</label>
                   <select
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value as HabitCategory)}
-                    className="w-full glass-input px-3 py-2.5 rounded-xl text-xs bg-slate-900 text-slate-100"
+                    className="w-full liquid-input px-3 py-2.5 rounded-xl text-xs font-medium cursor-pointer"
                   >
                     <option value="activity">Activity (Hands-on)</option>
                     <option value="mind">Mind (Reading/Calm)</option>
@@ -573,22 +573,22 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-300">Duration (mins)</label>
+                  <label className="text-xs font-bold text-slate-700">Duration (mins)</label>
                   <input
                     type="number"
                     min="5"
                     max="180"
                     value={newDuration}
                     onChange={(e) => setNewDuration(Number(e.target.value))}
-                    className="w-full glass-input px-3 py-2.5 rounded-xl text-xs"
+                    className="w-full liquid-input px-3.5 py-2.5 rounded-xl text-xs font-medium"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs text-slate-300">
-                  <span>Marks Awarded</span>
-                  <span className="font-bold text-cyan-300 font-mono">+{newMarks} Marks</span>
+                <div className="flex items-center justify-between text-xs text-slate-700">
+                  <span className="font-bold">Marks Awarded</span>
+                  <span className="font-extrabold text-emerald-800 font-mono">+{newMarks} Marks</span>
                 </div>
                 <input
                   type="range"
@@ -597,13 +597,13 @@ export const QuestsTab: React.FC<QuestsTabProps> = ({
                   step="5"
                   value={newMarks}
                   onChange={(e) => setNewMarks(Number(e.target.value))}
-                  className="w-full accent-cyan-400"
+                  className="w-full accent-emerald-600 cursor-pointer"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-teal-400 text-slate-950 font-bold text-xs uppercase tracking-wider ios-tactile-button cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)] mt-2"
+                className="w-full py-3 rounded-full liquid-button-sage text-white font-extrabold text-xs uppercase tracking-wider ios-tactile-button cursor-pointer shadow-sm mt-2"
               >
                 Add Quest to Sanctuary
               </button>

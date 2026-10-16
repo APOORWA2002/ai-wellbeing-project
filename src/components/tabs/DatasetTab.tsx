@@ -69,18 +69,18 @@ export const DatasetTab: React.FC = () => {
     : [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-slate-800">
       {/* Header */}
-      <div className="glass-panel-glow rounded-3xl p-6 sm:p-7">
+      <div className="liquid-glass-card rounded-3xl p-6 sm:p-7 border border-white shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800">
               Model Verification
             </span>
-            <h3 className="text-lg font-bold text-white mb-1 tracking-tight">
+            <h3 className="text-lg font-bold text-slate-900 mb-1 tracking-tight">
               Synthetic Dataset & Batch Inference Validation
             </h3>
-            <p className="text-xs text-slate-300">
+            <p className="text-xs text-slate-600">
               Evaluate the Mamdani fuzzy system against {SYNTHETIC_DATA.length} synthetic reference clinical scenarios in-browser.
             </p>
           </div>
@@ -88,7 +88,7 @@ export const DatasetTab: React.FC = () => {
             type="button"
             onClick={runBatchSimulation}
             disabled={isRunning}
-            className="glass-button-primary px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.35)] shrink-0"
+            className="liquid-button-sage px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-sm text-white shrink-0"
           >
             <Play className="w-4 h-4 fill-white" />
             <span>{isRunning ? 'Processing...' : 'Run All 122 Tests'}</span>
@@ -97,20 +97,20 @@ export const DatasetTab: React.FC = () => {
       </div>
 
       {/* Dataset Preview Collapsible */}
-      <div className="glass-panel rounded-2xl overflow-hidden border-cyan-500/20">
+      <div className="liquid-glass rounded-2xl overflow-hidden border border-white shadow-xs">
         <button
           type="button"
           onClick={() => setPreviewExpanded(!previewExpanded)}
-          className="w-full px-5 py-4 text-left flex items-center justify-between text-xs font-semibold text-white hover:bg-cyan-500/5 transition-colors cursor-pointer"
+          className="w-full px-5 py-4 text-left flex items-center justify-between text-xs font-bold text-slate-800 hover:bg-slate-50 transition-colors cursor-pointer"
         >
           <span>Preview Synthetic Dataset (Raw CSV Features, first 10 rows)</span>
-          {previewExpanded ? <ChevronUp className="w-4 h-4 text-cyan-400" /> : <ChevronDown className="w-4 h-4 text-cyan-400" />}
+          {previewExpanded ? <ChevronUp className="w-4 h-4 text-emerald-700" /> : <ChevronDown className="w-4 h-4 text-emerald-700" />}
         </button>
         {previewExpanded && (
-          <div className="p-5 border-t border-cyan-500/15 overflow-x-auto">
+          <div className="p-5 border-t border-slate-200/80 overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead>
-                <tr className="border-b border-cyan-500/20 text-slate-400">
+                <tr className="border-b border-slate-200 text-slate-500 font-bold">
                   <th className="py-2 pr-4">#</th>
                   <th className="py-2 pr-4">HRV (ms)</th>
                   <th className="py-2 pr-4">Screen Time (h)</th>
@@ -118,21 +118,21 @@ export const DatasetTab: React.FC = () => {
                   <th className="py-2">Reference Ground Truth</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-cyan-500/10 font-mono text-slate-200">
+              <tbody className="divide-y divide-slate-200/80 font-mono text-slate-800">
                 {SYNTHETIC_DATA.slice(0, 10).map((row, idx) => (
-                  <tr key={idx} className="hover:bg-cyan-500/5">
-                    <td className="py-2 pr-4 text-slate-400">{idx + 1}</td>
+                  <tr key={idx} className="hover:bg-slate-50">
+                    <td className="py-2 pr-4 text-slate-400 font-sans">{idx + 1}</td>
                     <td className="py-2 pr-4">{row.hrv_ms.toFixed(1)}</td>
                     <td className="py-2 pr-4">{row.screen_time_h.toFixed(1)}</td>
                     <td className="py-2 pr-4">{row.sleep_h.toFixed(1)}</td>
-                    <td className="py-2">
+                    <td className="py-2 font-sans">
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                           row.reference_category === 'High'
-                            ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                            ? 'bg-rose-50 text-rose-800 border-rose-200'
                             : row.reference_category === 'Low'
-                            ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                            : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                            : 'bg-amber-50 text-amber-800 border-amber-200'
                         }`}
                       >
                         {row.reference_category}
@@ -151,56 +151,56 @@ export const DatasetTab: React.FC = () => {
         <div className="space-y-6 animate-fade-in">
           {/* Summary KPIs */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="glass-panel p-5 rounded-2xl border-cyan-500/20">
-              <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+            <div className="liquid-glass p-5 rounded-2xl border border-white shadow-xs">
+              <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">
                 Accuracy / Parity Rate
               </span>
-              <div className="text-3xl font-black text-cyan-300 font-mono mt-1">
+              <div className="text-3xl font-black text-emerald-700 font-mono mt-1">
                 {matchRate.toFixed(1)}%
               </div>
-              <p className="text-[11px] text-slate-400 mt-0.5">
+              <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
                 {matches} out of {totalSamples} synthetic scenarios matched
               </p>
             </div>
 
-            <div className="glass-panel p-5 rounded-2xl border-cyan-500/20">
-              <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+            <div className="liquid-glass p-5 rounded-2xl border border-white shadow-xs">
+              <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">
                 Class Distribution
               </span>
-              <div className="text-xs text-slate-200 space-y-1 mt-2">
+              <div className="text-xs text-slate-700 space-y-1 mt-2 font-medium">
                 <div className="flex justify-between">
-                  <span className="text-emerald-400">Low Stress:</span>
+                  <span className="text-emerald-700 font-bold">Low Stress:</span>
                   <span className="font-mono font-bold">{categoryCounts.Low}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-amber-400">Medium Stress:</span>
+                  <span className="text-amber-700 font-bold">Medium Stress:</span>
                   <span className="font-mono font-bold">{categoryCounts.Medium}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-rose-400">High Stress:</span>
+                  <span className="text-rose-700 font-bold">High Stress:</span>
                   <span className="font-mono font-bold">{categoryCounts.High}</span>
                 </div>
               </div>
             </div>
 
-            <div className="glass-panel p-5 rounded-2xl border-cyan-500/20">
-              <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+            <div className="liquid-glass p-5 rounded-2xl border border-white shadow-xs">
+              <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold">
                 Execution Method
               </span>
-              <div className="text-sm font-bold text-white mt-1">
+              <div className="text-sm font-bold text-slate-900 mt-1">
                 Zero-Latency Client FIS
               </div>
-              <p className="text-[11px] text-slate-400 mt-0.5 leading-snug">
+              <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
                 122 continuous fuzzifications, rule firings, and defuzzifications executed in 200ms.
               </p>
             </div>
           </div>
 
           {/* Filter Bar */}
-          <div className="glass-panel rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-cyan-500/20">
+          <div className="liquid-glass rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border border-white shadow-xs">
             <div className="flex items-center gap-2 text-xs">
-              <Filter className="w-4 h-4 text-cyan-400" />
-              <span className="text-slate-300 font-medium">Filter by Calculated Category:</span>
+              <Filter className="w-4 h-4 text-emerald-700" />
+              <span className="text-slate-700 font-medium">Filter by Calculated Category:</span>
               {(['All', 'Low', 'Medium', 'High'] as const).map((cat) => (
                 <button
                   key={cat}
@@ -208,8 +208,8 @@ export const DatasetTab: React.FC = () => {
                   onClick={() => setFilterCategory(cat)}
                   className={`px-3 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
                     filterCategory === cat
-                      ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-400/50'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-emerald-600 text-white shadow-xs font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   {cat}
@@ -222,10 +222,10 @@ export const DatasetTab: React.FC = () => {
           </div>
 
           {/* Results Table */}
-          <div className="glass-panel rounded-2xl overflow-hidden border-cyan-500/20">
+          <div className="liquid-glass rounded-2xl overflow-hidden border border-white shadow-xs">
             <div className="max-h-96 overflow-y-auto">
               <table className="w-full text-xs text-left">
-                <thead className="sticky top-0 bg-slate-950 border-b border-cyan-500/20 text-slate-400">
+                <thead className="sticky top-0 bg-slate-100 border-b border-slate-200 text-slate-700 font-bold">
                   <tr>
                     <th className="py-2.5 px-3">#</th>
                     <th className="py-2.5 px-3">HRV</th>
@@ -238,34 +238,34 @@ export const DatasetTab: React.FC = () => {
                     <th className="py-2.5 px-3">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-cyan-500/10 font-mono text-slate-200">
+                <tbody className="divide-y divide-slate-200/80 font-mono text-slate-800">
                   {displayedRows.map((r, i) => (
-                    <tr key={i} className="hover:bg-cyan-500/5">
-                      <td className="py-2 px-3 text-slate-500">{i + 1}</td>
+                    <tr key={i} className="hover:bg-slate-50/80">
+                      <td className="py-2 px-3 text-slate-500 font-sans">{i + 1}</td>
                       <td className="py-2 px-3">{r.hrv_ms.toFixed(0)} ms</td>
                       <td className="py-2 px-3">{r.screen_time_h.toFixed(1)} h</td>
                       <td className="py-2 px-3">{r.sleep_h.toFixed(1)} h</td>
-                      <td className="py-2 px-3 font-bold text-white">{r.stress_index.toFixed(1)}</td>
+                      <td className="py-2 px-3 font-bold text-slate-900">{r.stress_index.toFixed(1)}</td>
                       <td className="py-2 px-3">
                         <span
                           className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                             r.calculated_category === 'High'
-                              ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                              ? 'bg-rose-50 text-rose-800 border-rose-200'
                               : r.calculated_category === 'Low'
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                              : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                              : 'bg-amber-50 text-amber-800 border-amber-200'
                           }`}
                         >
                           {r.calculated_category}
                         </span>
                       </td>
-                      <td className="py-2 px-3 text-slate-400">{r.reference_category}</td>
-                      <td className="py-2 px-3 text-cyan-300">{r.active_rules}</td>
-                      <td className="py-2 px-3">
+                      <td className="py-2 px-3 text-slate-600 font-sans">{r.reference_category}</td>
+                      <td className="py-2 px-3 text-emerald-800 font-bold">{r.active_rules}</td>
+                      <td className="py-2 px-3 font-sans">
                         {r.is_match ? (
-                          <span className="text-emerald-400 font-semibold">Match</span>
+                          <span className="text-emerald-700 font-bold">Match</span>
                         ) : (
-                          <span className="text-amber-400">Boundary Delta</span>
+                          <span className="text-amber-700 font-medium">Boundary Delta</span>
                         )}
                       </td>
                     </tr>

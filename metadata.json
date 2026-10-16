@@ -1,17 +1,8 @@
 {
-<<<<<<< HEAD
-  "name": "Remix ai-wellbeing-project",
-  "description": "Imported from GitHub: h1rum4l/ai-wellbeing-project",
-=======
-  "name": "stressina.AI",
-  "description": "An intelligent healthcare and well-being decision-support system utilizing Mamdani fuzzy inference and adaptive coping recommendations.",
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
+  "name": "stressina.AI — Serene Decision Support & Mascot Companion",
+  "description": "An intelligent healthcare and well-being decision-support system featuring Stressina the Panda, Mamdani fuzzy inference, and a tranquil liquid-glass aesthetic.",
   "capabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
   ],
   "permissions": []
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6

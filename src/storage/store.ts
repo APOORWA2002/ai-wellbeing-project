@@ -83,8 +83,34 @@ interface StoredUser extends UserAccount {
   password_hash: string;
 }
 
+const DEFAULT_DEMO_USERS: StoredUser[] = [
+  {
+    id: 'usr_demo_maya',
+    email: 'maya@example.com',
+    display_name: 'Maya Lin',
+    created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
+    password_hash: hashPassword('password123'),
+  },
+  {
+    id: 'usr_demo_stressina',
+    email: 'maya@stressina.ai',
+    display_name: 'Maya Lin',
+    created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
+    password_hash: hashPassword('stressina123'),
+  },
+];
+
 export const store = {
   // --- AUTHENTICATION ---
+  getUsers(): StoredUser[] {
+    const users = load<StoredUser[]>(USERS_KEY, []);
+    if (users.length === 0) {
+      save(USERS_KEY, DEFAULT_DEMO_USERS);
+      return DEFAULT_DEMO_USERS;
+    }
+    return users;
+  },
+
   getCurrentUser(): UserAccount | null {
     return load<UserAccount | null>(CURRENT_USER_KEY, null);
   },
@@ -93,7 +119,7 @@ export const store = {
     if (user) {
       save(CURRENT_USER_KEY, user);
     } else {
-      safeRemoveItem(CURRENT_USER_KEY);
+      localStorage.removeItem(CURRENT_USER_KEY);
     }
   },
 
@@ -115,7 +141,7 @@ export const store = {
       return { ok: false, message: 'Use a password with at least 6 characters.', user: null };
     }
 
-    const users = load<StoredUser[]>(USERS_KEY, []);
+    const users = this.getUsers();
     if (users.some((u) => u.email === cleanEmail)) {
       return { ok: false, message: 'An account with that email already exists.', user: null };
     }
@@ -153,10 +179,32 @@ export const store = {
 
   authenticateUser(email: string, password: string): UserAccount | null {
     const cleanEmail = email.trim().toLowerCase();
-    const users = load<StoredUser[]>(USERS_KEY, []);
-    const user = users.find((u) => u.email === cleanEmail);
+    const users = this.getUsers();
+    let user = users.find((u) => u.email === cleanEmail);
+
+    // Fallback demo account alias matching
+    if (!user && (cleanEmail === 'maya@example.com' || cleanEmail === 'maya@stressina.ai')) {
+      user = DEFAULT_DEMO_USERS[0];
+    }
 
     if (!user) return null;
+    
+    // For demo users, allow both demo passwords
+    if (
+      (cleanEmail === 'maya@example.com' || cleanEmail === 'maya@stressina.ai') &&
+      (password === 'password123' || password === 'stressina123')
+    ) {
+      const safeUser: UserAccount = {
+        id: user.id,
+        email: user.email,
+        display_name: user.display_name,
+        created_at: user.created_at,
+      };
+      this.setCurrentUser(safeUser);
+      habitsStore.migrateGuestData(safeUser.id);
+      return safeUser;
+    }
+
     if (user.password_hash !== hashPassword(password)) return null;
 
     const safeUser: UserAccount = {
@@ -307,6 +355,13 @@ export const store = {
     };
     sessions.unshift(newSession);
     save(GAMES_KEY, sessions);
+  },
+
+  addGameSession(data: { game_type?: string; game_name?: string; duration_seconds?: number; score?: number; notes?: string }): void {
+    const user = this.getCurrentUser();
+    const userId = user ? user.id : 'guest';
+    const name = data.game_type || data.game_name || 'breathing';
+    this.saveGameSession(userId, name, data.duration_seconds || 0, data.notes || '');
   },
 
   listGameSessions(userId: string): SavedGameSession[] {

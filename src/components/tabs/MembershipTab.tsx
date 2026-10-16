@@ -28,21 +28,21 @@ export const MembershipTab: React.FC<MembershipTabProps> = ({
   const stressUniverse = inferenceResult?.stress_universe;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-slate-800">
       {/* Header */}
-      <div className="glass-panel-glow rounded-3xl p-6 sm:p-7">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+      <div className="liquid-glass-card rounded-3xl p-6 sm:p-7 border border-white shadow-sm">
+        <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800">
           Membership Functions
         </span>
-        <h3 className="text-lg font-bold text-white mb-1 tracking-tight">
+        <h3 className="text-lg font-bold text-slate-900 mb-1 tracking-tight">
           Fuzzy Set Visualizations & Dynamic Membership Markers
         </h3>
-        <p className="text-xs text-slate-300 max-w-2xl leading-relaxed">
-          Inspect the mathematical shape of each linguistic term across the universe of discourse. Vertical cyan markers indicate your current active values.
+        <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
+          Inspect the mathematical shape of each linguistic term across the universe of discourse. Markers indicate your current active physiological values.
         </p>
 
         {/* View Switcher */}
-        <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-cyan-500/15">
+        <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-200/80">
           {(['All', 'HRV', 'Screen', 'Sleep', 'Stress'] as const).map((view) => (
             <button
               key={view}
@@ -53,8 +53,8 @@ export const MembershipTab: React.FC<MembershipTabProps> = ({
               }}
               className={`px-3.5 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${
                 activeView === view
-                  ? 'bg-cyan-500/25 text-cyan-200 border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
-                  : 'glass-panel-interactive border-cyan-500/20 text-slate-400 hover:text-white'
+                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs font-bold'
+                  : 'bg-white/80 border-slate-200 text-slate-700 hover:bg-white hover:text-slate-900'
               }`}
             >
               {view === 'All' ? 'All Functions' : view === 'Screen' ? 'Screen Time' : view === 'Stress' ? 'Stress Output' : view}
@@ -98,9 +98,9 @@ export const MembershipTab: React.FC<MembershipTabProps> = ({
       )}
 
       {/* Centroid Defuzzification Explanatory Note */}
-      <div className="glass-panel rounded-2xl p-5 text-xs text-slate-300 leading-relaxed border-cyan-500/20">
-        <strong className="text-cyan-400">Centroid Defuzzification Mathematics: </strong>
-        The shaded area in the Stress Index chart represents the aggregated consequent fuzzy set (Mamdani MAX operator applied across all active rule implications). The vertical cyan marker is the exact center of gravity (centroid) calculated across this continuous shape.
+      <div className="liquid-glass rounded-2xl p-5 text-xs text-slate-700 leading-relaxed border border-white shadow-xs">
+        <strong className="text-emerald-800">Centroid Defuzzification Mathematics: </strong>
+        The shaded area in the Stress Index chart represents the aggregated consequent fuzzy set (Mamdani MAX operator applied across all active rule implications). The vertical marker is the exact center of gravity (centroid) calculated across this continuous shape.
       </div>
     </div>
   );

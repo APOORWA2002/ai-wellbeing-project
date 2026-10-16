@@ -13,7 +13,9 @@ import {
   Lock,
   ShieldCheck,
   Sparkles,
+  TrendingUp,
 } from 'lucide-react';
+import { StressinaPanda } from '../mascot/StressinaPanda';
 import {
   CopingRecommendation,
   InferenceResult,
@@ -77,39 +79,43 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
   if (!currentUser) {
     return (
       <div className="max-w-xl mx-auto py-8">
-        <div className="glass-panel-glow rounded-3xl p-8 sm:p-10 text-center space-y-5 relative overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.25)]">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="w-16 h-16 rounded-2xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 flex items-center justify-center mx-auto shadow-[0_0_25px_rgba(6,182,212,0.35)]">
-            <Lock className="w-8 h-8" />
+        <div className="liquid-glass-card rounded-3xl p-8 sm:p-10 text-center space-y-5 border border-white/95 shadow-md">
+          <div className="w-20 h-20 mx-auto rounded-2xl bg-white/90 border border-emerald-100 flex items-center justify-center shadow-xs">
+            <StressinaPanda
+              pose="safe_space"
+              expression="empathetic"
+              size="sm"
+              showLotusPlatform={false}
+              showAura={false}
+            />
           </div>
 
-          <div className="space-y-1.5 relative z-10">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+          <div className="space-y-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
               Protected Wellness Vault
             </span>
-            <h3 className="text-xl font-bold text-white tracking-tight">
-              Sign In to Access Private History
+            <h3 className="text-xl font-bold text-slate-900 tracking-tight">
+              Sign In to Access Private Stress Analytics
             </h3>
-            <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
-              To protect your confidential health indicators, longitudinal stress trend curves, past chat dialogues, and relaxation records are secured behind profile authentication.
+            <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+              To protect your personal physiological records, longitudinal stress trend trajectories, and relaxation logs, your timeline is securely encrypted in client-side storage.
             </p>
           </div>
 
-          <div className="pt-2 relative z-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             {onOpenAuthModal && (
               <button
                 type="button"
                 onClick={onOpenAuthModal}
-                className="w-full sm:w-auto glass-button-primary px-7 py-3 rounded-xl text-xs font-bold tracking-wide uppercase cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+                className="w-full sm:w-auto liquid-button-primary px-7 py-3 rounded-xl text-xs font-bold tracking-wide uppercase cursor-pointer shadow-sm"
               >
                 Sign In or Register
               </button>
             )}
           </div>
 
-          <div className="pt-4 border-t border-cyan-500/15 flex items-center justify-center gap-2 text-[11px] text-slate-400">
-            <ShieldCheck className="w-4 h-4 text-cyan-400" />
+          <div className="pt-4 border-t border-slate-100 flex items-center justify-center gap-2 text-[11px] text-slate-500">
+            <ShieldCheck className="w-4 h-4 text-emerald-700" />
             <span>Zero cloud analytics · 100% Private Client-Side Storage</span>
           </div>
         </div>
@@ -159,20 +165,6 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
     setTimeout(() => setNotification(''), 3000);
   };
 
-  const handleDeleteConversation = (id: string) => {
-    triggerHaptic('light');
-    store.deleteConversation(currentUser.id, id);
-    if (selectedConv?.id === id) setSelectedConv(null);
-    loadData();
-  };
-
-  const handleDeleteAllConversations = () => {
-    triggerHaptic('medium');
-    store.deleteAllConversations(currentUser.id);
-    setSelectedConv(null);
-    loadData();
-  };
-
   const exportCSV = () => {
     if (filteredAssessments.length === 0) return;
     triggerHaptic('light');
@@ -199,46 +191,69 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
-            Account Records
-          </span>
-          <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
-            My Wellbeing Timeline
-          </h3>
-          <p className="text-xs text-slate-300">
-            Secure longitudinal history for <span className="text-cyan-300 font-semibold">{currentUser.display_name}</span>.
-          </p>
+    <div className="w-full max-w-7xl mx-auto space-y-6 animate-fade-in py-2">
+      {/* Header Banner */}
+      <div className="liquid-glass-card p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/90">
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl bg-white/90 border border-emerald-100 flex items-center justify-center shadow-xs">
+            <StressinaPanda
+              pose="analyzing"
+              expression="listening"
+              size="sm"
+              showLotusPlatform={false}
+              showAura={false}
+            />
+          </div>
+          <div>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
+              Longitudinal Metrics
+            </span>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+              Stress Analytics & Timeline
+            </h2>
+            <p className="text-xs text-slate-600 mt-1">
+              Track stress index trajectories, compare biometric inputs over time, and export clinical evaluation logs for <strong className="text-slate-800">{currentUser.display_name}</strong>.
+            </p>
+          </div>
         </div>
+
+        {filteredAssessments.length > 0 && (
+          <button
+            type="button"
+            onClick={exportCSV}
+            className="px-4 py-2.5 rounded-xl text-xs font-semibold liquid-button-glass flex items-center gap-2 cursor-pointer shadow-xs"
+          >
+            <Download className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Export CSV Dataset</span>
+          </button>
+        )}
       </div>
 
       {notification && (
-        <div className="p-3.5 rounded-xl bg-cyan-950/60 border border-cyan-400/40 text-cyan-200 text-xs flex items-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-          <CheckCircle className="w-4 h-4 text-cyan-400" />
+        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2 shadow-xs">
+          <CheckCircle className="w-4 h-4 text-emerald-600" />
           <span>{notification}</span>
         </div>
       )}
 
       {/* Save Latest Banner if available */}
       {lastAssessment && (
-        <div className="glass-panel-glow rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="liquid-glass-card p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-emerald-200">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-cyan-400 font-semibold">Active Assessment Ready:</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-400/30 text-cyan-300 font-mono">
+              <span className="text-xs text-emerald-800 font-bold">Unsaved Assessment Ready:</span>
+              <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-mono font-bold">
                 {lastAssessment.category} Stress ({lastAssessment.inference.crisp_stress_index.toFixed(1)}/100)
               </span>
             </div>
-            <p className="text-xs text-slate-300 mt-1">
-              Action Plan: <strong className="text-white">{lastAssessment.recommendation.title}</strong>
+            <p className="text-xs text-slate-600 mt-1">
+              Prescribed Plan: <strong className="text-slate-900">{lastAssessment.recommendation.title}</strong>
             </p>
           </div>
           <button
             type="button"
             onClick={handleSaveLatest}
-            className="glass-button-primary px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 cursor-pointer shrink-0"
+            className="liquid-button-primary px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 cursor-pointer shrink-0"
           >
             <Bookmark className="w-3.5 h-3.5" />
             <span>Save to History</span>
@@ -247,64 +262,54 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
       )}
 
       {/* Stress Assessments List & Trend */}
-      <div className="glass-panel rounded-2xl p-6 sm:p-7 space-y-6">
+      <div className="liquid-glass-card p-6 sm:p-7 space-y-6 border border-white/90">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h4 className="text-sm font-bold text-white">Saved Stress Assessments</h4>
-            <p className="text-xs text-slate-400">
-              Longitudinal fuzzy model evaluations across sessions.
+            <h4 className="text-sm font-bold text-slate-900">Biometric Defuzzification Records</h4>
+            <p className="text-xs text-slate-500">
+              Session evaluations computed with Mamdani centroid defuzzification.
             </p>
           </div>
-          {filteredAssessments.length > 0 && (
-            <button
-              type="button"
-              onClick={exportCSV}
-              className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-cyan-200 hover:text-white glass-panel-interactive border-cyan-500/30 flex items-center gap-1.5 cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Export CSV</span>
-            </button>
-          )}
         </div>
 
         {/* Date Filters */}
         {assessments.length > 0 && (
-          <div className="flex flex-wrap items-center gap-4 text-xs bg-slate-950/60 p-3 rounded-xl border border-cyan-500/20">
+          <div className="flex flex-wrap items-center gap-4 text-xs bg-white/60 p-3 rounded-xl border border-slate-200">
             <div className="flex items-center gap-2">
-              <span className="text-slate-400">From:</span>
+              <span className="text-slate-500 font-medium">From:</span>
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="glass-input rounded-lg px-2.5 py-1 text-white text-xs"
+                className="liquid-input rounded-lg px-2.5 py-1 text-slate-800 text-xs"
               />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-slate-400">To:</span>
+              <span className="text-slate-500 font-medium">To:</span>
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="glass-input rounded-lg px-2.5 py-1 text-white text-xs"
+                className="liquid-input rounded-lg px-2.5 py-1 text-slate-800 text-xs"
               />
             </div>
-            <span className="text-slate-400 text-[11px] ml-auto font-mono">
-              Showing {filteredAssessments.length} of {assessments.length} logs
+            <span className="text-slate-500 text-[11px] ml-auto font-mono">
+              Showing {filteredAssessments.length} of {assessments.length} records
             </span>
           </div>
         )}
 
         {/* Trend Chart (SVG Sparkline / Trend line) */}
         {filteredAssessments.length > 1 && (
-          <div className="p-5 glass-panel-glow rounded-xl space-y-2">
-            <span className="text-[11px] font-semibold uppercase text-cyan-400 tracking-wider">
-              Autonomic Stress Index Curve
+          <div className="p-5 rounded-2xl bg-white/70 border border-emerald-100 space-y-2">
+            <span className="text-[11px] font-bold uppercase text-emerald-800 tracking-wider">
+              Autonomic Stress Index Trajectory
             </span>
             <div className="h-32 w-full flex items-end pt-4">
               <svg viewBox="0 0 500 85" className="w-full h-full overflow-visible">
                 {/* Reference lines */}
-                <line x1="0" y1="52" x2="500" y2="52" stroke="rgba(34, 211, 238, 0.15)" strokeDasharray="3 3" />
-                <line x1="0" y1="26" x2="500" y2="26" stroke="rgba(34, 211, 238, 0.15)" strokeDasharray="3 3" />
+                <line x1="0" y1="52" x2="500" y2="52" stroke="#E2E8F0" strokeDasharray="3 3" />
+                <line x1="0" y1="26" x2="500" y2="26" stroke="#E2E8F0" strokeDasharray="3 3" />
 
                 {/* Draw points & line */}
                 {(() => {
@@ -322,16 +327,16 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
 
                   return (
                     <>
-                      <path d={pathD} fill="none" stroke="#22d3ee" strokeWidth="2.5" />
+                      <path d={pathD} fill="none" stroke="#52BE80" strokeWidth="2.5" />
                       {points.map((pt, i) => (
                         <circle
                           key={i}
                           cx={pt.x}
                           cy={pt.y}
                           r="4"
-                          fill="#050b14"
-                          stroke="#22d3ee"
-                          strokeWidth="2"
+                          fill="#FFFFFF"
+                          stroke="#52BE80"
+                          strokeWidth="2.5"
                         />
                       ))}
                     </>
@@ -339,50 +344,61 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
                 })()}
               </svg>
             </div>
-            <div className="flex justify-between text-[10px] text-slate-400 pt-1 font-mono">
-              <span>Low Stress (&lt; 40)</span>
-              <span>Medium (40 - 70)</span>
-              <span>High Stress (&gt; 70)</span>
+            <div className="flex justify-between text-[10px] text-slate-500 pt-1 font-mono">
+              <span>Low Tension (&lt; 40)</span>
+              <span>Moderate Load (40 - 70)</span>
+              <span>High Alert (&gt; 70)</span>
             </div>
           </div>
         )}
 
         {/* Assessment Entries List */}
         {filteredAssessments.length === 0 ? (
-          <div className="text-center py-8 text-xs text-slate-400">
-            No assessments recorded yet. Run an assessment and click &quot;Save to History&quot;.
+          <div className="text-center py-10 space-y-3">
+            <div className="w-16 h-16 mx-auto rounded-full bg-emerald-50 flex items-center justify-center">
+              <StressinaPanda
+                pose="hero_zen"
+                expression="calm"
+                size="xs"
+                showLotusPlatform={false}
+                showAura={false}
+              />
+            </div>
+            <p className="text-xs text-slate-500 font-medium">
+              No assessments recorded yet. Run a scan in the Daily Check-in tab and click &quot;Save to Timeline&quot;.
+            </p>
           </div>
         ) : (
           <div className="space-y-2.5">
             {filteredAssessments.map((a) => {
               const categoryColor =
                 a.category === 'High'
-                  ? 'text-rose-400 border-rose-500/30 bg-rose-950/20'
+                  ? 'text-rose-700 border-rose-200 bg-rose-50'
                   : a.category === 'Medium'
-                  ? 'text-amber-400 border-amber-500/30 bg-amber-950/20'
-                  : 'text-emerald-400 border-emerald-500/30 bg-emerald-950/20';
+                  ? 'text-amber-700 border-amber-200 bg-amber-50'
+                  : 'text-emerald-700 border-emerald-200 bg-emerald-50';
 
               return (
                 <div
                   key={a.id}
-                  className="p-4 rounded-xl glass-panel-interactive flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs"
+                  className="p-4 rounded-2xl liquid-glass-interactive flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs border border-white/80"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className={`px-2 py-0.5 rounded-full border text-[11px] font-bold ${categoryColor}`}>
                         {a.category} Stress
                       </span>
-                      <span className="text-white font-mono font-bold">
+                      <span className="text-slate-900 font-mono font-bold">
                         {a.stress_index.toFixed(1)} / 100
                       </span>
                       <span className="text-slate-400 text-[11px]">
                         {new Date(a.created_at).toLocaleString()}
                       </span>
                     </div>
-                    <div className="text-slate-300">
-                      Recommendation: <strong className="text-white">{a.recommendation}</strong>
+                    <div className="text-slate-700">
+                      Recommendation: <strong className="text-slate-900">{a.recommendation}</strong>
                     </div>
-                    <div className="text-[11px] text-slate-400">
+                    <div className="text-[11px] text-slate-500">
                       Inputs: HRV {a.hrv.toFixed(0)} ms · Screen {a.screen_time.toFixed(1)}h · Sleep {a.sleep.toFixed(1)}h
                     </div>
                   </div>
@@ -390,7 +406,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
                   <button
                     type="button"
                     onClick={() => handleDeleteAssessment(a.id)}
-                    className="p-2 text-slate-400 hover:text-rose-400 rounded-lg hover:bg-rose-950/30 transition-colors cursor-pointer self-end sm:self-auto"
+                    className="p-2 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors cursor-pointer self-end sm:self-auto"
                     title="Delete entry"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -403,31 +419,31 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
       </div>
 
       {/* Saved Activities (Breathing & Grounding) */}
-      <div className="glass-panel rounded-2xl p-6 sm:p-7 space-y-4">
-        <h4 className="text-sm font-bold text-white flex items-center gap-2">
-          <Activity className="w-4 h-4 text-cyan-400" />
+      <div className="liquid-glass-card p-6 sm:p-7 space-y-4 border border-white/90">
+        <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+          <Activity className="w-4 h-4 text-emerald-700" />
           <span>Relaxation Sessions Log</span>
         </h4>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-500">
           Completed guided breathing, 5-4-3-2-1 grounding, and mindful check-ins.
         </p>
 
         {games.length === 0 ? (
-          <p className="text-xs text-slate-500 italic py-2">
-            No relaxation sessions completed yet. Try a guided breathing exercise in the Relax & Play tab.
+          <p className="text-xs text-slate-400 italic py-2">
+            No relaxation sessions completed yet. Try a guided breathing exercise in Stressina’s Corner.
           </p>
         ) : (
           <div className="space-y-2">
             {games.map((g) => (
               <div
                 key={g.id}
-                className="p-3.5 rounded-xl glass-panel-interactive flex items-center justify-between text-xs"
+                className="p-3.5 rounded-xl bg-white/70 border border-slate-100 flex items-center justify-between text-xs"
               >
                 <div>
-                  <div className="font-semibold text-white">{g.game_name}</div>
-                  <div className="text-[11px] text-slate-400">{g.reflection || 'Session completed'}</div>
+                  <div className="font-semibold text-slate-900">{g.game_name}</div>
+                  <div className="text-[11px] text-slate-500">{g.reflection || 'Session completed'}</div>
                 </div>
-                <div className="text-right text-[11px] text-slate-400 font-mono">
+                <div className="text-right text-[11px] text-slate-500 font-mono">
                   <div>{Math.round(g.duration_seconds / 60)} min</div>
                   <div>{new Date(g.created_at).toLocaleDateString()}</div>
                 </div>

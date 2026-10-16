@@ -81,12 +81,12 @@ const CANDY_CONFIG = [
     accent: '#10b981',
   },
   {
-    name: 'Blueberry Peace',
-    emoji: '🫐',
-    gradient: 'from-cyan-400 via-sky-500 to-blue-600',
-    border: 'border-cyan-300/50',
-    glow: 'rgba(6, 182, 212, 0.45)',
-    accent: '#06b6d4',
+    name: 'Teal River Flow',
+    emoji: '🌊',
+    gradient: 'from-teal-400 via-emerald-500 to-teal-700',
+    border: 'border-teal-300/50',
+    glow: 'rgba(20, 184, 166, 0.45)',
+    accent: '#14b8a6',
   },
   {
     name: 'Lavender Zen',
@@ -705,26 +705,26 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-slate-800">
       {/* Header & Game Stats Bar */}
-      <div className="glass-panel-glow rounded-3xl p-5 sm:p-7 relative overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.18)]">
+      <div className="liquid-glass-card rounded-3xl p-5 sm:p-7 relative overflow-hidden border border-white shadow-sm">
         {/* Ambient radial blur backlight */}
-        <div className="absolute -top-12 -right-12 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-12 -left-12 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-12 -left-12 w-80 h-80 bg-pink-100/30 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5 border-b border-cyan-500/15 pb-5">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5 border-b border-slate-200/80 pb-5">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+              <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" />
                 Stress Relief Mini-Game
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
               <span>Stress Crush</span>
-              <span className="text-sm font-normal text-slate-300">· Pop the Tension</span>
+              <span className="text-sm font-semibold text-slate-500">· Pop the Tension</span>
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mt-0.5 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 max-w-2xl mt-0.5 leading-relaxed">
               Swap adjacent soothing gems to form 3 or more in a row. Trigger cascades, explosive color bombs, and mindful harmonic chimes to clear cortisol.
             </p>
           </div>
@@ -735,9 +735,9 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
               <button
                 type="button"
                 onClick={onNavigateToBreathing}
-                className="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-200 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.2)] ios-tactile-button"
+                className="px-3.5 py-2 rounded-xl bg-emerald-100/80 hover:bg-emerald-200/80 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs ios-tactile-button"
               >
-                <Wind className="w-4 h-4 text-cyan-400" />
+                <Wind className="w-4 h-4 text-emerald-700" />
                 <span>Guided Breathing</span>
               </button>
             )}
@@ -745,63 +745,63 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
             <button
               type="button"
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className="p-2 rounded-xl glass-panel-interactive border-cyan-500/25 text-slate-300 hover:text-white cursor-pointer"
+              className="p-2 rounded-xl bg-white/80 hover:bg-white border border-slate-200 text-slate-700 cursor-pointer shadow-xs"
               title={soundEnabled ? 'Mute sound' : 'Enable calming chimes'}
             >
-              {soundEnabled ? <Volume2 className="w-4 h-4 text-cyan-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
+              {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-700" /> : <VolumeX className="w-4 h-4 text-slate-400" />}
             </button>
           </div>
         </div>
 
         {/* Milestone Bonus Banner */}
         {bonusEarnedMessage && (
-          <div className="relative z-10 mb-4 p-3 rounded-2xl bg-cyan-950/80 border border-cyan-400/60 text-cyan-200 text-xs font-semibold flex items-center gap-2 shadow-[0_0_20px_rgba(34,211,238,0.3)] animate-fade-in">
-            <Trophy className="w-4 h-4 text-amber-400 shrink-0" />
+          <div className="relative z-10 mb-4 p-3 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-bold flex items-center gap-2 shadow-xs animate-fade-in">
+            <Trophy className="w-4 h-4 text-amber-500 shrink-0" />
             <span>{bonusEarnedMessage}</span>
           </div>
         )}
 
         {/* Dynamic Game Status Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
-          <div className="glass-panel rounded-2xl p-3 border-cyan-500/20 flex flex-col">
-            <span className="text-[10px] uppercase font-bold text-slate-400">Score</span>
-            <span className="text-xl font-black text-white font-mono tracking-tight text-cyan-300">
+          <div className="liquid-glass rounded-2xl p-3 border border-white flex flex-col shadow-xs">
+            <span className="text-[10px] uppercase font-bold text-slate-500">Score</span>
+            <span className="text-xl font-black text-slate-900 font-mono tracking-tight">
               {score.toLocaleString()}
             </span>
-            <span className="text-[10px] text-slate-400 mt-0.5">High: {highScore.toLocaleString()}</span>
+            <span className="text-[10px] text-slate-500 mt-0.5">High: {highScore.toLocaleString()}</span>
           </div>
 
-          <div className="glass-panel rounded-2xl p-3 border-cyan-500/20 flex flex-col">
-            <span className="text-[10px] uppercase font-bold text-slate-400">
+          <div className="liquid-glass rounded-2xl p-3 border border-white flex flex-col shadow-xs">
+            <span className="text-[10px] uppercase font-bold text-slate-500">
               {gameMode === 'challenge' ? 'Moves Remaining' : 'Moves Relaxed'}
             </span>
-            <span className="text-xl font-black text-white font-mono">
+            <span className="text-xl font-black text-slate-900 font-mono">
               {gameMode === 'challenge' ? movesLeft : movesMade}
             </span>
-            <span className="text-[10px] text-slate-400 mt-0.5">
+            <span className="text-[10px] text-slate-500 mt-0.5">
               {gameMode === 'challenge' ? 'Target: 2,500' : 'Endless Calm'}
             </span>
           </div>
 
-          <div className="glass-panel rounded-2xl p-3 border-cyan-500/20 flex flex-col">
-            <span className="text-[10px] uppercase font-bold text-slate-400">Stress Quests</span>
+          <div className="liquid-glass rounded-2xl p-3 border border-white flex flex-col shadow-xs">
+            <span className="text-[10px] uppercase font-bold text-slate-500">Stress Quests</span>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <Trophy className="w-4 h-4 text-amber-400" />
-              <span className="text-base font-bold text-amber-300 font-mono">+{marksEarnedToday} Marks</span>
+              <Trophy className="w-4 h-4 text-amber-500" />
+              <span className="text-base font-bold text-amber-700 font-mono">+{marksEarnedToday} Marks</span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-0.5">Max +35 Marks/Day</span>
+            <span className="text-[10px] text-slate-500 mt-0.5">Max +35 Marks/Day</span>
           </div>
 
-          <div className="glass-panel rounded-2xl p-3 border-cyan-500/20 flex flex-col justify-between">
-            <span className="text-[10px] uppercase font-bold text-slate-400">Mode</span>
+          <div className="liquid-glass rounded-2xl p-3 border border-white flex flex-col justify-between shadow-xs">
+            <span className="text-[10px] uppercase font-bold text-slate-500">Mode</span>
             <div className="flex items-center gap-1.5 mt-1">
               <button
                 type="button"
                 onClick={() => setGameMode('zen')}
-                className={`px-2 py-0.5 text-[11px] font-semibold rounded-lg transition-all ${
+                className={`px-2.5 py-0.5 text-[11px] font-bold rounded-lg transition-all ${
                   gameMode === 'zen'
-                    ? 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Zen
@@ -809,10 +809,10 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
               <button
                 type="button"
                 onClick={() => setGameMode('challenge')}
-                className={`px-2 py-0.5 text-[11px] font-semibold rounded-lg transition-all ${
+                className={`px-2.5 py-0.5 text-[11px] font-bold rounded-lg transition-all ${
                   gameMode === 'challenge'
-                    ? 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Target
@@ -826,23 +826,22 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left: Candy Match Board */}
         <div className="lg:col-span-8 flex flex-col items-center">
-          <div className="w-full max-w-lg glass-panel-glow rounded-3xl p-3 sm:p-5 relative shadow-[0_0_35px_rgba(6,182,212,0.15)] border-cyan-500/30">
+          <div className="w-full max-w-lg liquid-glass-card rounded-3xl p-3 sm:p-5 relative shadow-md border border-white">
             {/* Combo Celebration Overlay */}
             {celebrationText && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none text-center animate-bounce">
-                <div className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-white font-black text-lg sm:text-2xl shadow-[0_0_30px_rgba(6,182,212,0.8)] border border-white/40 tracking-wider">
+                <div className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-lime-600 text-white font-black text-lg sm:text-2xl shadow-xl border border-white/50 tracking-wider">
                   {celebrationText}
                 </div>
               </div>
             )}
 
             {/* 8x8 Grid Container */}
-            <div className="grid grid-cols-8 gap-1 sm:gap-2 select-none relative touch-none bg-slate-950/70 p-2 sm:p-3 rounded-2xl border border-cyan-500/20 aspect-square">
+            <div className="grid grid-cols-8 gap-1 sm:gap-2 select-none relative touch-none bg-slate-900/10 p-2 sm:p-3 rounded-2xl border border-slate-200 aspect-square">
               {board.map((row, r) =>
                 row.map((item, c) => {
                   const cfg = CANDY_CONFIG[item.type] || CANDY_CONFIG[0];
                   const isSelected = selectedCell?.r === r && selectedCell?.c === c;
-                  const isSpecial = Boolean(item.special);
 
                   return (
                     <div
@@ -854,31 +853,31 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
                         item.isMatched ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
                       } ${
                         isSelected
-                          ? 'ring-2 ring-cyan-300 ring-offset-2 ring-offset-slate-900 scale-105 z-20 shadow-[0_0_20px_rgba(34,211,238,0.7)]'
+                          ? 'ring-2 ring-emerald-500 ring-offset-2 ring-offset-white scale-105 z-20 shadow-md'
                           : 'hover:scale-[1.04]'
                       }`}
                       style={{
-                        background: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.45), transparent 60%), linear-gradient(135deg, ${cfg.accent}, rgba(15,23,42,0.8))`,
-                        boxShadow: isSelected ? `0 0 15px ${cfg.accent}` : `inset 0 1px 2px rgba(255,255,255,0.4), 0 2px 6px rgba(0,0,0,0.4)`,
+                        background: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.7), transparent 60%), linear-gradient(135deg, ${cfg.accent}, rgba(255,255,255,0.85))`,
+                        boxShadow: isSelected ? `0 0 15px ${cfg.accent}` : `inset 0 1px 2px rgba(255,255,255,0.8), 0 2px 6px rgba(0,0,0,0.1)`,
                       }}
                     >
                       {/* Inner Glossy Specular Dot */}
-                      <div className="absolute top-1 left-1.5 w-2 h-1 rounded-full bg-white/60 blur-[0.4px] pointer-events-none" />
+                      <div className="absolute top-1 left-1.5 w-2 h-1 rounded-full bg-white/80 blur-[0.4px] pointer-events-none" />
 
                       {/* Candy Glyph / Emoji */}
-                      <span className="text-base sm:text-xl md:text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] pointer-events-none select-none">
+                      <span className="text-base sm:text-xl md:text-2xl drop-shadow-xs pointer-events-none select-none">
                         {item.special === 'color_bomb' ? '🌈' : cfg.emoji}
                       </span>
 
                       {/* Special Indicator: Striped Beam */}
                       {item.special === 'striped_h' && (
-                        <div className="absolute inset-x-0 h-1 bg-white/90 shadow-[0_0_6px_#ffffff] rounded-full pointer-events-none animate-pulse" />
+                        <div className="absolute inset-x-0 h-1 bg-white shadow-xs rounded-full pointer-events-none animate-pulse" />
                       )}
                       {item.special === 'striped_v' && (
-                        <div className="absolute inset-y-0 w-1 bg-white/90 shadow-[0_0_6px_#ffffff] rounded-full pointer-events-none animate-pulse" />
+                        <div className="absolute inset-y-0 w-1 bg-white shadow-xs rounded-full pointer-events-none animate-pulse" />
                       )}
                       {item.special === 'wrapped' && (
-                        <div className="absolute inset-1 rounded-lg border-2 border-white/80 pointer-events-none animate-pulse" />
+                        <div className="absolute inset-1 rounded-lg border-2 border-white pointer-events-none animate-pulse" />
                       )}
                     </div>
                   );
@@ -894,7 +893,7 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
                     left: `${(fs.x / BOARD_SIZE) * 100 + 4}%`,
                     top: `${(fs.y / BOARD_SIZE) * 100}%`,
                     color: fs.color,
-                    textShadow: '0 0 8px rgba(0,0,0,0.8), 0 0 15px rgba(34,211,238,0.7)',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.3)',
                   }}
                 >
                   {fs.text}
@@ -904,15 +903,15 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
 
             {/* Bottom Controls inside Board Box */}
             <div className="flex items-center justify-between mt-3 px-1">
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-slate-500 font-medium">
                 Tap or swipe adjacent gems to match 3+
               </span>
               <button
                 type="button"
                 onClick={handleShuffle}
-                className="text-xs px-2.5 py-1 rounded-lg glass-panel-interactive border-cyan-500/25 text-cyan-300 hover:text-white flex items-center gap-1 cursor-pointer"
+                className="text-xs px-2.5 py-1 rounded-lg bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 flex items-center gap-1 cursor-pointer shadow-xs"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
+                <RotateCcw className="w-3.5 h-3.5 text-emerald-700" />
                 <span>Shuffle Board</span>
               </button>
             </div>
@@ -922,8 +921,8 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
         {/* Right: Stress Relief Power-Ups & Wellness Integration */}
         <div className="lg:col-span-4 space-y-4">
           {/* Calming Power-ups */}
-          <div className="glass-panel rounded-2xl p-5 border-cyan-500/20 space-y-3">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 block">
+          <div className="liquid-glass-card rounded-2xl p-5 border border-white shadow-sm space-y-3">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 block">
               Mindful Boosters
             </span>
 
@@ -937,18 +936,18 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
                 disabled={hammersLeft <= 0}
                 className={`p-3 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer disabled:opacity-40 ${
                   activeBooster === 'hammer'
-                    ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.4)]'
-                    : 'glass-panel-interactive border-cyan-500/20 text-slate-300'
+                    ? 'bg-amber-100 border-amber-400 text-amber-900 shadow-xs'
+                    : 'bg-white/80 border-slate-200 text-slate-700 hover:bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xl">🔨</span>
-                  <span className="text-xs font-bold font-mono px-1.5 py-0.5 rounded bg-slate-900/60 text-amber-300">
+                  <span className="text-xs font-bold font-mono px-1.5 py-0.5 rounded bg-white text-amber-800 border border-amber-200">
                     {hammersLeft}
                   </span>
                 </div>
-                <div className="text-xs font-semibold text-white">Zen Hammer</div>
-                <div className="text-[10px] text-slate-400">Smash 1 gem</div>
+                <div className="text-xs font-bold text-slate-800">Zen Hammer</div>
+                <div className="text-[10px] text-slate-500">Smash 1 gem</div>
               </button>
 
               <button
@@ -960,25 +959,25 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
                 disabled={bombsLeft <= 0}
                 className={`p-3 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer disabled:opacity-40 ${
                   activeBooster === 'bomb'
-                    ? 'bg-rose-500/25 border-rose-400 text-rose-200 shadow-[0_0_15px_rgba(244,63,94,0.4)]'
-                    : 'glass-panel-interactive border-cyan-500/20 text-slate-300'
+                    ? 'bg-rose-100 border-rose-400 text-rose-900 shadow-xs'
+                    : 'bg-white/80 border-slate-200 text-slate-700 hover:bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xl">💥</span>
-                  <span className="text-xs font-bold font-mono px-1.5 py-0.5 rounded bg-slate-900/60 text-rose-300">
+                  <span className="text-xs font-bold font-mono px-1.5 py-0.5 rounded bg-white text-rose-800 border border-rose-200">
                     {bombsLeft}
                   </span>
                 </div>
-                <div className="text-xs font-semibold text-white">Stress Bomb</div>
-                <div className="text-[10px] text-slate-400">Clear 3x3 blast</div>
+                <div className="text-xs font-bold text-slate-800">Stress Bomb</div>
+                <div className="text-[10px] text-slate-500">Clear 3x3 blast</div>
               </button>
             </div>
 
             {activeBooster && (
-              <div className="p-2.5 rounded-xl bg-cyan-950/70 border border-cyan-400/40 text-cyan-200 text-xs flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>
+              <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span className="font-medium">
                   {activeBooster === 'hammer' ? 'Tap any gem to smash it.' : 'Tap any gem to trigger 3x3 blast.'}
                 </span>
               </div>
@@ -986,45 +985,45 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
           </div>
 
           {/* Special Candies Guide */}
-          <div className="glass-panel rounded-2xl p-5 border-cyan-500/20 space-y-2.5">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 block">
+          <div className="liquid-glass-card rounded-2xl p-5 border border-white shadow-sm space-y-2.5">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 block">
               Special Combos
             </span>
 
             <div className="space-y-2 text-xs">
-              <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-900/40 border border-cyan-500/10">
+              <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/70 border border-slate-200">
                 <span className="text-lg">⚡</span>
                 <div>
-                  <strong className="text-cyan-300">Match 4 in a line:</strong>
-                  <p className="text-[11px] text-slate-300">Creates a Striped Beam that vaporizes an entire row or column.</p>
+                  <strong className="text-emerald-800">Match 4 in a line:</strong>
+                  <p className="text-[11px] text-slate-600">Creates a Striped Beam that clears an entire row or column.</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-900/40 border border-cyan-500/10">
+              <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/70 border border-slate-200">
                 <span className="text-lg">🌈</span>
                 <div>
-                  <strong className="text-pink-300">Match 5 in a row:</strong>
-                  <p className="text-[11px] text-slate-300">Creates Rainbow Color Bomb! Swap with any color to clear them all.</p>
+                  <strong className="text-pink-700">Match 5 in a row:</strong>
+                  <p className="text-[11px] text-slate-600">Creates Rainbow Color Bomb! Swap with any color to clear them all.</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Account Save / History Integration */}
-          <div className="glass-panel rounded-2xl p-5 border-cyan-500/20 space-y-3">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 block">
+          <div className="liquid-glass-card rounded-2xl p-5 border border-white shadow-sm space-y-3">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 block">
               Session Archive
             </span>
 
             {currentUser ? (
               <div className="space-y-2.5">
-                <p className="text-xs text-slate-300">
+                <p className="text-xs text-slate-600">
                   Ready to conclude your session? Save your stress relief score into your longitudinal private history:
                 </p>
                 <button
                   type="button"
                   onClick={handleSaveSession}
-                  className="w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_15px_rgba(34,211,238,0.4)] ios-tactile-button"
+                  className="w-full py-2.5 rounded-full liquid-button-sage text-white font-extrabold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs ios-tactile-button"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Save Game to Timeline (+15 Marks)</span>
@@ -1032,14 +1031,14 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
               </div>
             ) : (
               <div className="space-y-2.5">
-                <p className="text-xs text-slate-300">
+                <p className="text-xs text-slate-600">
                   Register or sign in to permanently save your high score and daily stress marks across devices.
                 </p>
                 {onOpenAuthModal && (
                   <button
                     type="button"
                     onClick={onOpenAuthModal}
-                    className="w-full py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ios-tactile-button"
+                    className="w-full py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ios-tactile-button"
                   >
                     <span>Register to Save Marks (+50 Bonus)</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -1051,7 +1050,7 @@ export const StressCrushGame: React.FC<StressCrushGameProps> = ({
             <button
               type="button"
               onClick={handleResetGame}
-              className="w-full py-1.5 rounded-xl text-slate-400 hover:text-white text-xs text-center hover:bg-slate-800/40 transition-colors cursor-pointer"
+              className="w-full py-1.5 rounded-xl text-slate-500 hover:text-slate-800 text-xs text-center hover:bg-slate-100 transition-colors cursor-pointer"
             >
               Start New Fresh Game
             </button>

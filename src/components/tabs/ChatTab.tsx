@@ -7,7 +7,7 @@ import { store } from '../../storage/store';
 import { triggerHaptic } from '../../utils/haptics';
 
 interface ChatTabProps {
-  currentUser: UserAccount | null;
+  currentUser?: UserAccount | null;
   assessmentContext?: ChatAssessmentContext | null;
   initialTopic?: string;
   onClearInitialTopic?: () => void;
@@ -117,20 +117,20 @@ export const ChatTab: React.FC<ChatTabProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 text-slate-800">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 glass-panel rounded-2xl p-5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 liquid-glass-card rounded-2xl p-5 border border-white shadow-sm">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800">
               Wellbeing Companion
             </span>
-            <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-cyan-950/80 text-cyan-300 border border-cyan-400/30">
+            <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">
               Private & Confidential
             </span>
           </div>
-          <h3 className="text-base font-bold text-white tracking-tight">Talk Through Your Day</h3>
-          <p className="text-xs text-slate-300">
+          <h3 className="text-base font-bold text-slate-900 tracking-tight">Talk Through Your Day</h3>
+          <p className="text-xs text-slate-600">
             A reflective space to decompress, explore breathing methods, and untangle high workloads.
           </p>
         </div>
@@ -140,7 +140,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
             <button
               type="button"
               onClick={handleSaveChat}
-              className="text-xs glass-button-primary px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+              className="text-xs liquid-button-sage px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-pointer shadow-xs text-white font-bold"
             >
               <Bookmark className="w-3.5 h-3.5" />
               <span>Save Chat</span>
@@ -150,52 +150,52 @@ export const ChatTab: React.FC<ChatTabProps> = ({
             type="button"
             onClick={startNewChat}
             disabled={messages.length === 0}
-            className={`text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer ${
+            className={`text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer border ${
               messages.length === 0
-                ? 'opacity-30 glass-panel text-slate-500 cursor-not-allowed'
-                : 'glass-panel-interactive border-cyan-500/30 text-cyan-200 hover:text-white'
+                ? 'opacity-40 bg-white/50 text-slate-400 border-slate-200 cursor-not-allowed'
+                : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 font-semibold shadow-xs'
             }`}
           >
-            <PlusCircle className="w-3.5 h-3.5 text-cyan-400" />
+            <PlusCircle className="w-3.5 h-3.5 text-emerald-700" />
             <span>New Chat</span>
           </button>
         </div>
       </div>
 
       {saveSuccessMsg && (
-        <div className="p-3 rounded-xl bg-cyan-950/60 border border-cyan-400/40 text-cyan-200 text-xs shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+        <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs shadow-xs animate-fade-in font-medium">
           {saveSuccessMsg}
         </div>
       )}
 
       {/* Context sharing toggle */}
-      <div className="glass-panel rounded-2xl px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-        <label className="flex items-center gap-2.5 text-slate-200 cursor-pointer">
+      <div className="liquid-glass rounded-2xl px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs border border-white shadow-xs">
+        <label className="flex items-center gap-2.5 text-slate-700 font-medium cursor-pointer">
           <input
             type="checkbox"
             checked={shareContext}
             onChange={(e) => setShareContext(e.target.checked)}
-            className="w-4 h-4 rounded bg-slate-900 border-cyan-500/40 text-cyan-500 focus:ring-0"
+            className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
           />
           <span>Personalize companion advice using my latest fuzzy stress assessment</span>
         </label>
         {assessmentContext && shareContext && (
-          <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded-lg border border-cyan-400/30">
+          <span className="text-[11px] font-mono font-bold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-300">
             {assessmentContext.category} ({assessmentContext.index.toFixed(1)}/100)
           </span>
         )}
       </div>
 
       {/* Chat messages viewport */}
-      <div className="glass-panel-glow rounded-3xl p-5 sm:p-6 min-h-[460px] max-h-[540px] overflow-y-auto flex flex-col space-y-4 shadow-[0_0_35px_rgba(6,182,212,0.15)] relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="liquid-glass-card rounded-3xl p-5 sm:p-6 min-h-[460px] max-h-[540px] overflow-y-auto flex flex-col space-y-4 shadow-sm relative border border-white">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-emerald-100/40 rounded-full blur-3xl pointer-events-none" />
 
         {/* Default Assistant Greeting */}
         <div className="flex items-start gap-3 relative z-10">
-          <div className="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center shrink-0 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
+          <div className="w-8 h-8 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center shrink-0 text-emerald-800 shadow-xs">
             <Bot className="w-4 h-4" />
           </div>
-          <div className="glass-panel rounded-2xl rounded-tl-sm px-4 py-3 max-w-xl text-xs text-slate-200 leading-relaxed border-cyan-500/25">
+          <div className="liquid-glass rounded-2xl rounded-tl-sm px-4 py-3 max-w-xl text-xs text-slate-800 leading-relaxed border border-white shadow-xs">
             {GREETING}
           </div>
         </div>
@@ -203,16 +203,16 @@ export const ChatTab: React.FC<ChatTabProps> = ({
         {/* Quick starter prompts if conversation is empty */}
         {messages.length === 0 && (
           <div className="pt-2 relative z-10">
-            <p className="text-[11px] text-cyan-400 mb-2 font-medium">Quick suggestions to explore:</p>
+            <p className="text-[11px] text-emerald-800 mb-2 font-bold uppercase tracking-wider">Quick suggestions to explore:</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {QUICK_PROMPTS.map((prompt, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => handleSendMessage(prompt)}
-                  className="text-left p-3 rounded-xl glass-panel-interactive border-cyan-500/20 text-xs text-slate-300 hover:text-white transition-all cursor-pointer flex items-center gap-2"
+                  className="text-left p-3 rounded-xl bg-white/80 hover:bg-white border border-slate-200 hover:border-emerald-300 text-xs text-slate-700 hover:text-emerald-900 transition-all cursor-pointer flex items-center gap-2 shadow-xs"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                   <span>{prompt}</span>
                 </button>
               ))}
@@ -231,8 +231,8 @@ export const ChatTab: React.FC<ChatTabProps> = ({
               <div
                 className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-xs font-bold ${
                   isUser
-                    ? 'bg-blue-600/30 border border-blue-400/40 text-blue-200'
-                    : 'bg-cyan-500/20 border border-cyan-400/40 text-cyan-300'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'bg-emerald-100 border border-emerald-300 text-emerald-800'
                 }`}
               >
                 {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
@@ -240,8 +240,8 @@ export const ChatTab: React.FC<ChatTabProps> = ({
               <div
                 className={`rounded-2xl px-4 py-3 max-w-xl text-xs leading-relaxed whitespace-pre-wrap ${
                   isUser
-                    ? 'glass-button-primary rounded-tr-sm text-white shadow-[0_0_15px_rgba(6,182,212,0.3)]'
-                    : 'glass-panel rounded-tl-sm text-slate-200 border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.15)]'
+                    ? 'bg-emerald-700 rounded-tr-sm text-white shadow-xs font-medium'
+                    : 'liquid-glass rounded-tl-sm text-slate-800 border border-white shadow-xs'
                 }`}
               >
                 {m.content}
@@ -251,8 +251,8 @@ export const ChatTab: React.FC<ChatTabProps> = ({
         })}
 
         {isTyping && (
-          <div className="flex items-center gap-2 text-xs text-cyan-300/80 italic pl-11 relative z-10">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+          <div className="flex items-center gap-2 text-xs text-emerald-800 font-medium italic pl-11 relative z-10">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
             <span>Companion is reflecting...</span>
           </div>
         )}
@@ -261,7 +261,7 @@ export const ChatTab: React.FC<ChatTabProps> = ({
       </div>
 
       {/* Input bar */}
-      <div className="glass-panel rounded-2xl p-2.5 flex items-center gap-2 border-cyan-500/25">
+      <div className="liquid-glass rounded-2xl p-2.5 flex items-center gap-2 border border-white shadow-sm">
         <input
           type="text"
           value={input}
@@ -273,13 +273,13 @@ export const ChatTab: React.FC<ChatTabProps> = ({
             }
           }}
           placeholder="Ask about breathing, stress alleviation, or share your thoughts..."
-          className="flex-1 bg-transparent px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none"
+          className="flex-1 bg-transparent px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none"
         />
         <button
           type="button"
           onClick={() => handleSendMessage()}
           disabled={!input.trim()}
-          className="glass-button-primary p-2.5 rounded-xl text-white disabled:opacity-40 cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+          className="liquid-button-sage p-2.5 rounded-xl text-white disabled:opacity-40 cursor-pointer shadow-xs"
         >
           <Send className="w-4 h-4" />
         </button>

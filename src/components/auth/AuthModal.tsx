@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X,
   Lock,
@@ -14,12 +14,12 @@ import {
   Dumbbell,
   Flower2,
   Utensils,
-  Flame,
   Award,
+  ArrowRight,
 } from 'lucide-react';
 import { UserAccount } from '../../types';
 import { store } from '../../storage/store';
-import { StressinaLogo } from '../common/StressinaLogo';
+import { StressinaPanda } from '../mascot/StressinaPanda';
 import { triggerHaptic } from '../../utils/haptics';
 
 interface AuthModalProps {
@@ -31,10 +31,10 @@ interface AuthModalProps {
 }
 
 const AVATAR_OPTIONS = [
-  { id: 'lotus', label: 'Zen Lotus', emoji: '🪷', bg: 'from-cyan-500/20 to-teal-500/10' },
-  { id: 'wave', label: 'Ocean Flow', emoji: '🌊', bg: 'from-blue-500/20 to-cyan-500/10' },
-  { id: 'pulse', label: 'Neural Wave', emoji: '✨', bg: 'from-emerald-500/20 to-cyan-500/10' },
-  { id: 'garden', label: 'Botanical', emoji: '🌿', bg: 'from-green-500/20 to-emerald-500/10' },
+  { id: 'lotus', label: 'Zen Lotus', emoji: '🪷' },
+  { id: 'wave', label: 'Ocean Flow', emoji: '🌊' },
+  { id: 'pulse', label: 'Neural Wave', emoji: '✨' },
+  { id: 'garden', label: 'Botanical', emoji: '🌿' },
 ];
 
 const GOAL_OPTIONS = [
@@ -49,10 +49,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   isOpen,
   onClose,
   onUserChanged,
-  initialMode = 'register', // Default to asking user to register first
+  initialMode = 'login',
   promptReason,
 }) => {
   const [mode, setMode] = useState<'login' | 'register'>(initialMode);
+
+  // Sync mode with incoming initialMode when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setMode(initialMode);
+      setLoginError('');
+      setRegError('');
+    }
+  }, [isOpen, initialMode]);
 
   // Registration state
   const [regName, setRegName] = useState('');
@@ -73,9 +82,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Real-time password strength calculation (iOS style 4-bar)
+  // Real-time password strength calculation (4-bar indicator)
   const calculatePasswordStrength = (pwd: string) => {
-    if (!pwd) return { score: 0, label: 'Enter passcode', color: 'bg-slate-700' };
+    if (!pwd) return { score: 0, label: 'Enter passcode', color: 'bg-slate-200' };
     let score = 0;
     if (pwd.length >= 6) score++;
     if (pwd.length >= 10) score++;
@@ -83,9 +92,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     if (/[^A-Za-z0-9]/.test(pwd) || /[A-Z]/.test(pwd)) score++;
 
     if (score === 1) return { score: 1, label: 'Basic', color: 'bg-amber-500' };
-    if (score === 2) return { score: 2, label: 'Moderate', color: 'bg-yellow-400' };
-    if (score === 3) return { score: 3, label: 'Strong', color: 'bg-cyan-400' };
-    return { score: 4, label: 'Fortress Vault', color: 'bg-emerald-400' };
+    if (score === 2) return { score: 2, label: 'Moderate', color: 'bg-amber-400' };
+    if (score === 3) return { score: 3, label: 'Strong', color: 'bg-emerald-400' };
+    return { score: 4, label: 'Fortress Vault', color: 'bg-emerald-600' };
   };
 
   const strength = calculatePasswordStrength(regPassword);
@@ -122,7 +131,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setTimeout(() => {
         onClose();
         setRegSuccess(false);
-      }, 1500);
+      }, 1400);
     } else {
       triggerHaptic('warning');
       setRegError(res.message);
@@ -140,75 +149,84 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       onClose();
     } else {
       triggerHaptic('warning');
-      setLoginError('Email or password was not recognized. Please register first if you are new.');
+      setLoginError('Email or password was not recognized. Please check your credentials or use the 1-Tap Demo Login.');
+    }
+  };
+
+  const handleQuickDemoLogin = (email = 'maya@example.com', pwd = 'password123') => {
+    triggerHaptic('success');
+    setLoginError('');
+    const user = store.authenticateUser(email, pwd);
+    if (user) {
+      onUserChanged(user);
+      onClose();
+    } else {
+      // Fallback register
+      const res = store.registerUser(email, 'Maya Lin', pwd);
+      if (res.user) {
+        onUserChanged(res.user);
+        onClose();
+      }
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-xl animate-fade-in">
-      <div className="relative w-full max-w-lg ios-glass-card rounded-[2rem] p-5 sm:p-7 overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.35)] border-cyan-400/30 max-h-[92vh] overflow-y-auto">
-        {/* Dynamic iOS Ambient Glow Spots */}
-        <div className="absolute -top-20 -right-20 w-64 h-64 bg-cyan-500/25 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/40 backdrop-blur-md animate-fade-in">
+      <div className="relative w-full max-w-lg liquid-glass-hero bg-white/94 backdrop-blur-2xl rounded-[2.25rem] p-6 sm:p-8 overflow-hidden shadow-2xl border-2 border-white max-h-[92vh] overflow-y-auto text-slate-800">
+        
+        {/* Soft Ambient Sunlight & Eucalyptus Halos */}
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-emerald-200/40 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-teal-100/35 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Close Button with Tactile Physics */}
+        {/* Close Button */}
         <button
           type="button"
           onClick={() => {
             triggerHaptic('light');
             onClose();
           }}
-          className="absolute top-4 right-4 p-2 rounded-2xl text-slate-400 hover:text-white hover:bg-cyan-500/15 border border-transparent hover:border-cyan-500/30 transition-all cursor-pointer ios-tactile-button"
+          className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100/80 transition-colors cursor-pointer z-20"
           aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Header Branding */}
-        <div className="relative z-10 mb-4">
-          <div className="flex items-center justify-between gap-3">
-            <StressinaLogo size="md" variant="full" />
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-400/40 text-[11px] font-mono text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.25)]">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-300 animate-pulse" />
-              <span>+50 Bonus Marks</span>
+        {/* Header Branding with Stressina Panda */}
+        <div className="relative z-10 mb-5 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="w-16 h-16 rounded-2xl bg-white/95 border border-emerald-100 flex items-center justify-center shadow-xs shrink-0">
+              <StressinaPanda
+                pose="safe_space"
+                expression="empathetic"
+                size="xs"
+                showLotusPlatform={false}
+                showAura={false}
+              />
             </div>
-          </div>
-          <div className="mt-2.5">
-            <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
-              {mode === 'register' ? (
-                <>
-                  <span>Create Wellness Profile</span>
-                </>
-              ) : (
-                <span>Sign In to Sanctuary</span>
-              )}
-            </h3>
-            <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-              {mode === 'register'
-                ? (promptReason || 'Register first to claim your 50 welcome marks, save longitudinal stress timeline, and earn points on daily wellness tasks.')
-                : 'Sign in to access your saved timeline, private records, and active habits streak.'}
-            </p>
+            <div className="flex-1">
+              <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                <span className="text-[11px] font-black tracking-wider uppercase bg-gradient-to-r from-emerald-600 via-teal-600 to-lime-600 bg-clip-text text-transparent">
+                  Stressina.Ai Sanctuary Vault
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100/80 border border-emerald-300 text-[10px] font-mono font-bold text-emerald-900 shadow-2xs">
+                  <Sparkles className="w-3 h-3 text-emerald-700" />
+                  +50 Marks
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                {mode === 'login' ? 'Sign In to Your Sanctuary' : 'Create Wellness Profile'}
+              </h3>
+              <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                {mode === 'login'
+                  ? 'Sign in to access your saved timeline, private assessments, and active habits streak.'
+                  : (promptReason || 'Register to claim 50 welcome marks, save longitudinal stress timeline, and earn daily habits.')}
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Segmented Mode Switcher */}
-        <div className="grid grid-cols-2 gap-1.5 p-1 rounded-2xl bg-slate-950/80 border border-cyan-500/25 mb-5 relative z-10">
-          <button
-            type="button"
-            onClick={() => {
-              triggerHaptic('selection');
-              setMode('register');
-              setRegError('');
-            }}
-            className={`py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer ios-tactile-button flex items-center justify-center gap-1.5 ${
-              mode === 'register'
-                ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-cyan-200 border border-cyan-400/60 shadow-[0_0_18px_rgba(6,182,212,0.35)]'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>1. Register First</span>
-          </button>
+        {/* Apple iOS Translucent Segmented Control */}
+        <div className="flex p-1 rounded-2xl bg-slate-100/90 border border-slate-200/90 mb-5 relative z-10 shadow-inner">
           <button
             type="button"
             onClick={() => {
@@ -216,42 +234,168 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               setMode('login');
               setLoginError('');
             }}
-            className={`py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer ios-tactile-button flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 ${
               mode === 'login'
-                ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-cyan-200 border border-cyan-400/60 shadow-[0_0_18px_rgba(6,182,212,0.35)]'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-white text-emerald-800 shadow-sm border border-emerald-100 font-extrabold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Lock className="w-3.5 h-3.5" />
-            <span>2. Existing User</span>
+            <Lock className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Sign In</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              triggerHaptic('selection');
+              setMode('register');
+              setRegError('');
+            }}
+            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 ${
+              mode === 'register'
+                ? 'bg-white text-emerald-800 shadow-sm border border-emerald-100 font-extrabold'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Create Profile</span>
+            <span className="px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[9px] font-mono font-extrabold">+50</span>
           </button>
         </div>
 
-        {/* REGISTRATION FORM */}
+        {/* ============================================================== */}
+        {/* LOGIN FORM                                                     */}
+        {/* ============================================================== */}
+        {mode === 'login' && (
+          <div className="space-y-4 relative z-10">
+            {/* 1-Tap Quick Demo Account Card */}
+            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-50/95 via-teal-50/80 to-emerald-50/95 border border-emerald-200/90 flex items-center justify-between gap-3 shadow-xs">
+              <div className="flex items-center gap-2.5">
+                <span className="text-2xl select-none">🐼</span>
+                <div>
+                  <div className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <span>Quick Demo Sign-In</span>
+                    <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-200 text-emerald-900">Maya Lin</span>
+                  </div>
+                  <div className="text-[10px] text-slate-500">Includes saved stress timeline, habits & 120 marks</div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleQuickDemoLogin()}
+                className="px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white text-xs font-extrabold transition-all shadow-xs shrink-0 cursor-pointer flex items-center gap-1"
+              >
+                <span>1-Tap In</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
+
+            <form onSubmit={handleLogin} className="space-y-4">
+              {loginError && (
+                <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2 animate-fade-in shadow-xs">
+                  <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                  <span className="font-medium">{loginError}</span>
+                </div>
+              )}
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>Email Address</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={loginEmail}
+                  onFocus={() => triggerHaptic('selection')}
+                  onChange={(e) => {
+                    triggerHaptic('selection');
+                    setLoginEmail(e.target.value);
+                  }}
+                  placeholder="name@example.com (or maya@example.com)"
+                  className="w-full liquid-input px-3.5 py-2.5 rounded-2xl text-xs font-medium border border-white bg-white/80 focus:bg-white text-slate-900"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                  <span className="flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Password</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      triggerHaptic('light');
+                      setShowLoginPassword(!showLoginPassword);
+                    }}
+                    className="text-slate-400 hover:text-slate-700 cursor-pointer"
+                  >
+                    {showLoginPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+                <input
+                  type={showLoginPassword ? 'text' : 'password'}
+                  required
+                  value={loginPassword}
+                  onFocus={() => triggerHaptic('selection')}
+                  onChange={(e) => {
+                    triggerHaptic('selection');
+                    setLoginPassword(e.target.value);
+                  }}
+                  placeholder="•••••••• (or password123)"
+                  className="w-full liquid-input px-3.5 py-2.5 rounded-2xl text-xs font-medium border border-white bg-white/80 focus:bg-white text-slate-900"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 rounded-full text-xs font-extrabold tracking-wider uppercase cursor-pointer liquid-button-sage shadow-md flex items-center justify-center gap-2 mt-2"
+              >
+                <Lock className="w-4 h-4 text-white" />
+                <span>Sign In to Sanctuary</span>
+              </button>
+
+              <div className="pt-2 text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic('selection');
+                    setMode('register');
+                  }}
+                  className="text-xs text-emerald-700 hover:text-emerald-900 font-bold underline cursor-pointer"
+                >
+                  Don't have an account yet? Create your profile (+50 Marks)
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* REGISTRATION FORM                                              */}
+        {/* ============================================================== */}
         {mode === 'register' && (
           <form onSubmit={handleRegister} className="space-y-4 relative z-10">
             {regError && (
-              <div className="p-3 rounded-2xl bg-red-950/60 border border-red-500/50 text-red-200 text-xs flex items-center gap-2 animate-fade-in shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-                <span>{regError}</span>
+              <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2 animate-fade-in shadow-xs">
+                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                <span className="font-medium">{regError}</span>
               </div>
             )}
 
             {regSuccess && (
-              <div className="p-4 rounded-2xl bg-emerald-950/70 border border-emerald-400/60 text-emerald-200 text-xs flex items-center gap-3 animate-fade-in shadow-[0_0_25px_rgba(52,211,153,0.35)]">
-                <div className="w-8 h-8 rounded-full bg-emerald-500/30 border border-emerald-400 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-300" />
-                </div>
+              <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-3 animate-fade-in shadow-xs">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                 <div>
-                  <p className="font-bold text-emerald-100 text-sm">Welcome to stressina.AI!</p>
-                  <p className="text-[11px] text-emerald-300">+50 Welcome Marks Awarded · Vault Ready</p>
+                  <p className="font-bold text-sm">Welcome to Stressina.Ai!</p>
+                  <p className="text-[11px] text-emerald-700">+50 Welcome Marks Awarded · Vault Initialized</p>
                 </div>
               </div>
             )}
 
-            {/* Avatar Selector with Tactile Feedback */}
+            {/* Avatar Selector */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 block">
+              <label className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 block">
                 Select Your Avatar
               </label>
               <div className="grid grid-cols-4 gap-2">
@@ -263,14 +407,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       triggerHaptic('selection');
                       setSelectedAvatar(av.id);
                     }}
-                    className={`py-2 px-1 rounded-2xl border flex flex-col items-center gap-1 transition-all cursor-pointer ios-tactile-button ${
+                    className={`py-2 px-1 rounded-2xl border flex flex-col items-center gap-1 transition-all cursor-pointer ${
                       selectedAvatar === av.id
-                        ? 'bg-cyan-500/25 border-cyan-400 shadow-[0_0_16px_rgba(6,182,212,0.4)] scale-[1.02]'
-                        : 'bg-slate-900/40 border-cyan-500/15 hover:border-cyan-500/30 text-slate-400'
+                        ? 'bg-emerald-50 border-emerald-500 shadow-sm'
+                        : 'bg-white/80 border-slate-200 hover:border-slate-300 text-slate-600'
                     }`}
                   >
                     <span className="text-xl">{av.emoji}</span>
-                    <span className="text-[10px] font-semibold truncate max-w-full text-slate-200">{av.label}</span>
+                    <span className="text-[10px] font-bold truncate max-w-full text-slate-800">{av.label}</span>
                   </button>
                 ))}
               </div>
@@ -279,42 +423,50 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             {/* Preferred Name & Email Fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-cyan-400" />
+                <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-emerald-700" />
                   <span>Preferred Name</span>
                 </label>
                 <input
                   type="text"
                   required
                   value={regName}
-                  onChange={(e) => setRegName(e.target.value)}
+                  onFocus={() => triggerHaptic('selection')}
+                  onChange={(e) => {
+                    triggerHaptic('selection');
+                    setRegName(e.target.value);
+                  }}
                   placeholder="e.g. Maya"
-                  className="w-full glass-input px-3.5 py-2.5 rounded-2xl text-xs"
+                  className="w-full liquid-input px-3.5 py-2.5 rounded-2xl text-xs font-medium border border-white bg-white/80 focus:bg-white text-slate-900"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-emerald-700" />
                   <span>Email Address</span>
                 </label>
                 <input
                   type="email"
                   required
                   value={regEmail}
-                  onChange={(e) => setRegEmail(e.target.value)}
-                  placeholder="maya@example.com"
-                  className="w-full glass-input px-3.5 py-2.5 rounded-2xl text-xs"
+                  onFocus={() => triggerHaptic('selection')}
+                  onChange={(e) => {
+                    triggerHaptic('selection');
+                    setRegEmail(e.target.value);
+                  }}
+                  placeholder="name@example.com"
+                  className="w-full liquid-input px-3.5 py-2.5 rounded-2xl text-xs font-medium border border-white bg-white/80 focus:bg-white text-slate-900"
                 />
               </div>
             </div>
 
             {/* Primary Stress Management Tasks Focus */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 flex items-center justify-between">
-                <span>Your Preferred Stress Tasks</span>
-                <span className="text-[10px] text-cyan-300/80">Tap to toggle</span>
-              </label>
+              <div className="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-emerald-800">
+                <span>Preferred Wellness Activities</span>
+                <span className="text-[10px] text-slate-500 font-normal">Tap to customize</span>
+              </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {GOAL_OPTIONS.map((g) => {
                   const Icon = g.icon;
@@ -324,17 +476,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       key={g.id}
                       type="button"
                       onClick={() => toggleGoal(g.id)}
-                      className={`p-2 rounded-2xl text-left border flex items-center justify-between gap-1.5 transition-all cursor-pointer ios-tactile-button ${
+                      className={`p-2 rounded-2xl text-left border flex items-center justify-between gap-1.5 transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
-                          : 'bg-slate-900/40 border-cyan-500/15 text-slate-400 hover:text-white'
+                          ? 'bg-emerald-50 border-emerald-400 text-emerald-900 shadow-xs'
+                          : 'bg-white/80 border-slate-200 text-slate-600 hover:text-slate-900'
                       }`}
                     >
                       <div className="flex items-center gap-1.5 truncate">
-                        <Icon className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-cyan-300' : 'text-slate-400'}`} />
-                        <span className="text-[11px] font-medium truncate">{g.label}</span>
+                        <Icon className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-emerald-700' : 'text-slate-400'}`} />
+                        <span className="text-[11px] font-bold truncate">{g.label}</span>
                       </div>
-                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-md bg-cyan-950/80 border border-cyan-500/30 text-cyan-300 shrink-0">
+                      <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100/60 px-1 py-0.5 rounded">
                         {g.marks}
                       </span>
                     </button>
@@ -343,14 +495,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
             </div>
 
-            {/* Passwords with Liquid Strength Meter */}
+            {/* Password Credentials */}
             <div className="space-y-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <div className="flex items-center justify-between text-xs font-medium text-slate-300">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                     <span className="flex items-center gap-1.5">
-                      <Lock className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>Create Password</span>
+                      <Lock className="w-3.5 h-3.5 text-emerald-700" />
+                      <span>Password</span>
                     </span>
                     <button
                       type="button"
@@ -358,7 +510,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         triggerHaptic('light');
                         setShowPassword(!showPassword);
                       }}
-                      className="text-slate-400 hover:text-cyan-300"
+                      className="text-slate-400 hover:text-slate-700"
                     >
                       {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
@@ -367,17 +519,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={regPassword}
-                    onChange={(e) => setRegPassword(e.target.value)}
+                    onFocus={() => triggerHaptic('selection')}
+                    onChange={(e) => {
+                      triggerHaptic('selection');
+                      setRegPassword(e.target.value);
+                    }}
                     placeholder="Min 6 characters"
-                    className="w-full glass-input px-3.5 py-2.5 rounded-2xl text-xs"
+                    className="w-full liquid-input px-3.5 py-2.5 rounded-2xl text-xs font-medium border border-white bg-white/80 focus:bg-white text-slate-900"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-300 flex items-center justify-between">
+                  <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
                     <span>Confirm Password</span>
                     {regConfirm && regPassword === regConfirm && (
-                      <span className="text-[10px] text-emerald-400 flex items-center gap-1">
+                      <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3" /> Matched
                       </span>
                     )}
@@ -386,26 +542,30 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={regConfirm}
-                    onChange={(e) => setRegConfirm(e.target.value)}
+                    onFocus={() => triggerHaptic('selection')}
+                    onChange={(e) => {
+                      triggerHaptic('selection');
+                      setRegConfirm(e.target.value);
+                    }}
                     placeholder="Repeat password"
-                    className="w-full glass-input px-3.5 py-2.5 rounded-2xl text-xs"
+                    className="w-full liquid-input px-3.5 py-2.5 rounded-2xl text-xs font-medium border border-white bg-white/80 focus:bg-white text-slate-900"
                   />
                 </div>
               </div>
 
-              {/* Password Strength Indicator */}
+              {/* Password Strength */}
               {regPassword && (
                 <div className="space-y-1 pt-1">
-                  <div className="flex items-center justify-between text-[10px] text-slate-400">
+                  <div className="flex items-center justify-between text-[10px] text-slate-500 font-medium">
                     <span>Security Strength</span>
-                    <span className="font-semibold text-cyan-300">{strength.label}</span>
+                    <span className="font-bold text-emerald-800">{strength.label}</span>
                   </div>
                   <div className="grid grid-cols-4 gap-1.5">
                     {[1, 2, 3, 4].map((step) => (
                       <div
                         key={step}
                         className={`h-1.5 rounded-full transition-all duration-300 ${
-                          step <= strength.score ? strength.color : 'bg-slate-800'
+                          step <= strength.score ? strength.color : 'bg-slate-200'
                         }`}
                       />
                     ))}
@@ -417,95 +577,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             {/* Tactile Submit Button */}
             <button
               type="submit"
-              className="w-full py-3.5 px-4 rounded-2xl text-xs font-black tracking-wider uppercase cursor-pointer ios-tactile-button bg-gradient-to-r from-cyan-500 via-teal-400 to-cyan-500 hover:from-cyan-400 hover:to-teal-300 text-slate-950 shadow-[0_0_28px_rgba(6,182,212,0.5)] border border-cyan-200/50 flex items-center justify-center gap-2 mt-2"
+              className="w-full py-3.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase cursor-pointer liquid-button-sage shadow-md flex items-center justify-center gap-2 mt-2"
             >
-              <Award className="w-4 h-4 text-slate-950" />
+              <Award className="w-4 h-4 text-white" />
               <span>Create Profile & Claim 50 Marks</span>
             </button>
           </form>
         )}
 
-        {/* LOGIN FORM (Existing User Flow) */}
-        {mode === 'login' && (
-          <form onSubmit={handleLogin} className="space-y-4 relative z-10">
-            {loginError && (
-              <div className="p-3 rounded-2xl bg-red-950/60 border border-red-500/50 text-red-200 text-xs flex items-center gap-2 animate-fade-in shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-                <span>{loginError}</span>
-              </div>
-            )}
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-                <Mail className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Email Address</span>
-              </label>
-              <input
-                type="email"
-                required
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="name@example.com"
-                className="w-full glass-input px-3.5 py-2.5 rounded-2xl text-xs"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-xs font-medium text-slate-300">
-                <span className="flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Password</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    triggerHaptic('light');
-                    setShowLoginPassword(!showLoginPassword);
-                  }}
-                  className="text-slate-400 hover:text-cyan-300"
-                >
-                  {showLoginPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                </button>
-              </div>
-              <input
-                type={showLoginPassword ? 'text' : 'password'}
-                required
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full glass-input px-3.5 py-2.5 rounded-2xl text-xs"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-3.5 rounded-2xl text-xs font-black tracking-wider uppercase cursor-pointer ios-tactile-button bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 shadow-[0_0_24px_rgba(6,182,212,0.45)] border border-cyan-300/40 mt-2"
-            >
-              Sign In to Sanctuary
-            </button>
-
-            <div className="pt-2 text-center">
-              <button
-                type="button"
-                onClick={() => {
-                  triggerHaptic('selection');
-                  setMode('register');
-                }}
-                className="text-xs text-cyan-400 hover:text-cyan-300 underline font-medium cursor-pointer"
-              >
-                Don't have an account yet? Register here to start
-              </button>
-            </div>
-          </form>
-        )}
-
         {/* Security & Client-Side Privacy Guarantee */}
-        <div className="mt-5 pt-3.5 border-t border-cyan-500/15 flex items-center justify-between text-[11px] text-slate-400 relative z-10">
-          <div className="flex items-center gap-1.5 text-cyan-300/90 font-mono text-[10px]">
-            <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="mt-5 pt-3.5 border-t border-slate-200/80 flex items-center justify-between text-[11px] text-slate-500 relative z-10">
+          <div className="flex items-center gap-1.5 text-emerald-800 font-semibold text-[10px]">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
             <span>Encrypted Client Storage</span>
           </div>
-          <span className="text-slate-500 text-[10px]">Private & Local</span>
+          <span className="text-slate-400 text-[10px]">Private & Local</span>
         </div>
       </div>
     </div>

@@ -13,8 +13,6 @@ import {
   Sparkles,
   Bookmark,
   CheckCircle2,
-  Lock,
-  Trophy,
   ArrowRight,
   Wind,
 } from 'lucide-react';
@@ -28,7 +26,7 @@ import { runFuzzyInference } from '../../engine/inference';
 import { classifyStress, getCategoryBadgeInfo } from '../../engine/classifier';
 import { selectCopingRecommendation } from '../../recommendation/recommendationEngine';
 import { generateExplanation } from '../../explanation/explanationEngine';
-import { ALL_RULES_DATA } from '../../engine/rules';
+import { StressinaPanda } from '../mascot/StressinaPanda';
 import {
   CopingRecommendation,
   ExplanationPayload,
@@ -78,43 +76,40 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
   onOpenChatWithTopic,
   onNavigateToTab,
 }) => {
-  const [continuousMode, setContinuousMode] = useState<boolean>(true);
   const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
-  const [category, setCategory] = useState<StressCategory>('Medium');
+  const [category, setCategory] = useState<StressCategory>('Low');
   const [recommendation, setRecommendation] = useState<CopingRecommendation | null>(null);
   const [explanation, setExplanation] = useState<ExplanationPayload | null>(null);
-
-  // Save state
   const [saveStatus, setSaveStatus] = useState<string>('');
-
-  // Accordion states
-  const [showHowCalculated, setShowHowCalculated] = useState<boolean>(false);
   const [showTransparency, setShowTransparency] = useState<boolean>(false);
-  const [showAllRules, setShowAllRules] = useState<boolean>(false);
+  const [showHowCalculated, setShowHowCalculated] = useState<boolean>(false);
+  const [continuousMode, setContinuousMode] = useState<boolean>(true);
 
-  // Validation
-  const validate = () => {
+  // Validate inputs
+  const validateInputs = (): string | null => {
     if (hrv < UNIVERSE_CONFIG.hrv.min || hrv > UNIVERSE_CONFIG.hrv.max) {
-      return `HRV value ${hrv} ms is out of valid range [${UNIVERSE_CONFIG.hrv.min}, ${UNIVERSE_CONFIG.hrv.max}] ms.`;
+      return `HRV must be between ${UNIVERSE_CONFIG.hrv.min} and ${UNIVERSE_CONFIG.hrv.max} ms.`;
     }
     if (screenTime < UNIVERSE_CONFIG.screen_time.min || screenTime > UNIVERSE_CONFIG.screen_time.max) {
-      return `Screen Time ${screenTime} h is out of valid range [${UNIVERSE_CONFIG.screen_time.min}, ${UNIVERSE_CONFIG.screen_time.max}] h.`;
+      return `Screen time must be between ${UNIVERSE_CONFIG.screen_time.min} and ${UNIVERSE_CONFIG.screen_time.max} hours.`;
     }
     if (sleep < UNIVERSE_CONFIG.sleep_duration.min || sleep > UNIVERSE_CONFIG.sleep_duration.max) {
-      return `Sleep Duration ${sleep} h is out of valid range [${UNIVERSE_CONFIG.sleep_duration.min}, ${UNIVERSE_CONFIG.sleep_duration.max}] h.`;
+      return `Sleep duration must be between ${UNIVERSE_CONFIG.sleep_duration.min} and ${UNIVERSE_CONFIG.sleep_duration.max} hours.`;
     }
     return null;
   };
 
-  const validationError = validate();
+  const validationError = validateInputs();
 
-  // Run calculation
-  const executeAnalysis = () => {
-    if (validationError) {
-      triggerHaptic('warning');
-      return;
+  // Run initial calculation once mounted
+  useEffect(() => {
+    if (!inferenceResult) {
+      executeAnalysis();
     }
-    triggerHaptic('medium');
+  }, []);
+
+  const executeAnalysis = () => {
+    if (validationError) return;
 
     const res = runFuzzyInference(hrv, screenTime, sleep);
     const cat = classifyStress(res.crisp_stress_index);
@@ -210,180 +205,178 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
   const badge = getCategoryBadgeInfo(category);
 
   return (
-    <div className="space-y-6">
-      {/* Steps Strip */}
-      <div className="flex items-center justify-between border-b border-cyan-500/15 pb-3 text-xs text-slate-400">
-        <div className="flex items-center gap-2">
-          <span className="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold flex items-center justify-center text-[10px] border border-cyan-400/30">
-            1
-          </span>
-          <span className="text-slate-200 font-medium">Physiological Inputs</span>
+    <div className="w-full max-w-7xl mx-auto space-y-6 animate-fade-in py-2">
+      {/* Top Banner with Mascot Guide in Liquid Glass */}
+      <div className="liquid-glass p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl bg-white/80 border border-white flex items-center justify-center shadow-md">
+            <StressinaPanda
+              pose="analyzing"
+              expression="listening"
+              size="sm"
+              showLotusPlatform={false}
+              showAura={false}
+            />
+          </div>
+          <div>
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800">
+              Daily Physiological Evaluation
+            </span>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">
+              Real-Time Biometric Stress Scanner
+            </h2>
+            <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
+              Stressina actively analyzes your autonomic heart rate variability, screen fatigue, and sleep recovery using Mamdani fuzzy inference.
+            </p>
+          </div>
         </div>
-        <div className="h-px w-10 bg-cyan-500/20" />
-        <div className="flex items-center gap-2">
-          <span className="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold flex items-center justify-center text-[10px] border border-cyan-400/30">
-            2
-          </span>
-          <span className="text-slate-200 font-medium">Fuzzy Defuzzification</span>
-        </div>
-        <div className="h-px w-10 bg-cyan-500/20" />
-        <div className="flex items-center gap-2">
-          <span className="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold flex items-center justify-center text-[10px] border border-cyan-400/30">
-            3
-          </span>
-          <span className="text-slate-200 font-medium">Adaptive Action Plan</span>
+
+        <div className="flex items-center gap-3 shrink-0">
+          <label className="flex items-center gap-2 text-xs text-slate-700 font-semibold cursor-pointer bg-white/70 px-3.5 py-2 rounded-full border border-white shadow-xs backdrop-blur-md">
+            <input
+              type="checkbox"
+              checked={continuousMode}
+              onChange={(e) => setContinuousMode(e.target.checked)}
+              className="w-4 h-4 rounded text-emerald-600 focus:ring-0 cursor-pointer"
+            />
+            <span>Live Scan</span>
+          </label>
+          <button
+            type="button"
+            onClick={resetDefaults}
+            className="text-xs text-slate-700 flex items-center gap-1.5 px-3.5 py-2 rounded-full liquid-button-clear cursor-pointer shadow-xs"
+          >
+            <RefreshCw className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Reset</span>
+          </button>
         </div>
       </div>
 
-      {/* Input Parameters Card */}
-      <div className="glass-panel-glow rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.15)]">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      {validationError && (
+        <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2 shadow-xs">
+          <AlertTriangle className="w-4 h-4 shrink-0 text-rose-600" />
+          <span className="font-medium">{validationError}</span>
+        </div>
+      )}
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 relative z-10">
-          <div>
-            <span className="text-[11px] font-bold tracking-wider uppercase text-cyan-400">
-              Step 1 · Input Universe
-            </span>
-            <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-              Autonomic & Behavioral Indicators
-            </h3>
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={continuousMode}
-                onChange={(e) => setContinuousMode(e.target.checked)}
-                className="w-4 h-4 rounded bg-slate-900 border-cyan-500/40 text-cyan-500 focus:ring-0"
-              />
-              <span>Live Re-evaluation</span>
+      {/* Input Universe Sliders */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* HRV Slider Card */}
+        <div className="liquid-glass p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <Heart className="w-4 h-4 text-emerald-600" />
+              <span>Autonomic HRV (RMSSD)</span>
             </label>
-            <button
-              type="button"
-              onClick={resetDefaults}
-              className="text-xs text-slate-300 hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-panel-interactive border-cyan-500/30 cursor-pointer"
-            >
-              <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Reset</span>
-            </button>
+            <span className="text-xs font-mono font-bold text-slate-800 bg-emerald-50 px-2.5 py-1 rounded-xl border border-emerald-200">
+              {hrv.toFixed(0)} ms
+            </span>
           </div>
+          <input
+            type="range"
+            min={UNIVERSE_CONFIG.hrv.min}
+            max={UNIVERSE_CONFIG.hrv.max}
+            step={UNIVERSE_CONFIG.hrv.step}
+            value={hrv}
+            onChange={(e) => {
+              triggerHaptic('selection');
+              setHrv(parseFloat(e.target.value));
+            }}
+            className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+          />
+          <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+            <span>20 ms (Depressed)</span>
+            <span>120 ms (Resilient)</span>
+          </div>
+          <p className="text-[11px] text-slate-600 pt-1 leading-snug">
+            Higher values signify parasympathetic vagal activation and biological recovery.
+          </p>
         </div>
 
-        {validationError && (
-          <div className="mb-4 p-3 rounded-xl bg-rose-950/50 border border-rose-500/40 text-rose-200 text-xs flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
-            <span>{validationError}</span>
+        {/* Screen Time Slider Card */}
+        <div className="liquid-glass p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <Monitor className="w-4 h-4 text-emerald-600" />
+              <span>Digital Screen Exposure</span>
+            </label>
+            <span className="text-xs font-mono font-bold text-slate-800 bg-emerald-50 px-2.5 py-1 rounded-xl border border-emerald-200">
+              {screenTime.toFixed(1)} h
+            </span>
           </div>
-        )}
-
-        {/* Sliders Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6 relative z-10">
-          {/* HRV */}
-          <div className="space-y-3 glass-panel p-4 sm:p-5 rounded-2xl border-cyan-500/20">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-white flex items-center gap-1.5">
-                <Heart className="w-4 h-4 text-cyan-400" />
-                <span>HRV (RMSSD)</span>
-              </label>
-              <span className="text-xs font-mono font-bold text-cyan-300 bg-cyan-950/80 px-2.5 py-0.5 rounded-lg border border-cyan-400/30 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                {hrv.toFixed(0)} ms
-              </span>
-            </div>
-            <input
-              type="range"
-              min={UNIVERSE_CONFIG.hrv.min}
-              max={UNIVERSE_CONFIG.hrv.max}
-              step={UNIVERSE_CONFIG.hrv.step}
-              value={hrv}
-              onChange={(e) => setHrv(parseFloat(e.target.value))}
-              className="w-full h-2 bg-slate-900/80 rounded-lg appearance-none cursor-pointer accent-cyan-400 border border-cyan-500/20"
-            />
-            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
-              <span>20 ms (Depressed)</span>
-              <span>120 ms (Resilient)</span>
-            </div>
-            <p className="text-[11px] text-slate-300 pt-1 leading-snug">
-              Higher values represent flexible parasympathetic modulation and cardiovascular recovery.
-            </p>
+          <input
+            type="range"
+            min={UNIVERSE_CONFIG.screen_time.min}
+            max={UNIVERSE_CONFIG.screen_time.max}
+            step={UNIVERSE_CONFIG.screen_time.step}
+            value={screenTime}
+            onChange={(e) => {
+              triggerHaptic('selection');
+              setScreenTime(parseFloat(e.target.value));
+            }}
+            className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+          />
+          <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+            <span>0 h (Rest)</span>
+            <span>16 h (Overload)</span>
           </div>
-
-          {/* Screen Time */}
-          <div className="space-y-3 glass-panel p-4 sm:p-5 rounded-2xl border-cyan-500/20">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-white flex items-center gap-1.5">
-                <Monitor className="w-4 h-4 text-cyan-400" />
-                <span>Daily Screen Exposure</span>
-              </label>
-              <span className="text-xs font-mono font-bold text-cyan-300 bg-cyan-950/80 px-2.5 py-0.5 rounded-lg border border-cyan-400/30 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                {screenTime.toFixed(1)} h
-              </span>
-            </div>
-            <input
-              type="range"
-              min={UNIVERSE_CONFIG.screen_time.min}
-              max={UNIVERSE_CONFIG.screen_time.max}
-              step={UNIVERSE_CONFIG.screen_time.step}
-              value={screenTime}
-              onChange={(e) => setScreenTime(parseFloat(e.target.value))}
-              className="w-full h-2 bg-slate-900/80 rounded-lg appearance-none cursor-pointer accent-cyan-400 border border-cyan-500/20"
-            />
-            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
-              <span>0 h (Rest)</span>
-              <span>16 h (Overload)</span>
-            </div>
-            <p className="text-[11px] text-slate-300 pt-1 leading-snug">
-              Prolonged digital sensory exposure drives retinal fatigue and sympathetic vigilance.
-            </p>
-          </div>
-
-          {/* Sleep Duration */}
-          <div className="space-y-3 glass-panel p-4 sm:p-5 rounded-2xl border-cyan-500/20">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-white flex items-center gap-1.5">
-                <Moon className="w-4 h-4 text-cyan-400" />
-                <span>Sleep Duration</span>
-              </label>
-              <span className="text-xs font-mono font-bold text-cyan-300 bg-cyan-950/80 px-2.5 py-0.5 rounded-lg border border-cyan-400/30 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                {sleep.toFixed(1)} h
-              </span>
-            </div>
-            <input
-              type="range"
-              min={UNIVERSE_CONFIG.sleep_duration.min}
-              max={UNIVERSE_CONFIG.sleep_duration.max}
-              step={UNIVERSE_CONFIG.sleep_duration.step}
-              value={sleep}
-              onChange={(e) => setSleep(parseFloat(e.target.value))}
-              className="w-full h-2 bg-slate-900/80 rounded-lg appearance-none cursor-pointer accent-cyan-400 border border-cyan-500/20"
-            />
-            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
-              <span>2 h (Acute debt)</span>
-              <span>10 h (Optimal)</span>
-            </div>
-            <p className="text-[11px] text-slate-300 pt-1 leading-snug">
-              Slow-wave and REM sleep restore neurotransmitter balance and biological resilience.
-            </p>
-          </div>
+          <p className="text-[11px] text-slate-600 pt-1 leading-snug">
+            Prolonged sensory exposure triggers ocular strain and sympathetic arousal.
+          </p>
         </div>
 
-        {/* Context Preferences */}
-        <div className="border-t border-cyan-500/15 pt-5 relative z-10">
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-cyan-400 mb-3">
-            Contextual Filters (Coping Tailoring)
+        {/* Sleep Duration Slider Card */}
+        <div className="liquid-glass p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <Moon className="w-4 h-4 text-emerald-600" />
+              <span>Nightly Sleep Duration</span>
+            </label>
+            <span className="text-xs font-mono font-bold text-slate-800 bg-emerald-50 px-2.5 py-1 rounded-xl border border-emerald-200">
+              {sleep.toFixed(1)} h
+            </span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+          <input
+            type="range"
+            min={UNIVERSE_CONFIG.sleep_duration.min}
+            max={UNIVERSE_CONFIG.sleep_duration.max}
+            step={UNIVERSE_CONFIG.sleep_duration.step}
+            value={sleep}
+            onChange={(e) => {
+              triggerHaptic('selection');
+              setSleep(parseFloat(e.target.value));
+            }}
+            className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+          />
+          <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+            <span>2 h (Acute debt)</span>
+            <span>10 h (Optimal)</span>
+          </div>
+          <p className="text-[11px] text-slate-600 pt-1 leading-snug">
+            Slow-wave cycles regenerate neural neurotransmitters and emotional resilience.
+          </p>
+        </div>
+      </div>
+
+      {/* Contextual Coping Preferences */}
+      <div className="liquid-glass p-5">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full sm:w-2/3">
             <div>
-              <label className="block text-xs text-slate-300 mb-1.5 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-cyan-400" />
+              <label className="block text-xs font-bold text-slate-800 mb-1.5 flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Available Break Window:</span>
               </label>
               <select
                 value={timeOption}
-                onChange={(e) => setTimeOption(e.target.value)}
-                className="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs cursor-pointer"
+                onChange={(e) => {
+                  triggerHaptic('selection');
+                  setTimeOption(e.target.value);
+                }}
+                className="w-full liquid-input px-3.5 py-2 text-xs font-semibold cursor-pointer"
               >
                 {AVAILABLE_TIME_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt} className="bg-slate-900 text-white">
+                  <option key={opt} value={opt}>
                     {opt}
                   </option>
                 ))}
@@ -391,146 +384,134 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs text-slate-300 mb-1.5 flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Physical Setting:</span>
+              <label className="block text-xs font-bold text-slate-800 mb-1.5 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Current Environment:</span>
               </label>
               <select
                 value={contextOption}
-                onChange={(e) => setContextOption(e.target.value)}
-                className="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs cursor-pointer"
+                onChange={(e) => {
+                  triggerHaptic('selection');
+                  setContextOption(e.target.value);
+                }}
+                className="w-full liquid-input px-3.5 py-2 text-xs font-semibold cursor-pointer"
               >
                 {CONTEXT_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt} className="bg-slate-900 text-white">
+                  <option key={opt} value={opt}>
                     {opt}
                   </option>
                 ))}
               </select>
             </div>
+          </div>
 
-            <div className="sm:self-end">
-              <button
-                type="button"
-                onClick={executeAnalysis}
-                className="w-full glass-button-primary py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.35)]"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Compute Stress Index</span>
-              </button>
-            </div>
+          <div className="w-full sm:w-1/3 flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                triggerHaptic('medium');
+                executeAnalysis();
+              }}
+              className="w-full py-3 px-5 rounded-full liquid-button-sage text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>Compute Stress Index</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Assessment Results Section */}
+      {/* Results Section in Liquid Glass */}
       {inferenceResult && (
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <span className="text-[11px] font-bold tracking-wider uppercase text-cyan-400">
-                Step 2 · Results & Classification
-              </span>
-              <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                Mamdani Inference Output
-              </h3>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={downloadReport}
-                className="text-xs text-slate-200 hover:text-white glass-panel-interactive border-cyan-500/30 px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Export Report (.txt)</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Metrics row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* Stress Index Gauge Card */}
-            <div className="glass-panel-glow rounded-3xl p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.2)]">
+            {/* Defuzzification Metric Card */}
+            <div className="liquid-glass p-6 flex flex-col justify-between">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold">
+                <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">
                   Defuzzified Stress Index
                 </span>
-                <span className="text-xs text-cyan-400 font-mono">Centroid Method</span>
+                <span className="text-xs text-emerald-800 font-mono font-bold">Centroid Defuzzification</span>
               </div>
 
-              <div className="flex items-baseline gap-3 my-3">
-                <span className="text-5xl sm:text-6xl font-black text-white font-mono tracking-tight drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+              <div className="flex items-baseline gap-3 my-2">
+                <span className="text-5xl font-black text-slate-900 font-mono tracking-tight tabular-nums">
                   {inferenceResult.crisp_stress_index.toFixed(1)}
                 </span>
-                <span className="text-sm font-semibold text-slate-400">/ 100 points</span>
+                <span className="text-sm font-semibold text-slate-500">/ 100 points</span>
               </div>
 
-              {/* Progress bar with boundary indicators */}
-              <div className="space-y-2">
-                <div className="w-full bg-slate-900/80 border border-cyan-500/20 h-3 rounded-full overflow-hidden p-0.5">
+              <div className="space-y-2 pt-2">
+                <div className="w-full bg-slate-200 border border-slate-300 h-3 rounded-full overflow-hidden p-0.5">
                   <div
-                    className="h-full rounded-full transition-all duration-300 bg-gradient-to-r from-cyan-500 via-sky-400 to-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.6)]"
-                    style={{
-                      width: `${inferenceResult.crisp_stress_index}%`,
-                    }}
+                    className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-emerald-400 via-teal-400 to-amber-400"
+                    style={{ width: `${inferenceResult.crisp_stress_index}%` }}
                   />
                 </div>
-                <div className="flex justify-between text-[10px] text-slate-400 font-mono">
-                  <span>0.0 (Low)</span>
-                  <span>40.0 (Medium)</span>
-                  <span>70.0 (High)</span>
-                  <span>100.0</span>
+                <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+                  <span>0 (Low)</span>
+                  <span>40 (Medium)</span>
+                  <span>70 (High)</span>
+                  <span>100</span>
                 </div>
               </div>
             </div>
 
-            {/* Category Status Card */}
-            <div className="glass-panel-glow rounded-3xl p-6 sm:p-7 flex flex-col justify-between">
+            {/* Linguistic Classification Card */}
+            <div className="liquid-glass p-6 flex flex-col justify-between">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold">
-                  Linguistic Category
+                <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">
+                  Linguistic State
                 </span>
                 <span className={`text-[11px] font-bold px-3 py-1 rounded-full ${badge.badgeClass}`}>
                   {badge.label}
                 </span>
               </div>
 
-              <div className="my-2">
-                <h4 className="text-2xl font-bold text-white mb-1.5">{category} Stress State</h4>
-                <p className="text-xs text-slate-300 leading-relaxed">{badge.description}</p>
+              <div className="my-1">
+                <h4 className="text-2xl font-extrabold text-slate-900 mb-1">{category} Stress Load</h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">{badge.description}</p>
               </div>
 
-              <div className="text-[11px] text-slate-400 border-t border-cyan-500/15 pt-3">
-                Mamdani Boundaries: [0, 40) Low | [40, 70) Medium | [70, 100] High
+              <div className="flex items-center justify-between pt-3 border-t border-slate-200">
+                <span className="text-[11px] text-slate-500 font-mono">
+                  Boundaries: Low &lt; 40 | Med 40–70 | High &gt; 70
+                </span>
+                <button
+                  type="button"
+                  onClick={downloadReport}
+                  className="text-xs text-emerald-800 hover:text-emerald-950 font-bold flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Export Report</span>
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Coping Recommendation Card */}
+          {/* Coping Recommendation */}
           {recommendation && (
-            <div className="glass-panel-glow rounded-3xl p-6 sm:p-8 space-y-4 shadow-[0_0_35px_rgba(6,182,212,0.25)] relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-
+            <div className="liquid-glass-hero p-6 sm:p-7 space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
-                      Step 3 · Tailored Coping Action
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800">
+                      Adaptive Recommendation
                     </span>
-                    <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-cyan-950/80 text-cyan-300 border border-cyan-400/30 font-medium">
+                    <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 font-bold">
                       {recommendation.duration}
                     </span>
                   </div>
-                  <h4 className="text-xl font-bold text-white tracking-tight">
+                  <h4 className="text-xl font-extrabold text-slate-900 tracking-tight">
                     {recommendation.title}
                   </h4>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 shrink-0">
-                  {/* Save to History Button with Auth Protection Check */}
                   <button
                     type="button"
                     onClick={handleSaveAssessment}
-                    className="glass-button-primary px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+                    className="liquid-button-sage px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md"
                   >
                     <Bookmark className="w-3.5 h-3.5" />
                     <span>Save to Timeline</span>
@@ -540,50 +521,32 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
                     <button
                       type="button"
                       onClick={() => onOpenChatWithTopic(recommendation.title)}
-                      className="text-xs px-3.5 py-2 rounded-xl text-cyan-200 hover:text-white glass-panel-interactive border-cyan-500/30 font-medium transition-colors cursor-pointer"
+                      className="liquid-button-clear text-xs px-4 py-2 rounded-full font-semibold cursor-pointer shadow-xs"
                     >
-                      Discuss in Chat
+                      <span className="text-slate-800">Discuss with Stressina</span>
                     </button>
                   )}
                 </div>
               </div>
 
               {saveStatus && (
-                <div className="p-3 rounded-xl bg-cyan-950/70 border border-cyan-400/40 text-cyan-200 text-xs flex items-center gap-2 animate-fade-in">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400" />
-                  <span>{saveStatus}</span>
+                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-2 animate-fade-in shadow-xs">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span className="font-semibold">{saveStatus}</span>
                 </div>
               )}
 
-              {!currentUser && (
-                <div className="p-3 rounded-xl bg-cyan-950/50 border border-cyan-400/30 text-xs text-cyan-200 flex items-center justify-between gap-3 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-cyan-300 shrink-0 animate-pulse" />
-                    <span>Register first to store this assessment, start daily stress quests, and claim +50 bonus marks.</span>
-                  </div>
-                  {onOpenAuthModal && (
-                    <button
-                      type="button"
-                      onClick={onOpenAuthModal}
-                      className="px-3.5 py-1.5 text-xs font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-all cursor-pointer shrink-0 shadow-[0_0_12px_rgba(34,211,238,0.5)] ios-tactile-button"
-                    >
-                      Register First
-                    </button>
-                  )}
-                </div>
-              )}
-
-              <p className="text-sm text-slate-200 leading-relaxed">
+              <p className="text-sm text-slate-700 leading-relaxed font-normal">
                 {recommendation.description}
               </p>
 
-              <div className="p-4 rounded-2xl glass-panel text-xs text-slate-300 border-cyan-500/20">
-                <strong className="text-cyan-300">Physiological Rationale: </strong>
+              <div className="p-4 rounded-2xl bg-white/70 border border-emerald-200 text-xs text-slate-700 shadow-xs">
+                <strong className="text-slate-900 font-bold">Physiological Rationale: </strong>
                 {recommendation.selection_rationale || recommendation.reason}
               </div>
 
-              {/* Immediate Quick Actions: Breathing Exercises & Stress Crush */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              {/* Quick links to breathing & games */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 {onNavigateToTab && (
                   <>
                     <button
@@ -592,22 +555,22 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
                         triggerHaptic('medium');
                         onNavigateToTab('breathing');
                       }}
-                      className="p-3 rounded-2xl bg-cyan-950/60 hover:bg-cyan-900/60 border border-cyan-400/40 text-left flex items-center justify-between group transition-all cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.15)] ios-tactile-button"
+                      className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-white text-left flex items-center justify-between group transition-all cursor-pointer shadow-xs"
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center border border-cyan-400/30 shrink-0">
-                          <Wind className="w-4 h-4 text-cyan-300" />
+                        <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-300">
+                          <Wind className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-white group-hover:text-cyan-200">
-                            Start Breathing Exercise
+                          <div className="text-xs font-bold text-slate-800 group-hover:text-emerald-800">
+                            Guided Breathing Sanctuary
                           </div>
-                          <div className="text-[10px] text-slate-400">
-                            2-min guided parasympathetic pacing
+                          <div className="text-[10px] text-slate-500">
+                            Regulate nervous system vagal tone
                           </div>
                         </div>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-cyan-400 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-4 h-4 text-emerald-700 group-hover:translate-x-1 transition-transform" />
                     </button>
 
                     <button
@@ -616,250 +579,136 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
                         triggerHaptic('medium');
                         onNavigateToTab('candy_crush');
                       }}
-                      className="p-3 rounded-2xl bg-pink-950/40 hover:bg-pink-900/40 border border-pink-400/30 text-left flex items-center justify-between group transition-all cursor-pointer shadow-[0_0_15px_rgba(236,72,153,0.15)] ios-tactile-button"
+                      className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-white text-left flex items-center justify-between group transition-all cursor-pointer shadow-xs"
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-pink-500/20 text-pink-300 flex items-center justify-center border border-pink-400/30 shrink-0">
-                          <Sparkles className="w-4 h-4 text-pink-300" />
+                        <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 border border-rose-300">
+                          <Sparkles className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-white group-hover:text-pink-200">
-                            Play Stress Crush Mini-Game
+                          <div className="text-xs font-bold text-slate-800 group-hover:text-rose-700">
+                            Stress Crush Puzzle
                           </div>
-                          <div className="text-[10px] text-slate-400">
-                            Match-3 candy puzzle for instant stress relief
+                          <div className="text-[10px] text-slate-500">
+                            Match-3 candy game for quick stress deflection
                           </div>
                         </div>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-pink-400 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-4 h-4 text-rose-600 group-hover:translate-x-1 transition-transform" />
                     </button>
                   </>
-                )}
-              </div>
-
-              {/* Daily Quests Integration Teaser */}
-              <div className="p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-400/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 border border-cyan-400/30">
-                    <Trophy className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-xs font-bold text-white block">
-                      Manage Stress with Daily Tasks & Earn Marks
-                    </span>
-                    <span className="text-[11px] text-slate-300">
-                      Reading 30 min, Gym workouts, Yoga, Cooking & Gardening (+15 to +30 marks each).
-                    </span>
-                  </div>
-                </div>
-                {onNavigateToTab && (
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToTab('quests')}
-                    className="w-full sm:w-auto px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ios-tactile-button shrink-0 cursor-pointer"
-                  >
-                    <span>View Daily Quests</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-cyan-400" />
-                  </button>
                 )}
               </div>
             </div>
           )}
 
-          {/* Expanders for Transparency */}
+          {/* Transparency Accordions */}
           <div className="space-y-3">
-            {/* 1. How was this calculated? */}
-            <div className="glass-panel rounded-2xl overflow-hidden border-cyan-500/20">
+            {/* Membership Degrees Accordion */}
+            <div className="liquid-glass rounded-2xl overflow-hidden">
               <button
                 type="button"
-                onClick={() => setShowHowCalculated(!showHowCalculated)}
-                className="w-full px-5 py-4 text-left flex items-center justify-between text-xs font-semibold text-white hover:bg-cyan-500/5 transition-colors cursor-pointer"
+                onClick={() => {
+                  triggerHaptic('light');
+                  setShowHowCalculated(!showHowCalculated);
+                }}
+                className="w-full px-5 py-4 text-left flex items-center justify-between text-xs font-bold text-slate-800 hover:bg-white/60 transition-colors cursor-pointer"
               >
-                <span>How was this calculated? (Membership Degrees & Contributing Stressors)</span>
-                {showHowCalculated ? <ChevronUp className="w-4 h-4 text-cyan-400" /> : <ChevronDown className="w-4 h-4 text-cyan-400" />}
+                <span>Fuzzy Membership Breakdown (Input Degrees)</span>
+                {showHowCalculated ? <ChevronUp className="w-4 h-4 text-emerald-700" /> : <ChevronDown className="w-4 h-4 text-emerald-700" />}
               </button>
               {showHowCalculated && (
-                <div className="p-5 border-t border-cyan-500/15 space-y-4">
-                  <div>
-                    <h5 className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">
-                      Fuzzification Breakdown
-                    </h5>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-xs text-left">
-                        <thead>
-                          <tr className="border-b border-cyan-500/20 text-slate-400">
-                            <th className="py-2 pr-4">Input Variable</th>
-                            <th className="py-2 pr-4">Low / Short / Inadequate</th>
-                            <th className="py-2 pr-4">Normal / Moderate / Marginal</th>
-                            <th className="py-2 pr-4">High / Prolonged / Optimal</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-cyan-500/10 font-mono text-slate-200">
-                          <tr>
-                            <td className="py-2 pr-4 font-sans font-medium text-white">
-                              HRV ({hrv.toFixed(0)} ms)
-                            </td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.hrv.low.toFixed(2)}</td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.hrv.normal.toFixed(2)}</td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.hrv.high.toFixed(2)}</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 pr-4 font-sans font-medium text-white">
-                              Screen Time ({screenTime.toFixed(1)} h)
-                            </td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.screen_time.short.toFixed(2)}</td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.screen_time.moderate.toFixed(2)}</td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.screen_time.prolonged.toFixed(2)}</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 pr-4 font-sans font-medium text-white">
-                              Sleep ({sleep.toFixed(1)} h)
-                            </td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.sleep_duration.inadequate.toFixed(2)}</td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.sleep_duration.marginal.toFixed(2)}</td>
-                            <td className="py-2 pr-4">{inferenceResult.memberships.sleep_duration.optimal.toFixed(2)}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h5 className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">
-                      Dominant Stress Drivers
-                    </h5>
-                    <ul className="space-y-1.5 text-xs text-slate-300">
-                      {explanation?.stress_drivers.map((driver, idx) => (
-                        <li key={idx} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                          <span>{driver}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* 2. Transparency Panel */}
-            <div className="glass-panel rounded-2xl overflow-hidden border-cyan-500/20">
-              <button
-                type="button"
-                onClick={() => setShowTransparency(!showTransparency)}
-                className="w-full px-5 py-4 text-left flex items-center justify-between text-xs font-semibold text-white hover:bg-cyan-500/5 transition-colors cursor-pointer"
-              >
-                <span>Transparency Panel — Active Rules & Firing Strengths</span>
-                {showTransparency ? <ChevronUp className="w-4 h-4 text-cyan-400" /> : <ChevronDown className="w-4 h-4 text-cyan-400" />}
-              </button>
-              {showTransparency && (
-                <div className="p-5 border-t border-cyan-500/15 space-y-4">
-                  <p className="text-xs text-slate-400">
-                    Shows all fuzzy rules where firing strength (α = min(antecedent degrees)) &gt; 0.0, sorted in descending order of activation strength.
-                  </p>
-                  {inferenceResult.active_rules.length > 0 ? (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-xs text-left">
-                        <thead>
-                          <tr className="border-b border-cyan-500/20 text-slate-400">
-                            <th className="py-2 pr-3">Rule ID</th>
-                            <th className="py-2 pr-3">Condition (Antecedents)</th>
-                            <th className="py-2 pr-3">Consequent</th>
-                            <th className="py-2 pr-3">Strength (α)</th>
-                            <th className="py-2">Design Rationale</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-cyan-500/10 text-slate-200">
-                          {inferenceResult.active_rules.map((r) => (
-                            <tr key={r.rule_id} className="hover:bg-cyan-500/5">
-                              <td className="py-2 pr-3 font-mono font-bold text-cyan-400">
-                                {r.rule_id} {r.doc_id !== r.rule_id ? `(${r.doc_id})` : ''}
-                              </td>
-                              <td className="py-2 pr-3 text-xs">{r.condition_text}</td>
-                              <td className="py-2 pr-3">
-                                <span
-                                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                                    r.consequent === 'High'
-                                      ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
-                                      : r.consequent === 'Low'
-                                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                                      : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                                  }`}
-                                >
-                                  {r.consequent}
-                                </span>
-                              </td>
-                              <td className="py-2 pr-3 font-mono font-bold">{r.firing_strength.toFixed(4)}</td>
-                              <td className="py-2 text-[11px] text-slate-400 max-w-xs">{r.rationale}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  ) : (
-                    <div className="text-xs text-slate-400 italic">
-                      No active rules exceeded activation threshold.
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* 3. Complete Knowledge Base Reference */}
-            <div className="glass-panel rounded-2xl overflow-hidden border-cyan-500/20">
-              <button
-                type="button"
-                onClick={() => setShowAllRules(!showAllRules)}
-                className="w-full px-5 py-4 text-left flex items-center justify-between text-xs font-semibold text-white hover:bg-cyan-500/5 transition-colors cursor-pointer"
-              >
-                <span>Complete Fuzzy Rule Base Reference (31 Rules Total)</span>
-                {showAllRules ? <ChevronUp className="w-4 h-4 text-cyan-400" /> : <ChevronDown className="w-4 h-4 text-cyan-400" />}
-              </button>
-              {showAllRules && (
-                <div className="p-5 border-t border-cyan-500/15 space-y-3">
-                  <p className="text-xs text-slate-400">
-                    Layer A: 27 exhaustive 3-input combinations covering the full Cartesian product (HRV × Screen × Sleep).
-                    Layer B: 4 supplementary 2-input rules (R4, R5, R6, R7).
-                  </p>
-                  <div className="max-h-96 overflow-y-auto">
+                <div className="p-5 border-t border-slate-200 space-y-4">
+                  <div className="overflow-x-auto">
                     <table className="w-full text-xs text-left">
-                      <thead className="sticky top-0 bg-slate-950 border-b border-cyan-500/20 text-slate-400">
-                        <tr>
-                          <th className="py-2 pr-2">ID</th>
-                          <th className="py-2 pr-2">Alias</th>
-                          <th className="py-2 pr-2">Layer</th>
-                          <th className="py-2 pr-3">Antecedents</th>
-                          <th className="py-2 pr-2">Consequent</th>
-                          <th className="py-2">Design Rationale</th>
+                      <thead>
+                        <tr className="border-b border-slate-200 text-slate-500">
+                          <th className="py-2 pr-4 font-semibold">Input Variable</th>
+                          <th className="py-2 pr-4 font-semibold">Low / Short / Inadequate</th>
+                          <th className="py-2 pr-4 font-semibold">Normal / Moderate / Marginal</th>
+                          <th className="py-2 pr-4 font-semibold">High / Prolonged / Optimal</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-cyan-500/10 text-slate-200">
-                        {ALL_RULES_DATA.map((r) => {
-                          const antStr = Object.entries(r.antecedent)
-                            .map(([k, v]) => `${k.replace('_', ' ')}: ${v}`)
-                            .join(' AND ');
-                          return (
-                            <tr key={r.id} className="hover:bg-cyan-500/5">
-                              <td className="py-2 pr-2 font-mono font-bold text-white">{r.id}</td>
-                              <td className="py-2 pr-2 text-slate-400">{r.report_id || '-'}</td>
-                              <td className="py-2 pr-2 capitalize text-cyan-400">{r.type}</td>
-                              <td className="py-2 pr-3 font-mono text-[11px]">{antStr}</td>
-                              <td className="py-2 pr-2">
-                                <span
-                                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${
-                                    r.consequent === 'High'
-                                      ? 'text-rose-400 border-rose-500/30'
-                                      : r.consequent === 'Low'
-                                      ? 'text-emerald-400 border-emerald-500/30'
-                                      : 'text-amber-400 border-amber-500/30'
-                                  }`}
-                                >
-                                  {r.consequent}
-                                </span>
-                              </td>
-                              <td className="py-2 text-[11px] text-slate-400 max-w-sm">{r.rationale}</td>
-                            </tr>
-                          );
-                        })}
+                      <tbody className="divide-y divide-slate-100 font-mono text-slate-700">
+                        <tr>
+                          <td className="py-2.5 pr-4 font-sans font-medium text-slate-900">
+                            HRV ({hrv.toFixed(0)} ms)
+                          </td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.hrv.low.toFixed(2)}</td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.hrv.normal.toFixed(2)}</td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.hrv.high.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2.5 pr-4 font-sans font-medium text-slate-900">
+                            Screen Time ({screenTime.toFixed(1)} h)
+                          </td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.screen_time.short.toFixed(2)}</td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.screen_time.moderate.toFixed(2)}</td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.screen_time.prolonged.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2.5 pr-4 font-sans font-medium text-slate-900">
+                            Sleep ({sleep.toFixed(1)} h)
+                          </td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.sleep_duration.inadequate.toFixed(2)}</td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.sleep_duration.marginal.toFixed(2)}</td>
+                          <td className="py-2.5 pr-4">{inferenceResult.memberships.sleep_duration.optimal.toFixed(2)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Active Rules Accordion */}
+            <div className="liquid-glass rounded-2xl overflow-hidden">
+              <button
+                type="button"
+                onClick={() => {
+                  triggerHaptic('light');
+                  setShowTransparency(!showTransparency);
+                }}
+                className="w-full px-5 py-4 text-left flex items-center justify-between text-xs font-bold text-slate-800 hover:bg-white/60 transition-colors cursor-pointer"
+              >
+                <span>Active Fired Rules ({inferenceResult.active_rules.length} Active Rules)</span>
+                {showTransparency ? <ChevronUp className="w-4 h-4 text-emerald-700" /> : <ChevronDown className="w-4 h-4 text-emerald-700" />}
+              </button>
+              {showTransparency && (
+                <div className="p-5 border-t border-slate-200 space-y-3">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs text-left">
+                      <thead>
+                        <tr className="border-b border-slate-200 text-slate-500">
+                          <th className="py-2 pr-3 font-semibold">Rule ID</th>
+                          <th className="py-2 pr-3 font-semibold">Condition</th>
+                          <th className="py-2 pr-3 font-semibold">Consequent</th>
+                          <th className="py-2 pr-3 font-semibold">Strength (α)</th>
+                          <th className="py-2 font-semibold">Design Rationale</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 text-slate-700">
+                        {inferenceResult.active_rules.map((r) => (
+                          <tr key={r.rule_id} className="hover:bg-emerald-50/50">
+                            <td className="py-2.5 pr-3 font-mono font-bold text-emerald-800">{r.rule_id}</td>
+                            <td className="py-2.5 pr-3 text-xs">{r.condition_text}</td>
+                            <td className="py-2.5 pr-3">
+                              <span
+                                className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                  r.consequent === 'High'
+                                    ? 'bg-rose-100 text-rose-800 border border-rose-300'
+                                    : r.consequent === 'Low'
+                                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                                    : 'bg-amber-100 text-amber-800 border border-amber-300'
+                                }`}
+                              >
+                                {r.consequent}
+                              </span>
+                            </td>
+                            <td className="py-2.5 pr-3 font-mono font-bold text-slate-800">{r.firing_strength.toFixed(4)}</td>
+                            <td className="py-2.5 text-[11px] text-slate-500 max-w-xs">{r.rationale}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>

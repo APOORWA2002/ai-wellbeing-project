@@ -92,14 +92,14 @@ export const FuzzyCurveChart: React.FC<ChartProps> = ({
   });
 
   return (
-    <div className="glass-panel rounded-2xl p-5 space-y-3 border-cyan-500/20 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
+    <div className="liquid-glass rounded-2xl p-5 space-y-3 border border-white shadow-xs text-slate-800">
       <div className="flex items-center justify-between">
-        <h4 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-cyan-400" />
+        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
           <span>{title}</span>
         </h4>
         {currentVal !== undefined && (
-          <span className="text-xs font-mono font-bold text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded-lg border border-cyan-400/30">
+          <span className="text-xs font-mono font-bold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-300">
             Active: {currentVal.toFixed(1)} {unit}
           </span>
         )}
@@ -316,7 +316,7 @@ export const FuzzyCurveChart: React.FC<ChartProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center justify-center gap-4 pt-2 border-t border-cyan-500/10 text-xs">
+      <div className="flex flex-wrap items-center justify-center gap-4 pt-2 border-t border-slate-200/80 text-xs">
         {curves.map((c) => (
           <div key={c.name} className="flex items-center gap-1.5">
             <span
@@ -326,13 +326,13 @@ export const FuzzyCurveChart: React.FC<ChartProps> = ({
                 borderTop: c.dash ? '1px dashed' : undefined,
               }}
             />
-            <span className="text-slate-300 font-medium">{c.label}</span>
+            <span className="text-slate-600 font-medium">{c.label}</span>
           </div>
         ))}
         {currentVal !== undefined && (
           <div className="flex items-center gap-1.5">
-            <span className="w-3.5 h-0.5 border-t-2 border-dashed border-cyan-400" />
-            <span className="text-cyan-300 font-medium">Your Value ({currentVal.toFixed(0)})</span>
+            <span className="w-3.5 h-0.5 border-t-2 border-dashed border-emerald-500" />
+            <span className="text-emerald-800 font-bold">Your Value ({currentVal.toFixed(0)})</span>
           </div>
         )}
       </div>
