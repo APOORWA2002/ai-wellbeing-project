@@ -7,10 +7,7 @@ import {
   StressCategory,
   UserAccount,
 } from '../types';
-<<<<<<< HEAD
 import { habitsStore } from './habitsStore';
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 const USERS_KEY = 'ai_wellbeing_users';
 const CURRENT_USER_KEY = 'ai_wellbeing_current_user';
@@ -20,7 +17,6 @@ const GAMES_KEY = 'ai_wellbeing_games';
 const COUNSELLOR_KEY = 'ai_wellbeing_counsellor_requests';
 const PREFS_KEY = 'ai_wellbeing_prefs';
 
-<<<<<<< HEAD
 const memStorage = new Map<string, string>();
 
 function safeGetItem(key: string): string | null {
@@ -58,11 +54,6 @@ function safeRemoveItem(key: string): void {
 function load<T>(key: string, defaultValue: T): T {
   try {
     const raw = safeGetItem(key);
-=======
-function load<T>(key: string, defaultValue: T): T {
-  try {
-    const raw = localStorage.getItem(key);
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     return raw ? JSON.parse(raw) : defaultValue;
   } catch {
     return defaultValue;
@@ -71,11 +62,7 @@ function load<T>(key: string, defaultValue: T): T {
 
 function save<T>(key: string, data: T): void {
   try {
-<<<<<<< HEAD
     safeSetItem(key, JSON.stringify(data));
-=======
-    localStorage.setItem(key, JSON.stringify(data));
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   } catch (err) {
     console.error('Storage save error:', err);
   }
@@ -106,7 +93,7 @@ export const store = {
     if (user) {
       save(CURRENT_USER_KEY, user);
     } else {
-      localStorage.removeItem(CURRENT_USER_KEY);
+      safeRemoveItem(CURRENT_USER_KEY);
     }
   },
 
@@ -124,13 +111,8 @@ export const store = {
     if (!cleanName || cleanName.length > 80) {
       return { ok: false, message: 'Enter a display name (maximum 80 characters).', user: null };
     }
-<<<<<<< HEAD
     if (password.length < 6) {
       return { ok: false, message: 'Use a password with at least 6 characters.', user: null };
-=======
-    if (password.length < 10) {
-      return { ok: false, message: 'Use a password with at least 10 characters.', user: null };
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     }
 
     const users = load<StoredUser[]>(USERS_KEY, []);
@@ -163,15 +145,10 @@ export const store = {
       save_chats: true,
       save_games: true,
     });
-<<<<<<< HEAD
     // Migrate any guest habits/marks to this new account and grant +50 bonus marks
     habitsStore.migrateGuestData(safeUser.id);
 
     return { ok: true, message: 'Account created! +50 Welcome Marks awarded.', user: safeUser };
-=======
-
-    return { ok: true, message: 'Account created. You are signed in.', user: safeUser };
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   },
 
   authenticateUser(email: string, password: string): UserAccount | null {
@@ -189,11 +166,8 @@ export const store = {
       created_at: user.created_at,
     };
     this.setCurrentUser(safeUser);
-<<<<<<< HEAD
     // Migrate any guest sessions completed before logging in
     habitsStore.migrateGuestData(safeUser.id);
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     return safeUser;
   },
 

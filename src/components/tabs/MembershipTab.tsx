@@ -6,10 +6,7 @@ import {
   StressOutputChart,
 } from '../visualizations/MembershipCharts';
 import { InferenceResult } from '../../types';
-<<<<<<< HEAD
 import { triggerHaptic } from '../../utils/haptics';
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface MembershipTabProps {
   hrv: number;
@@ -50,14 +47,10 @@ export const MembershipTab: React.FC<MembershipTabProps> = ({
             <button
               key={view}
               type="button"
-<<<<<<< HEAD
               onClick={() => {
                 triggerHaptic('selection');
                 setActiveView(view);
               }}
-=======
-              onClick={() => setActiveView(view)}
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
               className={`px-3.5 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${
                 activeView === view
                   ? 'bg-cyan-500/25 text-cyan-200 border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.25)]'

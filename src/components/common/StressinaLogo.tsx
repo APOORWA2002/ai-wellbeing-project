@@ -113,11 +113,7 @@ export const StressinaLogo: React.FC<StressinaLogoProps> = ({
           opacity="0.95"
         />
 
-<<<<<<< HEAD
         {/* 2. Main Flowing Body of 'S' */}
-=======
-        {/* 2. Main Flowing Liquid Glass Body of 'S' */}
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
         {/* Sculpted ribbon curving from top-right down to center-left and sweeping down */}
         <path
           d="M 82 30 C 76 34, 66 38, 55 38 C 42 38, 30 33, 27 25 C 26 21, 30 16, 42 16 C 58 16, 75 22, 82 30 Z"

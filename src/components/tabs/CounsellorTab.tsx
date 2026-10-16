@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { UserCheck, AlertTriangle, Send, CheckCircle2, Lock, ShieldCheck } from 'lucide-react';
 import { CounsellorRequest, UserAccount } from '../../types';
 import { store } from '../../storage/store';
-<<<<<<< HEAD
 import { triggerHaptic } from '../../utils/haptics';
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface CounsellorTabProps {
   currentUser: UserAccount | null;
@@ -45,14 +42,10 @@ export const CounsellorTab: React.FC<CounsellorTabProps> = ({ currentUser, onOpe
           {onOpenAuthModal && (
             <button
               type="button"
-<<<<<<< HEAD
               onClick={() => {
                 triggerHaptic('selection');
                 onOpenAuthModal();
               }}
-=======
-              onClick={onOpenAuthModal}
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
               className="glass-button-primary px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer"
             >
               Sign In
@@ -66,18 +59,12 @@ export const CounsellorTab: React.FC<CounsellorTabProps> = ({ currentUser, onOpe
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent) {
-<<<<<<< HEAD
       triggerHaptic('warning');
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setErrorMessage('Please confirm the demo limitation checkbox before submitting.');
       return;
     }
     try {
-<<<<<<< HEAD
       triggerHaptic('success');
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       store.createCounsellorRequest(currentUser.id, contactMethod, preferredTime, message, consent);
       setSubmittedMessage('Demo intake saved locally. No external clinician has been contacted.');
       setErrorMessage('');
@@ -86,10 +73,7 @@ export const CounsellorTab: React.FC<CounsellorTabProps> = ({ currentUser, onOpe
       loadRequests();
       setTimeout(() => setSubmittedMessage(''), 5000);
     } catch (err: any) {
-<<<<<<< HEAD
       triggerHaptic('warning');
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setErrorMessage(err.message || 'Failed to submit request');
     }
   };

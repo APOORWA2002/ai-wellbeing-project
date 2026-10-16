@@ -4,10 +4,7 @@ import { SYNTHETIC_DATA } from '../../data/syntheticData';
 import { runFuzzyInference } from '../../engine/inference';
 import { classifyStress } from '../../engine/classifier';
 import { StressCategory } from '../../types';
-<<<<<<< HEAD
 import { triggerHaptic } from '../../utils/haptics';
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface BatchResultRow {
   hrv_ms: number;
@@ -27,10 +24,7 @@ export const DatasetTab: React.FC = () => {
   const [filterCategory, setFilterCategory] = useState<string>('All');
 
   const runBatchSimulation = () => {
-<<<<<<< HEAD
     triggerHaptic('medium');
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     setIsRunning(true);
     setTimeout(() => {
       const results: BatchResultRow[] = SYNTHETIC_DATA.map((row) => {
@@ -48,10 +42,7 @@ export const DatasetTab: React.FC = () => {
         };
       });
 
-<<<<<<< HEAD
       triggerHaptic('success');
-=======
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setBatchResults(results);
       setIsRunning(false);
     }, 200);
