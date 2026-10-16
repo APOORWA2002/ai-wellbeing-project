@@ -4,7 +4,10 @@ import { GREETING, QUICK_PROMPTS, getDemoReply, ChatAssessmentContext } from '..
 import { detectCrisis, crisisMessage } from '../../chat/safety';
 import { ChatMessage, UserAccount } from '../../types';
 import { store } from '../../storage/store';
+<<<<<<< HEAD
 import { triggerHaptic } from '../../utils/haptics';
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface ChatTabProps {
   currentUser: UserAccount | null;
@@ -51,7 +54,10 @@ export const ChatTab: React.FC<ChatTabProps> = ({
     const text = (textToSend || input).trim();
     if (!text) return;
 
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     const userMessage: ChatMessage = {
       role: 'user',
       content: text,
@@ -67,10 +73,15 @@ export const ChatTab: React.FC<ChatTabProps> = ({
     setTimeout(() => {
       let reply: string;
       if (detectCrisis(text)) {
+<<<<<<< HEAD
         triggerHaptic('warning');
         reply = crisisMessage();
       } else {
         triggerHaptic('selection');
+=======
+        reply = crisisMessage();
+      } else {
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
         const ctx = shareContext ? assessmentContext : null;
         reply = getDemoReply(newHistory, ctx);
       }
@@ -88,27 +99,39 @@ export const ChatTab: React.FC<ChatTabProps> = ({
   };
 
   const startNewChat = () => {
+<<<<<<< HEAD
     triggerHaptic('medium');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     setMessages([]);
     setSaveSuccessMsg('');
   };
 
   const handleSaveChat = () => {
     if (!currentUser) {
+<<<<<<< HEAD
       triggerHaptic('selection');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       if (onOpenAuthModal) onOpenAuthModal();
       return;
     }
     const prefs = store.getPreferences(currentUser.id);
     if (!prefs.save_chats) {
+<<<<<<< HEAD
       triggerHaptic('warning');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setSaveSuccessMsg('Please enable "Save chat conversations" in Account Settings.');
       setTimeout(() => setSaveSuccessMsg(''), 4000);
       return;
     }
     if (messages.length === 0) return;
 
+<<<<<<< HEAD
     triggerHaptic('success');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     const convId = store.saveConversation(currentUser.id, messages);
     if (convId) {
       setSaveSuccessMsg('Conversation saved to your private timeline.');
@@ -126,7 +149,11 @@ export const ChatTab: React.FC<ChatTabProps> = ({
               Wellbeing Companion
             </span>
             <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-cyan-950/80 text-cyan-300 border border-cyan-400/30">
+<<<<<<< HEAD
               Private & Confidential
+=======
+              Liquid Glass · Private
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
             </span>
           </div>
           <h3 className="text-base font-bold text-white tracking-tight">Talk Through Your Day</h3>

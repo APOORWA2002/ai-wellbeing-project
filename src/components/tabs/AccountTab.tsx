@@ -13,6 +13,7 @@ import {
   AlertCircle,
   Sliders,
   Sparkles,
+<<<<<<< HEAD
   Trophy,
   Flame,
 } from 'lucide-react';
@@ -20,6 +21,11 @@ import { PrivacyPreferences, UserAccount } from '../../types';
 import { store } from '../../storage/store';
 import { getLevelInfo, habitsStore } from '../../storage/habitsStore';
 import { triggerHaptic } from '../../utils/haptics';
+=======
+} from 'lucide-react';
+import { PrivacyPreferences, UserAccount } from '../../types';
+import { store } from '../../storage/store';
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface AccountTabProps {
   currentUser: UserAccount | null;
@@ -27,8 +33,13 @@ interface AccountTabProps {
 }
 
 export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChanged }) => {
+<<<<<<< HEAD
   // Mode when logged out (defaults to register first as requested)
   const [authMode, setAuthMode] = useState<'login' | 'register'>('register');
+=======
+  // Mode when logged out
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
   // Login form
   const [loginEmail, setLoginEmail] = useState('');
@@ -70,10 +81,15 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
     setLoginError('');
     const user = store.authenticateUser(loginEmail, loginPassword);
     if (user) {
+<<<<<<< HEAD
       triggerHaptic('success');
       onUserChanged(user);
     } else {
       triggerHaptic('warning');
+=======
+      onUserChanged(user);
+    } else {
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setLoginError('Email or password was not recognized. Please check your credentials.');
     }
   };
@@ -84,18 +100,27 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
     setRegSuccess('');
 
     if (regPassword !== regConfirm) {
+<<<<<<< HEAD
       triggerHaptic('warning');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setRegError('The passwords do not match.');
       return;
     }
 
     const res = store.registerUser(regEmail, regName, regPassword);
     if (res.ok && res.user) {
+<<<<<<< HEAD
       triggerHaptic('levelUp');
       setRegSuccess(res.message);
       onUserChanged(res.user);
     } else {
       triggerHaptic('warning');
+=======
+      setRegSuccess(res.message);
+      onUserChanged(res.user);
+    } else {
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setRegError(res.message);
     }
   };
@@ -105,12 +130,18 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
     if (!currentUser) return;
     try {
       store.updateProfile(currentUser.id, profileName);
+<<<<<<< HEAD
       triggerHaptic('success');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       onUserChanged({ ...currentUser, display_name: profileName });
       setProfileMessage('Display name updated successfully.');
       setTimeout(() => setProfileMessage(''), 3000);
     } catch (err: any) {
+<<<<<<< HEAD
       triggerHaptic('warning');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setProfileMessage(err.message);
     }
   };
@@ -118,7 +149,10 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
   const handleSavePrefs = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentUser) return;
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     store.updatePreferences(currentUser.id, prefs);
     setPrefsMessage('Privacy preferences saved.');
     setTimeout(() => setPrefsMessage(''), 3000);
@@ -126,7 +160,10 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
 
   const handleExportJSON = () => {
     if (!currentUser) return;
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     const data = store.exportPersonalData(currentUser.id);
     const jsonStr = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonStr], { type: 'application/json' });
@@ -142,18 +179,28 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
 
   const handleDeleteAccount = () => {
     if (!currentUser || !confirmDelete) return;
+<<<<<<< HEAD
     triggerHaptic('heavy');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     store.deleteAccount(currentUser.id);
     onUserChanged(null);
   };
 
   const handleSignOut = () => {
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     store.setCurrentUser(null);
     onUserChanged(null);
   };
 
+<<<<<<< HEAD
   // If user is signed in: show Account Management
+=======
+  // If user is signed in: show Liquid Glass Account Management
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   if (currentUser) {
     return (
       <div className="space-y-6 max-w-3xl">
@@ -189,6 +236,7 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
             </button>
           </div>
 
+<<<<<<< HEAD
           {/* Wellness Marks & Habits Overview */}
           {(() => {
             const habitProfile = habitsStore.getProfile(currentUser.id);
@@ -228,6 +276,8 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
             );
           })()}
 
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
           {/* Profile Name Form */}
           <form onSubmit={handleUpdateProfile} className="space-y-3">
             <h4 className="text-xs font-bold text-cyan-300 uppercase tracking-wider">
@@ -371,7 +421,11 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
     );
   }
 
+<<<<<<< HEAD
   // If user is logged out: show Sign-In / Register card
+=======
+  // If user is logged out: show Liquid Glass Sign-In / Register card
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   return (
     <div className="max-w-xl mx-auto space-y-6">
       <div className="glass-panel-glow rounded-3xl p-6 sm:p-9 relative overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.25)]">
@@ -391,6 +445,7 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
           </p>
         </div>
 
+<<<<<<< HEAD
         {/* Tab switch with Register First prominent */}
         <div className="grid grid-cols-2 gap-1.5 p-1 rounded-2xl bg-slate-950/80 border border-cyan-500/25 mb-6 relative z-10">
           <button
@@ -408,12 +463,17 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>1. Register First (+50)</span>
           </button>
+=======
+        {/* Tab switch */}
+        <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-slate-950/60 border border-cyan-500/20 mb-6 relative z-10">
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
           <button
             type="button"
             onClick={() => {
               setAuthMode('login');
               setLoginError('');
             }}
+<<<<<<< HEAD
             className={`py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
               authMode === 'login'
                 ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-cyan-200 border border-cyan-400/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
@@ -422,6 +482,29 @@ export const AccountTab: React.FC<AccountTabProps> = ({ currentUser, onUserChang
           >
             <Lock className="w-3.5 h-3.5" />
             <span>2. Sign In</span>
+=======
+            className={`py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              authMode === 'login'
+                ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-400/50 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setAuthMode('register');
+              setRegError('');
+            }}
+            className={`py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              authMode === 'register'
+                ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-400/50 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            Create Account
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
           </button>
         </div>
 

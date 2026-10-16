@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import {
   X,
   Lock,
@@ -21,6 +22,12 @@ import { UserAccount } from '../../types';
 import { store } from '../../storage/store';
 import { StressinaLogo } from '../common/StressinaLogo';
 import { triggerHaptic } from '../../utils/haptics';
+=======
+import { X, Lock, Mail, User, ShieldCheck, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
+import { UserAccount } from '../../types';
+import { store } from '../../storage/store';
+import { StressinaLogo } from '../common/StressinaLogo';
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -30,6 +37,7 @@ interface AuthModalProps {
   promptReason?: string;
 }
 
+<<<<<<< HEAD
 const AVATAR_OPTIONS = [
   { id: 'lotus', label: 'Zen Lotus', emoji: '🪷', bg: 'from-cyan-500/20 to-teal-500/10' },
   { id: 'wave', label: 'Ocean Flow', emoji: '🌊', bg: 'from-blue-500/20 to-cyan-500/10' },
@@ -45,20 +53,36 @@ const GOAL_OPTIONS = [
   { id: 'gardening', label: 'Gardening & Flora', icon: Flower2, marks: '+20' },
 ];
 
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 export const AuthModal: React.FC<AuthModalProps> = ({
   isOpen,
   onClose,
   onUserChanged,
+<<<<<<< HEAD
   initialMode = 'register', // Default to asking user to register first
+=======
+  initialMode = 'login',
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   promptReason,
 }) => {
   const [mode, setMode] = useState<'login' | 'register'>(initialMode);
 
+<<<<<<< HEAD
   // Registration state
+=======
+  // Login
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+
+  // Register
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   const [regName, setRegName] = useState('');
   const [regEmail, setRegEmail] = useState('');
   const [regPassword, setRegPassword] = useState('');
   const [regConfirm, setRegConfirm] = useState('');
+<<<<<<< HEAD
   const [showPassword, setShowPassword] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState('lotus');
   const [selectedGoals, setSelectedGoals] = useState<string[]>(['reading', 'gym']);
@@ -95,10 +119,28 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setSelectedGoals((prev) =>
       prev.includes(goalId) ? prev.filter((g) => g !== goalId) : [...prev, goalId]
     );
+=======
+  const [regError, setRegError] = useState('');
+  const [regSuccess, setRegSuccess] = useState('');
+
+  if (!isOpen) return null;
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError('');
+    const user = store.authenticateUser(loginEmail, loginPassword);
+    if (user) {
+      onUserChanged(user);
+      onClose();
+    } else {
+      setLoginError('Email or password was not recognized. Please check your credentials.');
+    }
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   };
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
     triggerHaptic('medium');
     setRegError('');
 
@@ -111,11 +153,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     if (regPassword !== regConfirm) {
       triggerHaptic('warning');
       setRegError('Passwords do not match. Please verify your passcode.');
+=======
+    setRegError('');
+    setRegSuccess('');
+
+    if (regPassword !== regConfirm) {
+      setRegError('The passwords do not match.');
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       return;
     }
 
     const res = store.registerUser(regEmail, regName, regPassword);
     if (res.ok && res.user) {
+<<<<<<< HEAD
       triggerHaptic('levelUp');
       setRegSuccess(true);
       onUserChanged(res.user);
@@ -125,10 +175,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       }, 1500);
     } else {
       triggerHaptic('warning');
+=======
+      setRegSuccess(res.message);
+      onUserChanged(res.user);
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+    } else {
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setRegError(res.message);
     }
   };
 
+<<<<<<< HEAD
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     triggerHaptic('medium');
@@ -160,10 +219,25 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           }}
           className="absolute top-4 right-4 p-2 rounded-2xl text-slate-400 hover:text-white hover:bg-cyan-500/15 border border-transparent hover:border-cyan-500/30 transition-all cursor-pointer ios-tactile-button"
           aria-label="Close dialog"
+=======
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
+      <div className="relative w-full max-w-md glass-panel-glow rounded-3xl p-6 sm:p-8 overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.35)]">
+        {/* Glow backlight element */}
+        <div className="absolute -top-24 -right-24 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Close Button */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-white hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all cursor-pointer"
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
         >
           <X className="w-5 h-5" />
         </button>
 
+<<<<<<< HEAD
         {/* Header Branding */}
         <div className="relative z-10 mb-4">
           <div className="flex items-center justify-between gap-3">
@@ -187,10 +261,31 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {mode === 'register'
                 ? (promptReason || 'Register first to claim your 50 welcome marks, save longitudinal stress timeline, and earn points on daily wellness tasks.')
                 : 'Sign in to access your saved timeline, private records, and active habits streak.'}
+=======
+        {/* Modal Header */}
+        <div className="mb-6 relative z-10 space-y-3">
+          <div className="flex items-center justify-between">
+            <StressinaLogo size="md" variant="full" />
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-400/30 text-[10px] font-mono text-cyan-300">
+              <ShieldCheck className="w-3 h-3 text-cyan-400" />
+              <span>Encrypted Vault</span>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-white tracking-tight">
+              {mode === 'login' ? 'Welcome Back' : 'Create Wellness Profile'}
+            </h3>
+            <p className="text-xs text-slate-300 mt-1">
+              {promptReason ||
+                (mode === 'login'
+                  ? 'Sign in to access your saved timeline, private records, and personalized interventions.'
+                  : 'Join to save your longitudinal stress scores, chat history, and relaxation progress.')}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
             </p>
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Segmented Mode Switcher */}
         <div className="grid grid-cols-2 gap-1.5 p-1 rounded-2xl bg-slate-950/80 border border-cyan-500/25 mb-5 relative z-10">
           <button
@@ -430,6 +525,45 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <form onSubmit={handleLogin} className="space-y-4 relative z-10">
             {loginError && (
               <div className="p-3 rounded-2xl bg-red-950/60 border border-red-500/50 text-red-200 text-xs flex items-center gap-2 animate-fade-in shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+=======
+        {/* Mode Switcher Tabs */}
+        <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-slate-950/60 border border-cyan-500/20 mb-6 relative z-10">
+          <button
+            type="button"
+            onClick={() => {
+              setMode('login');
+              setLoginError('');
+            }}
+            className={`py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              mode === 'login'
+                ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-400/50 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMode('register');
+              setRegError('');
+            }}
+            className={`py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              mode === 'register'
+                ? 'bg-cyan-500/25 text-cyan-200 border border-cyan-400/50 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            New Account
+          </button>
+        </div>
+
+        {/* Login Form */}
+        {mode === 'login' && (
+          <form onSubmit={handleLogin} className="space-y-4 relative z-10">
+            {loginError && (
+              <div className="p-3 rounded-xl bg-red-950/50 border border-red-500/40 text-red-200 text-xs flex items-center gap-2">
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                 <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
                 <span>{loginError}</span>
               </div>
@@ -446,11 +580,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
                 placeholder="name@example.com"
+<<<<<<< HEAD
                 className="w-full glass-input px-3.5 py-2.5 rounded-2xl text-xs"
+=======
+                className="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs"
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
               />
             </div>
 
             <div className="space-y-1.5">
+<<<<<<< HEAD
               <div className="flex items-center justify-between text-xs font-medium text-slate-300">
                 <span className="flex items-center gap-1.5">
                   <Lock className="w-3.5 h-3.5 text-cyan-400" />
@@ -469,16 +608,29 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
               <input
                 type={showLoginPassword ? 'text' : 'password'}
+=======
+              <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Password</span>
+              </label>
+              <input
+                type="password"
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                 required
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
                 placeholder="••••••••"
+<<<<<<< HEAD
                 className="w-full glass-input px-3.5 py-2.5 rounded-2xl text-xs"
+=======
+                className="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs"
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
               />
             </div>
 
             <button
               type="submit"
+<<<<<<< HEAD
               className="w-full py-3.5 rounded-2xl text-xs font-black tracking-wider uppercase cursor-pointer ios-tactile-button bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 shadow-[0_0_24px_rgba(6,182,212,0.45)] border border-cyan-300/40 mt-2"
             >
               Sign In to Sanctuary
@@ -506,6 +658,102 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <span>Encrypted Client Storage</span>
           </div>
           <span className="text-slate-500 text-[10px]">Private & Local</span>
+=======
+              className="w-full glass-button-primary py-3 rounded-xl text-xs font-bold tracking-wide uppercase mt-2 cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+            >
+              Sign In to Sanctuary
+            </button>
+          </form>
+        )}
+
+        {/* Register Form */}
+        {mode === 'register' && (
+          <form onSubmit={handleRegister} className="space-y-3 relative z-10">
+            {regError && (
+              <div className="p-3 rounded-xl bg-red-950/50 border border-red-500/40 text-red-200 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{regError}</span>
+              </div>
+            )}
+            {regSuccess && (
+              <div className="p-3 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-200 text-xs flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>{regSuccess}</span>
+              </div>
+            )}
+
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                <User className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Preferred Name</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={regName}
+                onChange={(e) => setRegName(e.target.value)}
+                placeholder="Alex"
+                className="w-full glass-input px-3.5 py-2 rounded-xl text-xs"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Email Address</span>
+              </label>
+              <input
+                type="email"
+                required
+                value={regEmail}
+                onChange={(e) => setRegEmail(e.target.value)}
+                placeholder="alex@example.com"
+                className="w-full glass-input px-3.5 py-2 rounded-xl text-xs"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-slate-300">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={regPassword}
+                  onChange={(e) => setRegPassword(e.target.value)}
+                  placeholder="Min 6 chars"
+                  className="w-full glass-input px-3.5 py-2 rounded-xl text-xs"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-slate-300">Confirm</label>
+                <input
+                  type="password"
+                  required
+                  value={regConfirm}
+                  onChange={(e) => setRegConfirm(e.target.value)}
+                  placeholder="Repeat"
+                  className="w-full glass-input px-3.5 py-2 rounded-xl text-xs"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full glass-button-primary py-3 rounded-xl text-xs font-bold tracking-wide uppercase mt-2 cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+            >
+              Create My Account
+            </button>
+          </form>
+        )}
+
+        {/* Security badge footer */}
+        <div className="mt-6 pt-4 border-t border-cyan-500/15 flex items-center justify-between text-[11px] text-slate-400 relative z-10">
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-cyan-400" />
+            <span>Local Cryptographic Storage</span>
+          </div>
+          <span className="text-slate-500">100% Client-Side Privacy</span>
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
         </div>
       </div>
     </div>

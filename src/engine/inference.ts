@@ -8,6 +8,7 @@ export function runFuzzyInference(
   screenTimeVal: number,
   sleepDurationVal: number
 ): InferenceResult {
+<<<<<<< HEAD
   // 1. Clamp inputs to valid universe ranges with safe fallbacks
   const clamp = (val: number, min: number, max: number, fallback: number) => {
     if (typeof val !== 'number' || Number.isNaN(val)) return fallback;
@@ -16,6 +17,13 @@ export function runFuzzyInference(
   const hrvClamped = clamp(hrvVal, UNIVERSE_CONFIG.hrv.min, UNIVERSE_CONFIG.hrv.max, UNIVERSE_CONFIG.hrv.default);
   const screenClamped = clamp(screenTimeVal, UNIVERSE_CONFIG.screen_time.min, UNIVERSE_CONFIG.screen_time.max, UNIVERSE_CONFIG.screen_time.default);
   const sleepClamped = clamp(sleepDurationVal, UNIVERSE_CONFIG.sleep_duration.min, UNIVERSE_CONFIG.sleep_duration.max, UNIVERSE_CONFIG.sleep_duration.default);
+=======
+  // 1. Clamp inputs to valid universe ranges
+  const clamp = (val: number, min: number, max: number) => Math.min(Math.max(val, min), max);
+  const hrvClamped = clamp(hrvVal, UNIVERSE_CONFIG.hrv.min, UNIVERSE_CONFIG.hrv.max);
+  const screenClamped = clamp(screenTimeVal, UNIVERSE_CONFIG.screen_time.min, UNIVERSE_CONFIG.screen_time.max);
+  const sleepClamped = clamp(sleepDurationVal, UNIVERSE_CONFIG.sleep_duration.min, UNIVERSE_CONFIG.sleep_duration.max);
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
   // 2. Fuzzification
   const memberships = computeMemberships(hrvClamped, screenClamped, sleepClamped);

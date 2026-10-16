@@ -52,6 +52,7 @@ export function computeMemberships(
   screenTimeVal: number,
   sleepDurationVal: number
 ) {
+<<<<<<< HEAD
   const clamp = (val: number, min: number, max: number, fallback: number) => {
     if (typeof val !== 'number' || Number.isNaN(val)) return fallback;
     return Math.min(Math.max(val, min), max);
@@ -60,6 +61,13 @@ export function computeMemberships(
   const hrv = clamp(hrvVal, 20.0, 120.0, 65.0);
   const screen = clamp(screenTimeVal, 0.0, 16.0, 6.0);
   const sleep = clamp(sleepDurationVal, 2.0, 10.0, 7.0);
+=======
+  const clamp = (val: number, min: number, max: number) => Math.min(Math.max(val, min), max);
+
+  const hrv = clamp(hrvVal, 20.0, 120.0);
+  const screen = clamp(screenTimeVal, 0.0, 16.0);
+  const sleep = clamp(sleepDurationVal, 2.0, 10.0);
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
   const round4 = (num: number) => {
     const clamped = Math.min(Math.max(num, 0.0), 1.0);

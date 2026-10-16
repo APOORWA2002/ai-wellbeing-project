@@ -24,7 +24,10 @@ import {
   UserAccount,
 } from '../../types';
 import { store } from '../../storage/store';
+<<<<<<< HEAD
 import { triggerHaptic } from '../../utils/haptics';
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface HistoryTabProps {
   currentUser: UserAccount | null;
@@ -136,7 +139,10 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
     }
 
     const { inference, category, recommendation } = lastAssessment;
+<<<<<<< HEAD
     triggerHaptic('success');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     store.saveAssessment(
       currentUser.id,
       inference.inputs.hrv,
@@ -152,7 +158,10 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
   };
 
   const handleDeleteAssessment = (id: string) => {
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     store.deleteAssessment(currentUser.id, id);
     loadData();
     setNotification('Assessment deleted.');
@@ -160,22 +169,36 @@ export const HistoryTab: React.FC<HistoryTabProps> = ({
   };
 
   const handleDeleteConversation = (id: string) => {
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     store.deleteConversation(currentUser.id, id);
     if (selectedConv?.id === id) setSelectedConv(null);
     loadData();
   };
 
   const handleDeleteAllConversations = () => {
+<<<<<<< HEAD
     triggerHaptic('medium');
     store.deleteAllConversations(currentUser.id);
     setSelectedConv(null);
     loadData();
+=======
+    if (confirm('Delete all saved conversations? This cannot be undone.')) {
+      store.deleteAllConversations(currentUser.id);
+      setSelectedConv(null);
+      loadData();
+    }
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   };
 
   const exportCSV = () => {
     if (filteredAssessments.length === 0) return;
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     const headers = ['created_at', 'stress_index', 'category', 'hrv', 'screen_time', 'sleep', 'recommendation'];
     const rows = filteredAssessments.map((a) => [
       `"${a.created_at}"`,

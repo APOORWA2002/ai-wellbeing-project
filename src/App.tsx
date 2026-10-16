@@ -18,15 +18,23 @@ import {
   Info,
   Lock,
   Wind,
+<<<<<<< HEAD
   Trophy,
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 } from 'lucide-react';
 import { APP_METADATA, UNIVERSE_CONFIG } from './engine/fuzzyConfig';
 import { StressinaLogo } from './components/common/StressinaLogo';
 import { AssessmentTab } from './components/tabs/AssessmentTab';
+<<<<<<< HEAD
 import { QuestsTab } from './components/tabs/QuestsTab';
 import { ChatTab } from './components/tabs/ChatTab';
 import { RelaxAndPlayTab } from './components/tabs/RelaxAndPlayTab';
 import { StressCrushGame } from './components/games/StressCrushGame';
+=======
+import { ChatTab } from './components/tabs/ChatTab';
+import { RelaxAndPlayTab } from './components/tabs/RelaxAndPlayTab';
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 import { HistoryTab } from './components/tabs/HistoryTab';
 import { CounsellorTab } from './components/tabs/CounsellorTab';
 import { AccountTab } from './components/tabs/AccountTab';
@@ -35,8 +43,11 @@ import { ArchitectureDiagram } from './components/visualizations/ArchitectureDia
 import { DatasetTab } from './components/tabs/DatasetTab';
 import { FloatingChat } from './components/FloatingChat';
 import { AuthModal } from './components/auth/AuthModal';
+<<<<<<< HEAD
 import { habitsStore } from './storage/habitsStore';
 import { triggerHaptic } from './utils/haptics';
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 import {
   CopingRecommendation,
   ExplanationPayload,
@@ -55,9 +66,15 @@ export const App: React.FC = () => {
   // User State
   const [currentUser, setCurrentUser] = useState<UserAccount | null>(null);
 
+<<<<<<< HEAD
   // Global Auth Modal state (defaults to register first as requested)
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('register');
+=======
+  // Global Auth Modal state
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
+  const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('login');
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   const [authPromptReason, setAuthPromptReason] = useState<string>('');
 
   // Physiological inputs
@@ -90,8 +107,12 @@ export const App: React.FC = () => {
     setTimeout(() => setToastMessage(''), 3000);
   };
 
+<<<<<<< HEAD
   const openAuthWithPrompt = (reason?: string, mode: 'login' | 'register' = 'register') => {
     triggerHaptic('selection');
+=======
+  const openAuthWithPrompt = (reason?: string, mode: 'login' | 'register' = 'login') => {
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     setAuthPromptReason(reason || '');
     setAuthModalMode(mode);
     setAuthModalOpen(true);
@@ -99,7 +120,10 @@ export const App: React.FC = () => {
 
   // Preset loaders
   const loadPreset = (h: number, sc: number, sl: number, name: string) => {
+<<<<<<< HEAD
     triggerHaptic('medium');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     setHrv(h);
     setScreenTime(sc);
     setSleep(sl);
@@ -110,9 +134,13 @@ export const App: React.FC = () => {
 
   const navItems = [
     { id: 'assessment', label: 'Real-Time Assessment', icon: Sliders },
+<<<<<<< HEAD
     { id: 'breathing', label: 'Breathing Exercises', icon: Wind },
     { id: 'candy_crush', label: 'Stress Crush (Candy Game)', icon: Sparkles },
     { id: 'quests', label: 'Daily Quests & Marks', icon: Trophy },
+=======
+    { id: 'games', label: 'Relax & Breathing', icon: Wind },
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     { id: 'chat', label: 'Wellbeing Chat', icon: MessageSquare },
     { id: 'history', label: 'My Timeline', icon: History },
     { id: 'account', label: 'Account & Security', icon: Settings },
@@ -128,7 +156,11 @@ export const App: React.FC = () => {
       <div className="fixed top-0 left-1/4 w-[600px] h-[400px] bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
       <div className="fixed bottom-10 right-10 w-[500px] h-[500px] bg-sky-500/8 rounded-full blur-[150px] pointer-events-none -z-10" />
 
+<<<<<<< HEAD
       {/* Reusable Auth Modal */}
+=======
+      {/* Reusable Liquid Glass Auth Modal */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       <AuthModal
         isOpen={authModalOpen}
         initialMode={authModalMode}
@@ -148,7 +180,11 @@ export const App: React.FC = () => {
         </div>
       )}
 
+<<<<<<< HEAD
       {/* Top Header */}
+=======
+      {/* Liquid Glass Top Header */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       <header className="sticky top-0 z-40 glass-panel border-b border-cyan-500/20 px-4 lg:px-8 py-3.5 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -177,6 +213,7 @@ export const App: React.FC = () => {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Header Quick Actions: Breathing & Stress Crush */}
           <div className="flex items-center gap-1.5 sm:gap-2">
             <button
@@ -216,15 +253,21 @@ export const App: React.FC = () => {
             </button>
           </div>
 
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
           {/* User Session Action & Mobile Companion */}
           <div className="flex items-center gap-2">
             {/* Quick Companion Button on Mobile */}
             <button
               type="button"
+<<<<<<< HEAD
               onClick={() => {
                 triggerHaptic('light');
                 setFloatingChatOpen(true);
               }}
+=======
+              onClick={() => setFloatingChatOpen(true)}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
               aria-label="Open AI Companion"
               className="sm:hidden p-2 rounded-xl glass-panel-interactive border-cyan-500/30 text-cyan-300 hover:text-white flex items-center justify-center cursor-pointer shadow-[0_0_10px_rgba(6,182,212,0.2)]"
               title="Open AI Companion"
@@ -233,6 +276,7 @@ export const App: React.FC = () => {
             </button>
 
             {currentUser ? (
+<<<<<<< HEAD
               <div className="flex items-center gap-2">
                 <button
                   type="button"
@@ -281,6 +325,25 @@ export const App: React.FC = () => {
                   <span>Sign In</span>
                 </button>
               </div>
+=======
+              <button
+                type="button"
+                onClick={() => setActiveTab('account')}
+                className="text-xs px-3.5 py-1.5 rounded-xl glass-panel-interactive border-cyan-500/30 text-white flex items-center gap-2 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.15)]"
+              >
+                <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                <span className="font-semibold">{currentUser.display_name}</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => openAuthWithPrompt('Sign in to unlock personalized history tracking and encrypted records.')}
+                className="glass-button-primary text-xs px-3.5 sm:px-4 py-2 rounded-xl font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-[0_0_18px_rgba(6,182,212,0.35)]"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                <span>Sign In</span>
+              </button>
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
             )}
           </div>
         </div>
@@ -306,7 +369,11 @@ export const App: React.FC = () => {
               </button>
             </div>
 
+<<<<<<< HEAD
             {/* Quick Scenarios */}
+=======
+            {/* Quick Scenarios in Liquid Glass */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
             <div className="glass-panel rounded-2xl p-4 space-y-2.5 border-cyan-500/20">
               <div className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
                 Preset Scenarios
@@ -370,8 +437,13 @@ export const App: React.FC = () => {
                   <span className="text-white font-medium">27 Core + 4 Supp.</span>
                 </div>
                 <div className="flex justify-between">
+<<<<<<< HEAD
                   <span>Client Runtime:</span>
                   <span className="text-cyan-300 font-medium">Local TypeScript</span>
+=======
+                  <span>Design Language:</span>
+                  <span className="text-cyan-300 font-medium">Liquid Glass</span>
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                 </div>
               </div>
               <p className="text-[10px] text-slate-400 pt-1 leading-snug">
@@ -383,7 +455,11 @@ export const App: React.FC = () => {
 
         {/* Center / Right Content Area */}
         <main className="flex-1 min-w-0 space-y-6">
+<<<<<<< HEAD
           {/* Hero Banner */}
+=======
+          {/* Hero Banner in Liquid Glass */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
           <div className="glass-panel-glow rounded-3xl p-6 sm:p-7 relative overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.18)]">
             <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -403,7 +479,11 @@ export const App: React.FC = () => {
             </p>
           </div>
 
+<<<<<<< HEAD
           {/* Main Navigation Tabs */}
+=======
+          {/* Navigation Tabs Bar in Liquid Glass */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
           <div className="glass-panel rounded-2xl p-1.5 flex items-center gap-1.5 overflow-x-auto scrollbar-none border-cyan-500/20">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -413,7 +493,10 @@ export const App: React.FC = () => {
                   key={item.id}
                   type="button"
                   onClick={() => {
+<<<<<<< HEAD
                     triggerHaptic('selection');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                     setActiveTab(item.id);
                     setSidebarOpen(false);
                   }}
@@ -445,12 +528,17 @@ export const App: React.FC = () => {
                 contextOption={contextOption}
                 setContextOption={setContextOption}
                 currentUser={currentUser}
+<<<<<<< HEAD
                 onOpenAuthModal={() => openAuthWithPrompt('Register your profile to record this assessment to your longitudinal timeline and claim 50 marks.', 'register')}
+=======
+                onOpenAuthModal={() => openAuthWithPrompt('Sign in to record this assessment to your longitudinal timeline.')}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                 onAssessmentCompleted={(result) => setLastAssessment(result)}
                 onOpenChatWithTopic={(topic) => {
                   setChatTopic(topic);
                   setActiveTab('chat');
                 }}
+<<<<<<< HEAD
                 onNavigateToTab={(t) => setActiveTab(t)}
               />
             )}
@@ -469,10 +557,19 @@ export const App: React.FC = () => {
               <RelaxAndPlayTab
                 currentUser={currentUser}
                 initialActivity="breathing"
+=======
+              />
+            )}
+
+            {activeTab === 'games' && (
+              <RelaxAndPlayTab
+                currentUser={currentUser}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                 onOpenAuthModal={() => openAuthWithPrompt('Sign in to store your breathing milestones and reflection logs.')}
               />
             )}
 
+<<<<<<< HEAD
             {activeTab === 'candy_crush' && (
               <StressCrushGame
                 currentUser={currentUser}
@@ -481,6 +578,8 @@ export const App: React.FC = () => {
               />
             )}
 
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
             {activeTab === 'chat' && (
               <ChatTab
                 currentUser={currentUser}
@@ -547,7 +646,11 @@ export const App: React.FC = () => {
         </main>
       </div>
 
+<<<<<<< HEAD
       {/* Footer */}
+=======
+      {/* Footer Note in Liquid Glass */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       <footer className="border-t border-cyan-500/15 glass-panel py-7 px-4 text-center text-xs text-slate-400 mt-10">
         <div className="max-w-4xl mx-auto space-y-3 flex flex-col items-center">
           <StressinaLogo size="sm" variant="full" />

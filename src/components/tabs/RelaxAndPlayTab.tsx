@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   Clock,
+<<<<<<< HEAD
   Trophy,
   Gamepad2,
 } from 'lucide-react';
@@ -24,14 +25,25 @@ import { store } from '../../storage/store';
 import { habitsStore } from '../../storage/habitsStore';
 import { triggerHaptic } from '../../utils/haptics';
 import { StressCrushGame } from '../games/StressCrushGame';
+=======
+} from 'lucide-react';
+import { UserAccount } from '../../types';
+import { store } from '../../storage/store';
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface RelaxAndPlayTabProps {
   currentUser: UserAccount | null;
   onOpenAuthModal?: () => void;
+<<<<<<< HEAD
   initialActivity?: ActivityType;
 }
 
 export type ActivityType = 'breathing' | 'candy_crush' | 'grounding' | 'matching' | 'checkin';
+=======
+}
+
+type ActivityType = 'breathing' | 'grounding' | 'matching' | 'checkin';
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 type BreathingTechnique = 'gentle' | 'box' | 'deep';
 
 interface BreathPhaseConfig {
@@ -45,6 +57,7 @@ interface BreathPhaseConfig {
 export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
   currentUser,
   onOpenAuthModal,
+<<<<<<< HEAD
   initialActivity = 'breathing',
 }) => {
   const [selectedActivity, setSelectedActivity] = useState<ActivityType>(initialActivity);
@@ -58,6 +71,14 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
 
   // ==========================================
   // 1. GUIDED BREATHING SANCTUARY
+=======
+}) => {
+  const [selectedActivity, setSelectedActivity] = useState<ActivityType>('breathing');
+  const [statusMessage, setStatusMessage] = useState<string>('');
+
+  // ==========================================
+  // 1. LIQUID GLASS GUIDED BREATHING SANCTUARY
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
   // ==========================================
   const [technique, setTechnique] = useState<BreathingTechnique>('gentle');
   const [durationMinutes, setDurationMinutes] = useState<number>(2);
@@ -191,6 +212,7 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
     const elapsedSeconds = durationMinutes * 60 - totalSecondsLeft || durationMinutes * 60;
     const desc = `Technique: ${techniqueConfigs[technique].title}. ${reflectionText ? `Note: ${reflectionText}` : ''}`;
 
+<<<<<<< HEAD
     triggerHaptic('success');
 
     // Automatically check off the guided breathing habit quest for today!
@@ -206,10 +228,16 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
       setStatusMessage(`Session completed!`);
     }
 
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     if (currentUser) {
       const prefs = store.getPreferences(currentUser.id);
       if (prefs.save_games) {
         store.saveGameSession(currentUser.id, `Breathing (${technique})`, elapsedSeconds, desc);
+<<<<<<< HEAD
+=======
+        setStatusMessage(`Saved session (${Math.round(elapsedSeconds / 60)} min) to your account timeline.`);
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       }
     }
     setReflectionSaved(true);
@@ -318,7 +346,11 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
 
   return (
     <div className="space-y-6">
+<<<<<<< HEAD
       {/* Header & Activity Switcher */}
+=======
+      {/* Liquid Glass Header & Activity Switcher */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       <div className="glass-panel rounded-2xl p-6 sm:p-7 relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
@@ -326,6 +358,12 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
               <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
                 Interactive Sanctuary
               </span>
+<<<<<<< HEAD
+=======
+              <span className="text-[10px] text-cyan-300/80 px-2 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-500/20">
+                Liquid Glass Engine
+              </span>
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
               Relax & Restore
@@ -359,6 +397,7 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
           </div>
         )}
 
+<<<<<<< HEAD
         {/* Segmented Navigation */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
           {[
@@ -366,6 +405,14 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
             { id: 'candy_crush', label: 'Stress Crush 🍬', icon: Sparkles },
             { id: 'grounding', label: '5-4-3-2-1 Grounding', icon: Eye },
             { id: 'matching', label: 'Calm Pairs', icon: Trophy },
+=======
+        {/* Liquid Glass Segmented Navigation */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {[
+            { id: 'breathing', label: 'Guided Breathing', icon: Wind },
+            { id: 'grounding', label: '5-4-3-2-1 Grounding', icon: Eye },
+            { id: 'matching', label: 'Calm Pairs', icon: Sparkles },
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
             { id: 'checkin', label: 'Mindful Check-in', icon: Smile },
           ].map((item) => {
             const Icon = item.icon;
@@ -374,10 +421,14 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
               <button
                 key={item.id}
                 type="button"
+<<<<<<< HEAD
                 onClick={() => {
                   triggerHaptic('selection');
                   setSelectedActivity(item.id as ActivityType);
                 }}
+=======
+                onClick={() => setSelectedActivity(item.id as ActivityType)}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                 className={`p-3.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer ${
                   isActive
                     ? 'glass-panel-glow text-cyan-200 border-cyan-400/60 shadow-[0_0_20px_rgba(6,182,212,0.3)]'
@@ -393,6 +444,7 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
       </div>
 
       {/* ============================================================== */}
+<<<<<<< HEAD
       {/* 0. STRESS CRUSH MATCH-3 MINI-GAME                             */}
       {/* ============================================================== */}
       {selectedActivity === 'candy_crush' && (
@@ -405,6 +457,9 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
 
       {/* ============================================================== */}
       {/* 1. GUIDED BREATHING SANCTUARY                                  */}
+=======
+      {/* 1. LIQUID GLASS BREATHING SANCTUARY                           */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       {/* ============================================================== */}
       {selectedActivity === 'breathing' && (
         <div className="glass-panel-glow rounded-3xl p-6 sm:p-10 relative overflow-hidden">
@@ -484,7 +539,11 @@ export const RelaxAndPlayTab: React.FC<RelaxAndPlayTabProps> = ({
             </p>
           </div>
 
+<<<<<<< HEAD
           {/* Mindful Breathing Orb */}
+=======
+          {/* Liquid Glass Orb Centerpiece */}
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
           <div className="relative py-12 sm:py-16 flex flex-col items-center justify-center">
             {/* Outer halo waves */}
             <div

@@ -14,11 +14,15 @@ import {
   Bookmark,
   CheckCircle2,
   Lock,
+<<<<<<< HEAD
   Trophy,
   ArrowRight,
   Wind,
 } from 'lucide-react';
 import { triggerHaptic } from '../../utils/haptics';
+=======
+} from 'lucide-react';
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 import {
   AVAILABLE_TIME_OPTIONS,
   CONTEXT_OPTIONS,
@@ -58,7 +62,10 @@ interface AssessmentTabProps {
     explanation: ExplanationPayload;
   }) => void;
   onOpenChatWithTopic?: (topic: string) => void;
+<<<<<<< HEAD
   onNavigateToTab?: (tab: string) => void;
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 }
 
 export const AssessmentTab: React.FC<AssessmentTabProps> = ({
@@ -76,7 +83,10 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
   onOpenAuthModal,
   onAssessmentCompleted,
   onOpenChatWithTopic,
+<<<<<<< HEAD
   onNavigateToTab,
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 }) => {
   const [continuousMode, setContinuousMode] = useState<boolean>(true);
   const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
@@ -110,11 +120,15 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
 
   // Run calculation
   const executeAnalysis = () => {
+<<<<<<< HEAD
     if (validationError) {
       triggerHaptic('warning');
       return;
     }
     triggerHaptic('medium');
+=======
+    if (validationError) return;
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
     const res = runFuzzyInference(hrv, screenTime, sleep);
     const cat = classifyStress(res.crisp_stress_index);
@@ -155,7 +169,10 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
   }, [hrv, screenTime, sleep, timeOption, contextOption, continuousMode]);
 
   const resetDefaults = () => {
+<<<<<<< HEAD
     triggerHaptic('medium');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     setHrv(UNIVERSE_CONFIG.hrv.default);
     setScreenTime(UNIVERSE_CONFIG.screen_time.default);
     setSleep(UNIVERSE_CONFIG.sleep_duration.default);
@@ -165,7 +182,10 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
 
   const downloadReport = () => {
     if (!explanation) return;
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     const blob = new Blob([explanation.formatted_text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -180,20 +200,29 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
   const handleSaveAssessment = () => {
     if (!inferenceResult || !recommendation) return;
     if (!currentUser) {
+<<<<<<< HEAD
       triggerHaptic('selection');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       if (onOpenAuthModal) onOpenAuthModal();
       return;
     }
 
     const prefs = store.getPreferences(currentUser.id);
     if (!prefs.save_assessments) {
+<<<<<<< HEAD
       triggerHaptic('warning');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
       setSaveStatus('Please enable "Save assessments" in Account Settings.');
       setTimeout(() => setSaveStatus(''), 4000);
       return;
     }
 
+<<<<<<< HEAD
     triggerHaptic('success');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     store.saveAssessment(
       currentUser.id,
       hrv,
@@ -556,18 +585,31 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
               )}
 
               {!currentUser && (
+<<<<<<< HEAD
                 <div className="p-3 rounded-xl bg-cyan-950/50 border border-cyan-400/30 text-xs text-cyan-200 flex items-center justify-between gap-3 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
                   <div className="flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-cyan-300 shrink-0 animate-pulse" />
                     <span>Register first to store this assessment, start daily stress quests, and claim +50 bonus marks.</span>
+=======
+                <div className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/20 text-xs text-cyan-300 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Lock className="w-4 h-4 text-cyan-400 shrink-0" />
+                    <span>Sign in to store this assessment and unlock longitudinal stress analytics.</span>
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                   </div>
                   {onOpenAuthModal && (
                     <button
                       type="button"
                       onClick={onOpenAuthModal}
+<<<<<<< HEAD
                       className="px-3.5 py-1.5 text-xs font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-all cursor-pointer shrink-0 shadow-[0_0_12px_rgba(34,211,238,0.5)] ios-tactile-button"
                     >
                       Register First
+=======
+                      className="px-3 py-1 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-colors cursor-pointer shrink-0"
+                    >
+                      Sign In
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
                     </button>
                   )}
                 </div>
@@ -581,6 +623,7 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
                 <strong className="text-cyan-300">Physiological Rationale: </strong>
                 {recommendation.selection_rationale || recommendation.reason}
               </div>
+<<<<<<< HEAD
 
               {/* Immediate Quick Actions: Breathing Exercises & Stress Crush */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
@@ -663,6 +706,8 @@ export const AssessmentTab: React.FC<AssessmentTabProps> = ({
                   </button>
                 )}
               </div>
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
             </div>
           )}
 

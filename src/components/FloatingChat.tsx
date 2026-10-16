@@ -4,7 +4,10 @@ import { getDemoReply } from '../chat/assistant';
 import { detectCrisis, crisisMessage } from '../chat/safety';
 import { ChatMessage } from '../types';
 import { StressinaLogo } from './common/StressinaLogo';
+<<<<<<< HEAD
 import { triggerHaptic } from '../utils/haptics';
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
 
 interface FloatingChatProps {
   onNavigateToTab?: (tab: string) => void;
@@ -21,7 +24,10 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({
   const isChatOpen = isOpenControlled !== undefined ? isOpenControlled : internalOpen;
 
   const setChatOpen = (open: boolean) => {
+<<<<<<< HEAD
     triggerHaptic('selection');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     if (onToggleOpen) {
       onToggleOpen(open);
     }
@@ -48,7 +54,10 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({
     const text = (textToSend || input).trim();
     if (!text) return;
 
+<<<<<<< HEAD
     triggerHaptic('light');
+=======
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
     const userMsg: ChatMessage = { role: 'user', content: text };
     const nextHistory = [...messages, userMsg];
     setMessages(nextHistory);
@@ -57,6 +66,7 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({
     setTimeout(() => {
       let reply: string;
       if (detectCrisis(text)) {
+<<<<<<< HEAD
         triggerHaptic('warning');
         reply = crisisMessage();
       } else if (text === 'Breathing exercise') {
@@ -68,6 +78,16 @@ export const FloatingChat: React.FC<FloatingChatProps> = ({
         }
       } else {
         triggerHaptic('selection');
+=======
+        reply = crisisMessage();
+      } else if (text === 'Breathing exercise') {
+        reply =
+          'You can switch to the "Relax & Breathing" tab for our interactive Liquid Glass breathing orb. Inhale slowly as it expands, hold gently, and exhale as it settles.';
+        if (onNavigateToTab) {
+          onNavigateToTab('games');
+        }
+      } else {
+>>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
         reply = getDemoReply(nextHistory, null);
       }
 
