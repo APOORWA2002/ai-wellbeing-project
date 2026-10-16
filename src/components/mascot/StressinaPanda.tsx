@@ -94,7 +94,7 @@ export const StressinaPanda: React.FC<StressinaPandaProps> = ({
 
   // Occasional natural blinking
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
     const scheduleBlink = () => {
       const delay = 3500 + Math.random() * 3500;
       timeoutId = setTimeout(() => {
