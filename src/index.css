@@ -39,11 +39,7 @@
   box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
-<<<<<<< HEAD
-/* Glass Utilities */
-=======
-/* Liquid Glass Utilities */
->>>>>>> 25b70530eec018d5f03c5d11cc8f462a40ee10a6
+
 .glass-panel {
   background: rgba(10, 19, 36, 0.55);
   backdrop-filter: blur(16px);
