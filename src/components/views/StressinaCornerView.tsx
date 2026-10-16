@@ -125,7 +125,7 @@ export const StressinaCornerView: React.FC<StressinaCornerViewProps> = ({
               <div className="w-12 h-12 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0">
                 <StressinaPanda
                   pose="sweeping"
-                  expression="celebration"
+                  expression="excited"
                   size="xs"
                   showLotusPlatform={false}
                   showAura={false}

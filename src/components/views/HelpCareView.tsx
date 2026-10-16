@@ -36,7 +36,7 @@ export const HelpCareView: React.FC<HelpCareViewProps> = ({
           <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl bg-white/90 border border-emerald-100 flex items-center justify-center shadow-xs">
             <StressinaPanda
               pose="celebration"
-              expression="celebration"
+              expression="happy"
               size="sm"
               showLotusPlatform={false}
               showAura={false}
